@@ -18,6 +18,7 @@ public class Bookmaker extends Person {// Его можно сделать ст�
     public Bookmaker(String name){
         this.setName(name);
 
+
     }
 
 }

@@ -9,13 +9,19 @@ import java.util.UUID;
  */
 abstract class BetsEntity {
     private UUID id = UUID.randomUUID();
-    private Money value;
+    private double value;
     Match match;
-    Customer customer;
-    //получит если выйграет
+    Customer customer;//Нужно говорить ставке что она пренадлежит определенному человеку ?
+    private double possibleGain;
     private boolean result;
 
+    public double getPossibleGain() {
+        return possibleGain;
+    }
 
+    public void setPossibleGain(double possibleGain) {
+        this.possibleGain = possibleGain;
+    }
 
     public boolean isResult() {
         return result;
@@ -25,11 +31,11 @@ abstract class BetsEntity {
         this.result = result;
     }
 
-    public void setValue(Money value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
-    public Money getValue() {
+    public double getValue() {
         return value;
     }
 }

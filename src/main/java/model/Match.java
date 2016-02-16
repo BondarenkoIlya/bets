@@ -11,6 +11,7 @@ public class Match {
     private double coefficient1;
     private String nameOfSide2;
     private double coefficient2;
+    private String nameOfWinSide;
 
     private int differenceInScore;
     private double coefficient3;
@@ -29,6 +30,16 @@ public class Match {
         this.setDifferenceInScore(differenceInScore);
         this.setCoefficient3(coefficient3);
     }
+
+    public void setResults(String nameOfWinSide,int differenceInScore){
+        this.nameOfWinSide=nameOfWinSide;
+        this.differenceInScore=differenceInScore;
+    }
+
+    public String getNameOfWinSide() {
+        return nameOfWinSide;
+    }
+
 
     public double getCoefficient3() {
         return coefficient3;

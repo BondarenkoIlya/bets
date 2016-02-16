@@ -9,19 +9,22 @@ public class Service {
 
     public Match createMatch(String sportName, String date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, int differenceInScore, double coefficient3) {
         Match match = new Match(sportName, date, nameOfSide1, coefficient1, nameOfSide2, coefficient2, differenceInScore, coefficient3);
-        Bookmaker.matchList.add(match);//Почему матч лист должен быть статиком??
+        Bookmaker.matchList.add(match);//Почему матч лист должен быть статиком?? я буду добавлять постоянно с одним и тем же именем новые обьекты , это нормально ?
+
     return match;
     }
 
 
-    public void createBetByScore() {
+    public BetByScore createBetByScore(double value, Match match, String nameOfWinSide) {
         BetByScore betByScore = new BetByScore();
+        return betByScore;
     }
 
-    public BetByWinSide createBetByWinSide(Money value, Match match, String nameOfWinSide, boolean result) {
-        BetByWinSide betByWinSide = new BetByWinSide(value,match, nameOfWinSide,result);
-    return betByWinSide;
+    public BetByWinSide createBetByWinSide(double value, Match match, String nameOfWinSide) {
+        BetByWinSide betByWinSide = new BetByWinSide(value, match, nameOfWinSide);
+        return betByWinSide;
     }
 
-    //результат ставки и подсчет тоже проводит сервис ?
+
+
 }
