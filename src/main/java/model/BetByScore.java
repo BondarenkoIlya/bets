@@ -3,7 +3,7 @@ package model;
 /**
  * Created by Дом on 14.02.2016.
  */
-public class BetByScore extends BetsEntity {
+public class BetByScore extends BetEntity {
     private int differenceInScore;
 
 

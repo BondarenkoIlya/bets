@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * Created by Дом on 13.02.2016.
  */
-abstract class BetsEntity {
+abstract class BetEntity {
     private UUID id = UUID.randomUUID();
     private double value;
     Match match;

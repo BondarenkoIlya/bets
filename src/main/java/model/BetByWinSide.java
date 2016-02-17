@@ -1,11 +1,9 @@
 package model;
 
-import org.joda.money.Money;
-
 /**
  * Created by Дом on 14.02.2016.
  */
-public class BetByWinSide extends BetsEntity {
+public class BetByWinSide extends BetEntity {
     private String nameOfWinSide;
     private double coefficientOfWinSide;
 
@@ -27,7 +25,6 @@ public class BetByWinSide extends BetsEntity {
             this.coefficientOfWinSide=match.getCoefficient2();
         }
         this.setPossibleGain(this.getValue()*this.coefficientOfWinSide);
-
     }
 
 
