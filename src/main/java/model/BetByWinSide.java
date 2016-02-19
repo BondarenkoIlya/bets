@@ -11,14 +11,15 @@ public class BetByWinSide extends BetEntity {
 
     }
 
-    public BetByWinSide(double value,Match match, String nameOfWinSide){//как реализовать что бы можно было выбирать что ставка делается на определенный матч ?
+    public BetByWinSide(double value,Match match, String nameOfWinSide, Customer customer){
         this.setValue(value);
         this.match=match;
         this.setNameOfWinSide(nameOfWinSide);
+        this.customer=customer;
     }
 
 
-    public void setFinalPossibleGain (){
+    public void fillFinalPossibleGain (){
         if (getNameOfWinSide()==match.getNameOfSide1()) {
             this.coefficientOfWinSide=match.getCoefficient1();
         }else if(getNameOfWinSide()==match.getNameOfSide2()){
@@ -28,13 +29,13 @@ public class BetByWinSide extends BetEntity {
     }
 
 
-    public void setFinalResult() {
+    public void fillFinalResult() {
         if (match.getNameOfWinSide()==this.getNameOfWinSide()) {
             this.setResult(true);
-            System.out.println("Поздравляю,вы выйграли!");
+            System.out.println("Поздравляю,вы выйграли "+this.getPossibleGain());// Как сделать по человечески ? то бы выводил результаты, или нужно просто добавить логи и что бы каждое действие оправляло историю ?
         }else {
             this.setResult(false);
-            System.out.println("Извините, вы проиграли!");
+            System.out.println("Извините, вы проиграли "+ this.getValue());
         }
 
 
