@@ -1,4 +1,4 @@
-package model;
+package com.epam.ilya.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Дом on 09.02.2016.
  */
 public class Customer extends Person {
-    List<BetEntity> bets = new ArrayList<BetEntity>();
+    private List<Bet> bets = new ArrayList<Bet>();
 
     public Customer() {
 
@@ -15,5 +15,13 @@ public class Customer extends Person {
 
     public Customer(String name){
         this.setName(name);
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
     }
 }

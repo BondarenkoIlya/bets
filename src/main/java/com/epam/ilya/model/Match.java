@@ -1,4 +1,4 @@
-package model;
+package com.epam.ilya.model;
 
 /**
  * Created by Дом on 09.02.2016.
@@ -20,20 +20,23 @@ public class Match {
 
     }
 
-    public Match(String sportName, String date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, int differenceInScore, double coefficient3) {
+    public Match(String sportName, String date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, double coefficient3) {
         this.setSportName(sportName);
         this.setDate(date);
         this.setNameOfSide1(nameOfSide1);
         this.setCoefficient1(coefficient1);
         this.setNameOfSide2(nameOfSide2);
         this.setCoefficient2(coefficient2);
-        this.setDifferenceInScore(differenceInScore);
         this.setCoefficient3(coefficient3);
     }
 
     public void setResults(String nameOfWinSide,int differenceInScore){
-        this.nameOfWinSide=nameOfWinSide;
-        this.differenceInScore=differenceInScore;
+        this.setNameOfWinSide(nameOfWinSide);
+        this.setDifferenceInScore(differenceInScore);
+    }
+
+    public void setNameOfWinSide(String nameOfWinSide) {
+        this.nameOfWinSide = nameOfWinSide;
     }
 
     public String getNameOfWinSide() {

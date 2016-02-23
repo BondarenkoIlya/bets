@@ -1,4 +1,4 @@
-package model;
+package com.epam.ilya.model;
 
 import java.util.UUID;
 

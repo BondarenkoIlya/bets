@@ -1,7 +1,6 @@
-package factory;
+package com.epam.ilya.factory;
 
-import model.Bookmaker;
-import model.Customer;
+import com.epam.ilya.model.Customer;
 
 /**
  * Created by Дом on 18.02.2016.
@@ -9,7 +8,7 @@ import model.Customer;
 public class CustomerFactory {
     public Customer createCustomer(String name){
         Customer customer = new Customer(name);
-        Bookmaker.customerList.add(customer);//Почему только с большой буквы?
+
         return customer;
     }
 }
