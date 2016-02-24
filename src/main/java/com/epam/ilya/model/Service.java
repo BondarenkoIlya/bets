@@ -12,7 +12,7 @@ public class Service {
                     ((WinSideBet) bet).fillFinalResult();
                 }else if (bet instanceof ScoreBet) {
                     ScoreBet scoreBet = (ScoreBet) bet;
-                    ((WinSideBet) bet).fillFinalResult();
+                    ((ScoreBet) bet).fillFinalResult();
                 }
             }
     }

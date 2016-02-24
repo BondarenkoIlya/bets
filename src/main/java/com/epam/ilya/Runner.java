@@ -1,12 +1,14 @@
 package com.epam.ilya;
 
-//import compare.SortedBetsByPossibleGain;
+import com.epam.ilya.compare.SortedBetsByPossibleGain;
 import com.epam.ilya.factory.BetFactory;
 import com.epam.ilya.factory.CustomerFactory;
 import com.epam.ilya.factory.MatchFactory;
 import com.epam.ilya.model.*;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
+
+import java.util.Collections;
 
 /**
  * Created by Дом on 12.02.2016.
@@ -38,24 +40,35 @@ public class Runner {
         c2.getBets().add(bs2);
 
         WinSideBet bws2 = betFactory.createBetByWinSide(val4,m1, "Leicester", c2);
-        c1.getBets().add(bws2);
+        c2.getBets().add(bws2);
 
         m1.setResults("Leicester", 3);
 
         service.completeBet(c1);
-        service.completeBet(c2);
 
 
-       /* for (Bet b : c1.getBets()) {
-            System.out.println(b.getPossibleGain());
 
-        }
-        Collections.sort(c1.getBets, new SortedBetsByPossibleGain());
         for (Bet b : c1.getBets()) {
             System.out.println(b.getPossibleGain());
 
-        }*/
+        }
+        Collections.sort(c1.getBets(), new SortedBetsByPossibleGain());
+        for (Bet b : c1.getBets()) {
+            System.out.println(b.getPossibleGain());
 
+        }
+
+        service.completeBet(c2);
+
+        for (Bet b : c2.getBets()) {
+            System.out.println(b.getPossibleGain());
+
+        }
+        Collections.sort(c2.getBets(), new SortedBetsByPossibleGain());
+        for (Bet b : c2.getBets()) {
+            System.out.println(b.getPossibleGain());
+
+        }
 
     /*
      Прикрутит джода моней
