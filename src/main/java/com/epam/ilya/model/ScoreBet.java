@@ -1,6 +1,7 @@
 package com.epam.ilya.model;
 
 import org.joda.money.Money;
+import org.joda.time.DateTime;
 
 import java.math.RoundingMode;
 
@@ -21,6 +22,7 @@ public class ScoreBet extends Bet {
         this.setDifferenceInScore(differenceInScore);
         this.setCustomer(customer);
         this.fillFinalPossibleGain();
+        this.setDate(DateTime.now());
     }
 
 
@@ -32,10 +34,8 @@ public class ScoreBet extends Bet {
     public void fillFinalResult() {
         if (getMatch().getDifferenceInScore()==this.differenceInScore) {
             this.setResult(true);
-            System.out.println("Поздравляю, " +this.getCustomer().getName()+ ", вы выйграли "+this.getPossibleGain());
         }else {
             this.setResult(false);
-            System.out.println("Извините," +this.getCustomer().getName()+ ", вы проиграли "+this.getValue());
         }
     }
 

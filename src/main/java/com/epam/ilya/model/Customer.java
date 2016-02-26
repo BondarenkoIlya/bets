@@ -24,4 +24,6 @@ public class Customer extends Person {
     public void setBets(List<Bet> bets) {
         this.bets = bets;
     }
+
+
 }

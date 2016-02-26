@@ -1,6 +1,7 @@
 package com.epam.ilya.model;
 
 import org.joda.money.Money;
+import org.joda.time.DateTime;
 
 import java.math.RoundingMode;
 
@@ -21,6 +22,7 @@ public class WinSideBet extends Bet {
         this.setNameOfWinSide(nameOfWinSide);
         this.setCustomer(customer);
         this.fillFinalPossibleGain();
+        this.setDate(DateTime.now());
     }
 
 

@@ -1,7 +1,9 @@
 package com.epam.ilya.model;
 
 import org.joda.money.Money;
+import org.joda.time.DateTime;
 
+import java.util.Comparator;
 import java.util.UUID;
 
 /**
@@ -9,11 +11,20 @@ import java.util.UUID;
  */
 public abstract class Bet {
     private UUID id = UUID.randomUUID();
+    private DateTime date;
     private Money value;
     private Match match;
     private Customer customer;//Нужно говорить ставке что она пренадлежит определенному человеку ?
     private Money possibleGain;
     private boolean result;
+
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDate(DateTime date) {
+        this.date = date;
+    }
 
     public Money getPossibleGain() {
         return possibleGain;
@@ -61,5 +72,15 @@ public abstract class Bet {
 
     public void setMatch(Match match) {
         this.match = match;
+    }
+
+    @Override
+    public String toString() {
+        return "Bet{" +
+                "customer=" + customer +
+                ", match=" + match +
+                ", result=" + result +
+                ", value=" + value +
+                '}';
     }
 }

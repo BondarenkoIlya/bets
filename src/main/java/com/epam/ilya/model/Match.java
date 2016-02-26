@@ -1,12 +1,16 @@
 package com.epam.ilya.model;
 
+import org.joda.time.DateTime;
+
+import java.util.Calendar;
+
 /**
  * Created by Дом on 09.02.2016.
  */
 public class Match {
 
     private String sportName;
-    private String date;
+    private DateTime date;
     private String nameOfSide1;
     private double coefficient1;
     private String nameOfSide2;
@@ -20,7 +24,7 @@ public class Match {
 
     }
 
-    public Match(String sportName, String date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, double coefficient3) {
+    public Match(String sportName, DateTime date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, double coefficient3) {
         this.setSportName(sportName);
         this.setDate(date);
         this.setNameOfSide1(nameOfSide1);
@@ -68,11 +72,11 @@ public class Match {
         this.sportName = sportName;
     }
 
-    public String getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
@@ -108,5 +112,12 @@ public class Match {
         this.coefficient2 = coefficient2;
     }
 
-
+    @Override
+    public String toString() {
+        return "Match{" +
+                "sportName='" + sportName + '\'' +
+                ", nameOfSide1='" + nameOfSide1 + '\'' +
+                ", nameOfSide2='" + nameOfSide2 + '\'' +
+                '}';
+    }
 }
