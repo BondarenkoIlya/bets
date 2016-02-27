@@ -26,4 +26,7 @@ public class Customer extends Person {
     }
 
 
+    public void add(Bet bet) {
+        getBets().add(bet);
+    }
 }

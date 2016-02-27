@@ -31,7 +31,7 @@ public class ScoreBet extends Bet {
         this.setPossibleGain(getValue().multipliedBy(this.getCoefficientOfWinSide(), RoundingMode.DOWN));
     }
 
-    public void fillFinalResult() {
+    public void setFinalResult() {
         if (getMatch().getDifferenceInScore()==this.differenceInScore) {
             this.setResult(true);
         }else {

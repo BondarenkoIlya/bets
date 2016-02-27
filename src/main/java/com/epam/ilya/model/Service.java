@@ -2,71 +2,59 @@ package com.epam.ilya.model;
 
 import com.epam.ilya.Runner;
 import org.joda.money.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 
 /**
  * Created by Дом on 15.02.2016.
  */
 public class Service {
-    static final Logger log = Logger.getLogger(String.valueOf(Runner.class));
+    static final Logger log = LoggerFactory.getLogger(String.valueOf(Runner.class));
 
     public void computeBetsResult(Customer customer, Match match) {
 
         for (Bet bet : customer.getBets()) {
             if (bet.getMatch() == match) {
-                if (bet instanceof WinSideBet) {// он оставляет прокастеные ставки в том же массиве BETS
+                if (bet instanceof WinSideBet) {
                     WinSideBet winSideBet = (WinSideBet) bet;
-                    ((WinSideBet) bet).fillFinalResult();
-                    //log.info( String.valueOf(bet.isResult()));//как сделать что он выводил на экран?
+                    ((WinSideBet) bet).setFinalResult();
+                    log.info( String.valueOf(bet.isResult()));
                 } else if (bet instanceof ScoreBet) {
                     ScoreBet scoreBet = (ScoreBet) bet;
-                    ((ScoreBet) bet).fillFinalResult();
-                    //log.info(String.valueOf(bet.isResult()));
+                    ((ScoreBet) bet).setFinalResult();
+
                 }
             } else {
-                log.warning("Customer " + customer + " have not " + match);
+                log.error("Customer " + customer + " have not " + match);
             }
         }
     }
 
-    public List<Bet> filterBetsResult(Customer customer, String filterType) {//должен возвращать список или выводить на экран ? Если возвращать список то как сделать выбор ? через файнал поля?
-        if (filterType == "Win bets") {
+    public List<Bet> filterWonBets(Customer customer) {
             List<Bet> winBets = new ArrayList<>();
             for (Bet bet : customer.getBets()) {
                 if (bet.getMatch().getNameOfWinSide() != null) {
-                    if (bet.isResult() == true) {
+                    if (bet.isResult()) {
                         winBets.add(bet);
                     }
                 }
             }
             return winBets;
-        } else if (filterType == "Lose bets") {
-            List<Bet> loseBets = new ArrayList<>();
-            for (Bet bet : customer.getBets()) {
-                if (bet.getMatch().getNameOfWinSide() != null) {
-                    if (bet.isResult() == false) {
-                        loseBets.add(bet);
-                    }
-                }
-            }
-            return loseBets;
-        }
-    } //обязательно должен вернуть в корне ?
+    }
 
-    public static final Comparator<Bet> VALUE_COMPARE = new ValueCompare();
+   public List<Bet> sort (List<Bet> bets ){
+       ArrayList<Bet> betsCopy = new ArrayList<>(bets);
+       Collections.sort(betsCopy,Bet.VALUE_ORDER);
+       return betsCopy;
+   }
 
-    private static class ValueCompare implements Comparator<Bet> {
 
-        @Override
-        public int compare(Bet o1, Bet o2) {
-            Money val1 = o1.getValue();
-            Money val2 = o2.getValue();
-            return val1.compareTo(val2);
+    public void showBetsList(List<Bet> bets) {
+        for (Bet bet:bets) {
+            log.info(String.valueOf(bet));
         }
     }
 }

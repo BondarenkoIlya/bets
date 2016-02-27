@@ -1,5 +1,7 @@
 package com.epam.ilya.model;
 
+import com.epam.ilya.Runner;
+import com.epam.ilya.factory.MatchFactory;
 import org.joda.time.DateTime;
 
 import java.util.Calendar;
@@ -37,6 +39,11 @@ public class Match {
     public void setResults(String nameOfWinSide,int differenceInScore){
         this.setNameOfWinSide(nameOfWinSide);
         this.setDifferenceInScore(differenceInScore);
+    }
+
+    public void setRandomResults(){
+        this.setNameOfWinSide(MatchFactory.getFootballTeams().get((int)(Math.random() * 10)));
+        this.setDifferenceInScore((int) (Math.random() * 6));
     }
 
     public void setNameOfWinSide(String nameOfWinSide) {

@@ -4,13 +4,39 @@ import com.epam.ilya.model.Bookmaker;
 import com.epam.ilya.model.Match;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static java.util.Arrays.asList;
+
 /**
  * Created by Дом on 18.02.2016.
  */
 public class MatchFactory {
-    public Match createMatch(String sportName, DateTime date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, double coefficient3) {
-        Match match = new Match(sportName, date, nameOfSide1, coefficient1, nameOfSide2, coefficient2, coefficient3);
+    private static List<String> footballTeams = asList("Leicester City","Tottenham Hotspur","Arsenal","Manchester City","West Ham United","Manchester United","Southampton","Stoke City","Liverpool","Watford");
 
-        return match;
+    public MatchFactory() {
+    }
+
+    public Match createMatch() {
+        String sportName = "Football";
+        DateTime date = new DateTime(2016, (int) ((Math.random() * 9) + 4), (int) (Math.random() * 30), 24, 0, 0);
+
+        String nameOfSide1 = null;
+        String nameOfSide2 = null;
+        for (int i = 0; i < 10; i++) {
+            nameOfSide1 = footballTeams.get((int) ((Math.random() * 10)));
+            nameOfSide2 = footballTeams.get((int) ((Math.random() * 10)));
+            if (!Objects.equals(nameOfSide1, nameOfSide2)) break;
+        }
+        double coefficient2 = (double) (Math.random() * 5);
+        double coefficient1 = (double) (Math.random() * 5);
+        double coefficient3 = (double) (Math.random() * 5);
+        return new Match(sportName, date, nameOfSide1, coefficient1, nameOfSide2, coefficient2, coefficient3);
+    }
+
+    public static List<String> getFootballTeams() {
+        return footballTeams;
     }
 }

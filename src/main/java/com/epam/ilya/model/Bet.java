@@ -83,4 +83,15 @@ public abstract class Bet {
                 ", value=" + value +
                 '}';
     }
+    public static final Comparator<Bet> VALUE_ORDER = new ValueComparator();
+
+    private static class ValueComparator implements Comparator<Bet> {
+
+        @Override
+        public int compare(Bet o1, Bet o2) {
+            Money val1 = o1.getValue();
+            Money val2 = o2.getValue();
+            return val1.compareTo(val2);
+        }
+    }
 }

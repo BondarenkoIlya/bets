@@ -36,13 +36,11 @@ public class WinSideBet extends Bet {
     }
 
 
-    public void fillFinalResult() {
+    public void setFinalResult() {
         if (getMatch().getNameOfWinSide()==this.getNameOfWinSide()) {
             this.setResult(true);
-            System.out.println("Поздравляю," +this.getCustomer().getName()+ ", вы выйграли "+this.getPossibleGain());
         }else {
             this.setResult(false);
-            System.out.println("Извините," +this.getCustomer().getName()+ ", вы проиграли "+ this.getValue());
         }
 
 
