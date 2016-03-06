@@ -9,8 +9,7 @@ import java.util.UUID;
 /**
  * Created by Дом on 13.02.2016.
  */
-public abstract class Bet {
-    private UUID id = UUID.randomUUID();
+public abstract class Bet extends BaseEntity {
     private DateTime date;
     private Money value;
     private Match match;
@@ -56,14 +55,6 @@ public abstract class Bet {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public Match getMatch() {

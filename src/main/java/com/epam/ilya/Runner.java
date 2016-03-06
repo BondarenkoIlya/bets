@@ -1,6 +1,7 @@
 package com.epam.ilya;
 
 
+import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
 import com.epam.ilya.factory.BetFactory;
 import com.epam.ilya.factory.CustomerFactory;
 import com.epam.ilya.factory.MatchFactory;
@@ -14,6 +15,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.epam.ilya.model.Bookmaker.bookmaker;
+
 /**
  * Created by Дом on 12.02.2016.
  */
@@ -25,10 +28,12 @@ public class Runner {
     static CustomerFactory customerFactory = new CustomerFactory();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CashAccountBalanceExceptions {//как обработать эксепшон ранее
+        service.depositOnPersonsAccount(bookmaker,Money.of(CurrencyUnit.of("KZT"),300000));
 
         Customer customerPetya = customerFactory.createCustomer("Петя");
-        Customer customerVasya = customerFactory.createCustomer("Вася");
+        service.depositOnPersonsAccount(customerPetya,Money.of(CurrencyUnit.of("KZT"),1000));// is that must to be in factory ?
+        Customer customerVasya = customerFactory.createCustomer("Вася",2000);
 
         Match match = matchFactory.createMatch();
 

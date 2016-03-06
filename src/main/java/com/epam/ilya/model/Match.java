@@ -9,7 +9,7 @@ import java.util.Calendar;
 /**
  * Created by Дом on 09.02.2016.
  */
-public class Match {
+public class Match extends BaseEntity {
 
     private String sportName;
     private DateTime date;

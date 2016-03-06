@@ -1,5 +1,6 @@
 package com.epam.ilya.model;
 
+import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
@@ -16,8 +17,13 @@ public class WinSideBet extends Bet {
 
     }
 
-    public WinSideBet(Money value, Match match, String nameOfWinSide, Customer customer){
-        this.setValue(value);
+    public WinSideBet(Money value, Match match, String nameOfWinSide, Customer customer) throws CashAccountBalanceExceptions {
+        if(getCustomer().getPersonsPurse().balanceAvailabilityFor(value)){
+            customer.getPersonsPurse().removeCash(value);
+            this.setValue(value);
+        }else{
+            throw new CashAccountBalanceExceptions();
+        }
         this.setMatch(match);
         this.setNameOfWinSide(nameOfWinSide);
         this.setCustomer(customer);
@@ -36,11 +42,14 @@ public class WinSideBet extends Bet {
     }
 
 
-    public void setFinalResult() {
+    public boolean setFinalResult() {
         if (getMatch().getNameOfWinSide()==this.getNameOfWinSide()) {
             this.setResult(true);
+            return true;
+
         }else {
             this.setResult(false);
+            return false;
         }
 
 

@@ -5,20 +5,25 @@ import java.util.UUID;
 /**
  * Created by Дом on 10.02.2016.
  */
-abstract class Person {
-    private UUID id = UUID.randomUUID();
+abstract class Person extends BaseEntity {
     private String name;
-
+    private CashAccount personsPurse;
     @Override
     public String toString() {
         return
-                "id=" + id +
-                        ", name='" + name + '\'';
+                "Name='" + name + '\'' +
+                ", customersPurse's" + personsPurse +
+                '}';
     }
 
-    public UUID getId() {
-        return id;
+    public CashAccount getPersonsPurse() {
+        return personsPurse;
     }
+
+    public void setPersonsPurse(CashAccount customersPurse) {
+        this.personsPurse = customersPurse;
+    }
+
 
     public void setName(String name) {
         this.name = name;

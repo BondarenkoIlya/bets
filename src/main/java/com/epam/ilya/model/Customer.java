@@ -9,13 +9,17 @@ import java.util.List;
 public class Customer extends Person {
     private List<Bet> bets = new ArrayList<Bet>();
 
+
     public Customer() {
 
     }
 
-    public Customer(String name){
+    public Customer(String name) {
         this.setName(name);
+        setPersonsPurse(new CashAccount());
     }
+
+
 
     public List<Bet> getBets() {
         return bets;

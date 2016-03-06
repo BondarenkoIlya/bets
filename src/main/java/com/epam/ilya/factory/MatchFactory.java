@@ -21,7 +21,7 @@ public class MatchFactory {
 
     public Match createMatch() {
         String sportName = "Football";
-        DateTime date = new DateTime(2016, (int) ((Math.random() * 9) + 4), (int) (Math.random() * 30), 24, 0, 0);
+        DateTime date = new DateTime(2016, (int) ((Math.random() * 9) + 4), (int) (Math.random() * 30), 19, 0, 0);
 
         String nameOfSide1 = null;
         String nameOfSide2 = null;
