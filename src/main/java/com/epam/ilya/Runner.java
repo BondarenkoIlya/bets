@@ -54,16 +54,15 @@ public class Runner {
         service.computeBetsResult(customerPetya,match);
         service.computeBetsResult(customerVasya,match);
 
+        service.showPersonsBalance(customerPetya);
+        service.showPersonsBalance(customerVasya);
+
         List<Bet> wonBets = service.filterWonBets(customerPetya);
         service.showBetsList(wonBets);
         service.sort(customerPetya.getBets());
         //c1.getBets().sort(Comparator.comparing(Bet::getPossibleGain));
 
-
-       // Comparator.comparing(o ->
-
     /*
-     и прикрутить аккаунт
      прикрутить ремув
     */
 

@@ -82,4 +82,8 @@ public class Service {
             cashAccountBalanceExceptions.printStackTrace();
         }
     }
+
+    public void showPersonsBalance(Person person){
+        log.info("Person"+person+" has "+person.getPersonsPurse());
+    }
 }
