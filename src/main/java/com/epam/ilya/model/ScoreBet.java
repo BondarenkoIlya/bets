@@ -18,25 +18,30 @@ public class ScoreBet extends Bet {
     }
 
     public ScoreBet(Money value, Match match, int differenceInScore, Customer customer) throws CashAccountBalanceExceptions {
+        System.out.println(customer);
 
+        this.setMatch(match);
+        this.setDifferenceInScore(differenceInScore);
+        this.setCustomer(customer);
+        this.fillFinalPossibleGain();
+        this.setDate(DateTime.now());
         if(getCustomer().getPersonsPurse().balanceAvailabilityFor(value)){
             customer.getPersonsPurse().removeCash(value);
             this.setValue(value);
         }else{
             throw new CashAccountBalanceExceptions();
         }
-        this.setMatch(match);
-        this.setDifferenceInScore(differenceInScore);
-        this.setCustomer(customer);
-        this.fillFinalPossibleGain();
-        this.setDate(DateTime.now());
 
     }
 
 
+
+
     public void fillFinalPossibleGain (){
         this.setCoefficientOfWinSide(getMatch().getCoefficient3());
-        this.setPossibleGain(getValue().multipliedBy(this.getCoefficientOfWinSide(), RoundingMode.DOWN));
+        System.out.println(getValue());
+        System.out.println(getCoefficientOfWinSide());
+        this.setPossibleGain(getValue().multipliedBy(this.getCoefficientOfWinSide(),RoundingMode.valueOf(1)));
     }
 
     public boolean setFinalResult() {

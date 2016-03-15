@@ -30,9 +30,9 @@ public class MatchFactory {
             nameOfSide2 = footballTeams.get((int) ((Math.random() * 10)));
             if (!Objects.equals(nameOfSide1, nameOfSide2)) break;
         }
-        double coefficient2 = (double) (Math.random() * 5);
-        double coefficient1 = (double) (Math.random() * 5);
-        double coefficient3 = (double) (Math.random() * 5);
+        double coefficient2 = ((Math.random() * 5)+1);
+        double coefficient1 = ((Math.random() * 5)+1);
+        double coefficient3 = ((Math.random() * 5)+1);
         return new Match(sportName, date, nameOfSide1, coefficient1, nameOfSide2, coefficient2, coefficient3);
     }
 

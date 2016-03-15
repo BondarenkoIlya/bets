@@ -29,11 +29,16 @@ public class Runner {
 
 
     public static void main(String[] args) throws CashAccountBalanceExceptions {//как обработать эксепшон ранее
+
+
+
+
+
         service.depositOnPersonsAccount(bookmaker,Money.of(CurrencyUnit.of("KZT"),300000));
 
         Customer customerPetya = customerFactory.createCustomer("Петя");
-        service.depositOnPersonsAccount(customerPetya,Money.of(CurrencyUnit.of("KZT"),1000));// is that must to be in factory ?
-        Customer customerVasya = customerFactory.createCustomer("Вася",2000);
+        service.depositOnPersonsAccount(customerPetya,Money.of(CurrencyUnit.of("KZT"),4000));// is that must to be in factory ?
+        Customer customerVasya = customerFactory.createCustomer("Вася",4000);
 
         Match match = matchFactory.createMatch();
 
@@ -59,12 +64,10 @@ public class Runner {
 
         List<Bet> wonBets = service.filterWonBets(customerPetya);
         service.showBetsList(wonBets);
+
         service.sort(customerPetya.getBets());
         //c1.getBets().sort(Comparator.comparing(Bet::getPossibleGain));
 
-    /*
-     прикрутить ремув
-    */
 
     }
 }

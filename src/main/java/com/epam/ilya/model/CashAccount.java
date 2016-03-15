@@ -1,6 +1,7 @@
 package com.epam.ilya.model;
 
 import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
+import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
@@ -9,16 +10,18 @@ import java.util.Map;
 /**
  * Created by Дом on 05.03.2016.
  */
-public class CashAccount {//стоит ли добавлять мапу транзакций по времени и значению
+public class CashAccount extends BaseEntity {//стоит ли добавлять мапу транзакций по времени и значению
     private Money balance;
     private Person person;
     //private Map<DateTime,Money> transactions = new Map<DateTime, Money>();
 
 
     public CashAccount() {
+        setBalance(Money.of(CurrencyUnit.of("KZT"),0));
     }
 
     public CashAccount(Money balance,Person person) {
+        setBalance(Money.of(CurrencyUnit.of("KZT"),0));
         this.setBalance(balance);
         this.setPerson(person);
     }
@@ -30,12 +33,12 @@ public class CashAccount {//стоит ли добавлять мапу тран
         this.balance = balance;
     }
 
-    public  void addCash(Money winsAmount){
-        getBalance().plus(winsAmount);
+    public  void addCash(Money amount){
+        getBalance().plus(amount);
     }
-    public void removeCash (Money loseAmount) throws CashAccountBalanceExceptions {
-        if (balanceAvailabilityFor(loseAmount)){
-            getBalance().minus(loseAmount);
+    public void removeCash (Money amount) throws CashAccountBalanceExceptions {
+        if (balanceAvailabilityFor(amount)){
+            getBalance().minus(amount);
         }else{
             throw new CashAccountBalanceExceptions();
         }

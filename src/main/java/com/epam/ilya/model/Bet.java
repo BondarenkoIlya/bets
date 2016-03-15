@@ -16,6 +16,7 @@ public abstract class Bet extends BaseEntity {
     private Customer customer;//Нужно говорить ставке что она пренадлежит определенному человеку ?
     private Money possibleGain;
     private boolean result;
+    private WinCondition winCondition;
 
     public DateTime getDate() {
         return date;
