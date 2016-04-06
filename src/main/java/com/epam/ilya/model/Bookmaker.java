@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Дом on 09.02.2016.
  */
 public class Bookmaker extends Person {
-    public static final Bookmaker bookmaker = new Bookmaker("Вася Анатольевич");
+    public static final Bookmaker bookmaker = new Bookmaker("Алексей Анатольевич");
 
     private Bookmaker() {
 
@@ -18,8 +18,6 @@ public class Bookmaker extends Person {
 
     public Bookmaker(String name) {
         this.setName(name);
-        Money kzt = Money.of(CurrencyUnit.of("KZT"), 0);
-        setPersonsPurse(new CashAccount(kzt,bookmaker));
     }
 
 

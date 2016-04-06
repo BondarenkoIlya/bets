@@ -2,73 +2,45 @@ package com.epam.ilya.model;
 
 import com.epam.ilya.Runner;
 import com.epam.ilya.factory.MatchFactory;
+import com.epam.ilya.xml.parsers.SAXHandler;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-/**
- * Created by Дом on 09.02.2016.
- */
 public class Match extends BaseEntity {
 
     private String sportName;
+    private String leagueName;
     private DateTime date;
     private String nameOfSide1;
-    private double coefficient1;
     private String nameOfSide2;
-    private double coefficient2;
-    private String nameOfWinSide;
-
-    private int differenceInScore;
-    private double coefficient3;
+    private List<Condition> conditionList= new ArrayList<Condition>();
 
     public Match() {
-
     }
 
-    public Match(String sportName, DateTime date, String nameOfSide1, double coefficient1, String nameOfSide2, double coefficient2, double coefficient3) {
+    public Match(String sportName, String leagueName, DateTime date, String nameOfSide1, String nameOfSide2) {
         this.setSportName(sportName);
+        this.setLeagueName(leagueName);
         this.setDate(date);
         this.setNameOfSide1(nameOfSide1);
-        this.setCoefficient1(coefficient1);
         this.setNameOfSide2(nameOfSide2);
-        this.setCoefficient2(coefficient2);
-        this.setCoefficient3(coefficient3);
     }
 
     public void setResults(String nameOfWinSide,int differenceInScore){
-        this.setNameOfWinSide(nameOfWinSide);
-        this.setDifferenceInScore(differenceInScore);
     }
 
     public void setRandomResults(){
-        this.setNameOfWinSide(MatchFactory.getFootballTeams().get((int)(Math.random() * 10)));
-        this.setDifferenceInScore((int) (Math.random() * 6));
     }
 
-    public void setNameOfWinSide(String nameOfWinSide) {
-        this.nameOfWinSide = nameOfWinSide;
+    public String getLeagueName() {
+        return leagueName;
     }
 
-    public String getNameOfWinSide() {
-        return nameOfWinSide;
-    }
-
-
-    public double getCoefficient3() {
-        return coefficient3;
-    }
-
-    public void setCoefficient3(double coefficient3) {
-        this.coefficient3 = coefficient3;
-    }
-
-    public int getDifferenceInScore() {
-        return differenceInScore;
-    }
-
-    public void setDifferenceInScore(int differenceInScore) {
-        this.differenceInScore = differenceInScore;
+    public void setLeagueName(String leagueName) {
+        this.leagueName = leagueName;
     }
 
     public String getSportName() {
@@ -95,14 +67,6 @@ public class Match extends BaseEntity {
         this.nameOfSide1 = nameOfSide1;
     }
 
-    public double getCoefficient1() {
-        return coefficient1;
-    }
-
-    public void setCoefficient1(double coefficient1) {
-        this.coefficient1 = coefficient1;
-    }
-
     public String getNameOfSide2() {
         return nameOfSide2;
     }
@@ -111,20 +75,30 @@ public class Match extends BaseEntity {
         this.nameOfSide2 = nameOfSide2;
     }
 
-    public double getCoefficient2() {
-        return coefficient2;
+    public List<Condition> getConditionList() {
+        return conditionList;
     }
 
-    public void setCoefficient2(double coefficient2) {
-        this.coefficient2 = coefficient2;
+    public void setConditionList(List<Condition> conditionList) {
+        this.conditionList = conditionList;
+    }
+
+    public void addCondition (Condition condition){
+        conditionList.add(condition);
+    }
+
+    public void removeCondition (Condition condition){
+        conditionList.remove(condition);
     }
 
     @Override
     public String toString() {
         return "Match{" +
                 "sportName='" + sportName + '\'' +
+                ", date=" + date +
                 ", nameOfSide1='" + nameOfSide1 + '\'' +
                 ", nameOfSide2='" + nameOfSide2 + '\'' +
                 '}';
     }
 }
+

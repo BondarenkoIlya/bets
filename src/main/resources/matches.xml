@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<matchList>
+    <match>
+        <sportName>Football</sportName>
+        <date>21/04/2016 19:00</date>
+        <nameOfSide1>Arsenal</nameOfSide1>
+        <coefficient1>1.6</coefficient1>
+        <nameOfSide2>Leicester City</nameOfSide2>
+        <coefficient2>2.2</coefficient2>
+        <coefficient3>3.5</coefficient3>
+    </match>
+    <match>
+        <sportName>Football</sportName>
+        <date>25/06/2016 19:00</date>
+        <nameOfSide1>Tottenham Hotspur</nameOfSide1>
+        <coefficient1>2.4</coefficient1>
+        <nameOfSide2>Manchester City</nameOfSide2>
+        <coefficient2>1.3</coefficient2>
+        <coefficient3>4.2</coefficient3>
+    </match>
+</matchList>

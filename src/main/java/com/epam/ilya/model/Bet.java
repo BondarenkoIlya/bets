@@ -1,22 +1,79 @@
 package com.epam.ilya.model;
 
+import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
-import java.util.Comparator;
-import java.util.UUID;
+import java.math.RoundingMode;
+import java.util.*;
 
-/**
- * Created by Дом on 13.02.2016.
- */
-public abstract class Bet extends BaseEntity {
+public class Bet extends BaseEntity {
     private DateTime date;
     private Money value;
-    private Match match;
-    private Customer customer;//Нужно говорить ставке что она пренадлежит определенному человеку ?
+    private Customer customer;
     private Money possibleGain;
-    private boolean result;
-    private WinCondition winCondition;
+    private List<Condition> conditions = new ArrayList<Condition>();
+    private double finalCoefficient;
+    private boolean finalResult;
+
+
+
+
+    public Bet(Money value) {
+        this.date = DateTime.now();
+        this.value = value;
+    }
+
+    public Bet(Money value, Customer customer) {
+        this.date = DateTime.now();
+        this.value = value;
+        this.customer = customer;
+
+    }
+
+    public void calculateFinalCoefficient(){
+        this.finalCoefficient = 1;
+        for (Condition c: conditions) {
+            this.finalCoefficient = this.finalCoefficient*c.getCoefficient();
+        }
+    }
+
+    public  void calculatePossibleGain(){
+        this.possibleGain = value.multipliedBy(finalCoefficient, RoundingMode.HALF_UP);
+    }
+
+    public void calculateFinalResult (){
+        finalResult=true;
+        for (Condition c:conditions) {
+            if (!c.isResult()){
+                finalResult=false;
+            }
+        }
+    }
+
+    public void removeMoneyFromCustomerToBet() throws CashAccountBalanceExceptions {// где лучше обрабатывать ошибку того что у вас нет на счету такой суммы
+        if (customer.getPersonsPurse().balanceAvailabilityFor(value)){
+            customer.getPersonsPurse().removeCash(value);
+        }else {
+            throw new CashAccountBalanceExceptions();
+        }
+    }
+
+    public void removeGainToCustomer(){
+        customer.getPersonsPurse().addCash(possibleGain);
+    }
+
+    public void removeMoneyToBookmaker(){
+        Bookmaker.bookmaker.getPersonsPurse().addCash(value);
+    }
+
+    public void addCondition (Condition condition){
+        conditions.add(condition);
+    }
+
+    public void removeCondition (Condition condition){
+        conditions.remove(condition);
+    }
 
     public DateTime getDate() {
         return date;
@@ -34,12 +91,28 @@ public abstract class Bet extends BaseEntity {
         this.possibleGain = possibleGain;
     }
 
-    public boolean isResult() {
-        return result;
+    public List<Condition> getConditions() {
+        return conditions;
     }
 
-    public void setResult(boolean result) {
-        this.result = result;
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+    }
+
+    public boolean isFinalResult() {
+        return finalResult;
+    }
+
+    public void setFinalResult(boolean finalResult) {
+        this.finalResult = finalResult;
+    }
+
+    public double getFinalCoefficient() {
+        return finalCoefficient;
+    }
+
+    public void setFinalCoefficient(double finalCoefficient) {
+        this.finalCoefficient = finalCoefficient;
     }
 
     public void setValue(Money value) {
@@ -50,32 +123,24 @@ public abstract class Bet extends BaseEntity {
         return value;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
+    public Customer getCustomer() {
+        return customer;
     }
 
     @Override
     public String toString() {
         return "Bet{" +
-                "customer=" + customer +
-                ", match=" + match +
-                ", result=" + result +
+                "date=" + date +
                 ", value=" + value +
                 '}';
     }
+
     public static final Comparator<Bet> VALUE_ORDER = new ValueComparator();
+
 
     private static class ValueComparator implements Comparator<Bet> {
 

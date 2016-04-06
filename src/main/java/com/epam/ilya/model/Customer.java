@@ -3,9 +3,6 @@ package com.epam.ilya.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Дом on 09.02.2016.
- */
 public class Customer extends Person {
     private List<Bet> bets = new ArrayList<Bet>();
 

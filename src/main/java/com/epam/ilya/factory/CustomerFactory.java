@@ -1,27 +1,21 @@
 package com.epam.ilya.factory;
 
 import com.epam.ilya.model.Customer;
+import com.epam.ilya.services.PersonService;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Created by Дом on 18.02.2016.
- */
+
 public class CustomerFactory {
-    /*
-    Creation of person with fill CashAccount
-     */
-    public Customer createCustomer(String name, double balance){
-        Customer customer = new Customer(name);// нужно что бы он ловил баланс
-        Money kzt = Money.of(CurrencyUnit.of("KZT"), 1000);// or this is gonna be in factory
-        customer.getPersonsPurse().addCash(kzt);// или это должно создаваться и добавляться в конструкторе Кастомера
-        return customer;
-    }
-    /*
-    Creation of person with empty CashAccount
-     */
+    static final Logger log = LoggerFactory.getLogger(String.valueOf(CustomerFactory.class));
+
     public Customer createCustomer(String name){
         Customer customer = new Customer(name);
+        log.info("Create new person " + customer.getName() + " with empty purse");
+        PersonService personService = new PersonService();
+        personService.addPurseToPerson(customer);
         return customer;
     }
 }
