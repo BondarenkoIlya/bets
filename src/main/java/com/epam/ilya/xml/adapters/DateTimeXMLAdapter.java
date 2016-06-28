@@ -13,6 +13,8 @@ public class DateTimeXMLAdapter extends XmlAdapter<String, DateTime> {
     public DateTime unmarshal(String st) throws Exception {
         DateTime date = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm").parseDateTime(st);
         return date;
+
+        //getTimeStamp для того что бы вытаскивать из базы данных
     }
 
     @Override

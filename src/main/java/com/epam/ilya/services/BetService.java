@@ -21,13 +21,13 @@ public class BetService {
     public void putDownBetsResult(Customer customer, Bet bet) {
         if (customer.getBets().contains(bet)) {
             bet.calculateFinalResult();
-            log.info("Customer's " + customer.getName() + " bet's " + bet + " result is " + bet.isFinalResult());
+            log.info("Customer's " + customer.getFirstName() + " bet's " + bet + " result is " + bet.isFinalResult());
             if (bet.isFinalResult()) {
                 bet.removeGainToCustomer();
-                log.info("Customer " + customer.getName() + " win: " + bet.getPossibleGain() + ". Customer's balance: " + customer.getPersonsPurse().getBalance());
+                log.info("Customer " + customer.getFirstName() + " win: " + bet.getPossibleGain() + ". Customer's balance: " + customer.getPersonsPurse().getBalance());
             } else {
                 bet.removeMoneyToBookmaker();
-                log.info("Customer " + customer.getName() + " lose: " + bet.getValue() + ". Customer's balance" + customer.getPersonsPurse().getBalance());
+                log.info("Customer " + customer.getFirstName() + " lose: " + bet.getValue() + ". Customer's balance" + customer.getPersonsPurse().getBalance());
             }
         }
     }

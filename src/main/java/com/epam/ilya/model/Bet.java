@@ -60,6 +60,11 @@ public class Bet extends BaseEntity {
     }
 
     public void removeGainToCustomer(){
+        try {
+            Bookmaker.bookmaker.getPersonsPurse().removeCash(possibleGain.minus(value));
+        } catch (CashAccountBalanceExceptions cashAccountBalanceExceptions) {
+            cashAccountBalanceExceptions.printStackTrace();
+        }
         customer.getPersonsPurse().addCash(possibleGain);
     }
 

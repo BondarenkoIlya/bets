@@ -16,7 +16,7 @@ public class PersonService {
         CashAccount account = new CashAccount();
         person.setPersonsPurse(account);
         account.setPerson(person);
-        log.info(person.getName() + " add cash account");
+        log.info(person.getFirstName() + " add cash account");
     }
 
     public void addBetToCustomer(Customer customer, Bet bet) {
@@ -27,19 +27,19 @@ public class PersonService {
         } catch (CashAccountBalanceExceptions cashAccountBalanceExceptions) {
             cashAccountBalanceExceptions.printStackTrace();
         }
-        log.info("Customer " + customer.getName() + " make bet " + bet);
+        log.info("Customer " + customer.getFirstName() + " make bet " + bet);
     }
 
     public void depositOnPersonsAccount(Person person, Money kzt) {
         person.getPersonsPurse().addCash(kzt);
-        log.info(person.getName() + " add on cash account " + kzt);
-        log.info(person.getName() + "'s balance become :" + person.getPersonsPurse());
+        log.info(person.getFirstName() + " add on cash account " + kzt);
+        log.info(person.getFirstName() + "'s balance become :" + person.getPersonsPurse());
     }
 
     public void withdrawFromTheAccount(Person person, Money kzt) {
         try {
             person.getPersonsPurse().removeCash(kzt);
-            log.info(person.getName() + " withdraw from account" + kzt);
+            log.info(person.getFirstName() + " withdraw from account" + kzt);
         } catch (CashAccountBalanceExceptions cashAccountBalanceExceptions) {
             cashAccountBalanceExceptions.printStackTrace();
         }

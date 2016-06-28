@@ -12,7 +12,7 @@ public class Customer extends Person {
     }
 
     public Customer(String name) {
-        this.setName(name);
+        this.setFirstName(name);
         setPersonsPurse(new CashAccount());
     }
 

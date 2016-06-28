@@ -13,15 +13,17 @@ import com.epam.ilya.services.PersonService;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 
 public class Runner {
-    static final Logger log = Logger.getLogger(String.valueOf(Runner.class));
+
+    static final Logger log = LoggerFactory.getLogger(Runner.class);
     static BetService betService = new BetService();
     static MatchService matchService = new MatchService();
     static PersonService personService = new PersonService();
@@ -31,6 +33,8 @@ public class Runner {
 
 
     public static void main(String[] args) throws CashAccountBalanceExceptions, ParserConfigurationException, SAXException, IOException, ParseException {//как обработать эксепшон ранее
+
+        log.info("dcsdcsdc");
 
         personService.addPurseToPerson(Bookmaker.bookmaker);
         personService.depositOnPersonsAccount(Bookmaker.bookmaker, Money.of(CurrencyUnit.of("KZT"), 300000));
@@ -64,6 +68,7 @@ public class Runner {
 
         betService.putDownBetsResult(customerPetya,bet1);// не обязательно знать человека что бы проставить результаты
         betService.putDownBetsResult(customerVasya,bet2);
+        personService.showPersonsBalance(Bookmaker.bookmaker);
 
 
 //        service.depositOnPersonsAccount(bookmaker,Money.of(CurrencyUnit.of("KZT"),300000));
