@@ -1,9 +1,7 @@
-package com.epam.ilya.xml.adapters;
+package com.epam.ilya.adapters;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

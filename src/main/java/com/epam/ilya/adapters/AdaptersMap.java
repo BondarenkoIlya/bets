@@ -1,4 +1,4 @@
-package com.epam.ilya.xml.adapters;
+package com.epam.ilya.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.io.IOException;
