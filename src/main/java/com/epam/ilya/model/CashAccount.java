@@ -1,6 +1,5 @@
 package com.epam.ilya.model;
 
-import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
@@ -22,11 +21,12 @@ public class CashAccount extends BaseEntity {
         this.setBalance(getBalance().plus(amount));
     }
 
-    public void removeCash(Money amount) throws CashAccountBalanceExceptions {
+    public boolean removeCash(Money amount) {//что делать ?
         if (balanceAvailabilityFor(amount)) {
             setBalance(getBalance().minus(amount));
+            return true;
         } else {
-            throw new CashAccountBalanceExceptions();
+            return false;
         }
     }
 
@@ -56,7 +56,10 @@ public class CashAccount extends BaseEntity {
 
     @Override
     public String toString() {
-        return
-                "balance=" + balance;
+        return "CashAccount{" +
+                "id=" + getId() +
+                ", balance=" + balance +
+                ", person=" + person +
+                '}';
     }
 }

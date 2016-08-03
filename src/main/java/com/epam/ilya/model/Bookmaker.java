@@ -1,21 +1,17 @@
 package com.epam.ilya.model;
 
-/**
- * Created by Дом on 09.02.2016.
- */
 public class Bookmaker extends Person {
-    public static final Bookmaker bookmaker = new Bookmaker("Алексей Анатольевич");
+    public static final Bookmaker bookmaker = new Bookmaker("Алексей", "Пак" , "1234567","qwe@mail.ru");
 
     private Bookmaker() {
 
     }
 
-    public Bookmaker(String name) {
-        this.setFirstName(name);
+
+    public Bookmaker(String firstName, String lastName, String password, String email) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPassword(password);
+        setEmail(email);
     }
-
-
-
-
-
 }

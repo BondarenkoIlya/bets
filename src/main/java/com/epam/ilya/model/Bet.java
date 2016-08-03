@@ -1,13 +1,15 @@
 package com.epam.ilya.model;
 
-import com.epam.ilya.exceptions.CashAccountBalanceExceptions;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class Bet extends BaseEntity {
+public class Bet extends BaseEntity implements Cloneable {
+    public static final Comparator<Bet> VALUE_ORDER = new ValueComparator();
     private DateTime date;
     private Money value;
     private Customer customer;
@@ -16,8 +18,8 @@ public class Bet extends BaseEntity {
     private double finalCoefficient;
     private boolean finalResult;
 
-
-
+    public Bet() {
+    }
 
     public Bet(Money value) {
         this.date = DateTime.now();
@@ -31,52 +33,49 @@ public class Bet extends BaseEntity {
 
     }
 
-    public void calculateFinalCoefficient(){
+    public void calculateFinalCoefficient() {
         this.finalCoefficient = 1;
-        for (Condition c: conditions) {
-            this.finalCoefficient = this.finalCoefficient*c.getCoefficient();
+        for (Condition c : conditions) {
+            this.finalCoefficient = this.finalCoefficient * c.getCoefficient();
         }
     }
 
-    public  void calculatePossibleGain(){
+    public void calculatePossibleGain() {
         this.possibleGain = value.multipliedBy(finalCoefficient, RoundingMode.HALF_UP);
     }
 
-    public void calculateFinalResult (){
-        finalResult=true;
-        for (Condition c:conditions) {
-            if (!c.isResult()){
-                finalResult=false;
+    public void calculateFinalResult() {
+        finalResult = true;
+        for (Condition c : conditions) {
+            if (!c.isResult()) {
+                finalResult = false;
             }
         }
     }
 
-    public void removeMoneyFromCustomerToBet() throws CashAccountBalanceExceptions {// где лучше обрабатывать ошибку того что у вас нет на счету такой суммы
-        if (customer.getPersonsPurse().balanceAvailabilityFor(value)){
+    public boolean removeMoneyFromCustomerToBet() {
+        if (customer.getPersonsPurse().balanceAvailabilityFor(value)) {
             customer.getPersonsPurse().removeCash(value);
-        }else {
-            throw new CashAccountBalanceExceptions();
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void removeGainToCustomer(){
-        try {
-            Bookmaker.bookmaker.getPersonsPurse().removeCash(possibleGain.minus(value));
-        } catch (CashAccountBalanceExceptions cashAccountBalanceExceptions) {
-            cashAccountBalanceExceptions.printStackTrace();
-        }
+    public void removeGainToCustomer() {
+        Bookmaker.bookmaker.getPersonsPurse().removeCash(possibleGain.minus(value));
         customer.getPersonsPurse().addCash(possibleGain);
     }
 
-    public void removeMoneyToBookmaker(){
+    public void removeMoneyToBookmaker() {
         Bookmaker.bookmaker.getPersonsPurse().addCash(value);
     }
 
-    public void addCondition (Condition condition){
+    public void addCondition(Condition condition) {
         conditions.add(condition);
     }
 
-    public void removeCondition (Condition condition){
+    public void removeCondition(Condition condition) {
         conditions.remove(condition);
     }
 
@@ -120,20 +119,20 @@ public class Bet extends BaseEntity {
         this.finalCoefficient = finalCoefficient;
     }
 
-    public void setValue(Money value) {
-        this.value = value;
-    }
-
     public Money getValue() {
         return value;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setValue(Money value) {
+        this.value = value;
     }
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -143,9 +142,6 @@ public class Bet extends BaseEntity {
                 ", value=" + value +
                 '}';
     }
-
-    public static final Comparator<Bet> VALUE_ORDER = new ValueComparator();
-
 
     private static class ValueComparator implements Comparator<Bet> {
 

@@ -1,12 +1,8 @@
 package com.epam.ilya.model;
 
-import com.epam.ilya.Runner;
-import com.epam.ilya.factory.MatchFactory;
-import com.epam.ilya.xml.parsers.SAXHandler;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Match extends BaseEntity {

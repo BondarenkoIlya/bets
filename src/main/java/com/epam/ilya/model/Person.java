@@ -9,9 +9,10 @@ public abstract class Person extends BaseEntity {
 
     @Override
     public String toString() {
-        return
-                "Name='" + firstName + '\'' +
-                ", customersPurse's" + personsPurse +
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 
@@ -31,20 +32,20 @@ public abstract class Person extends BaseEntity {
         this.personsPurse = customersPurse;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

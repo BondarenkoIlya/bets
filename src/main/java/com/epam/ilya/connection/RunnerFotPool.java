@@ -8,7 +8,7 @@ import java.sql.*;
 public class RunnerFotPool {
     public static final Logger log = LoggerFactory.getLogger(RunnerFotPool.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ConnectionPoolException {
 
         String ADD_COLUMN = "ALTER TABLE users ADD COLUMN ? INT (10) NOT NULL ;";
         String INSERT_CUSTOMER = "Insert INTO users VALUES (id,?,?,?,?,?)";
@@ -46,7 +46,5 @@ public class RunnerFotPool {
             log.error("Error",e);
             e.printStackTrace();
         }
-
-
     }
 }
