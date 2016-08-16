@@ -19,4 +19,5 @@ public abstract class Dao {
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+
 }

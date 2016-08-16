@@ -62,14 +62,14 @@ public class Bet extends BaseEntity implements Cloneable {
         }
     }
 
-    public void removeGainToCustomer() {
-        Bookmaker.bookmaker.getPersonsPurse().removeCash(possibleGain.minus(value));
+   /* public void removeGainToCustomer() {
+        bookmaker.getPersonsPurse().removeCash(possibleGain.minus(value));
         customer.getPersonsPurse().addCash(possibleGain);
-    }
+    }*/
 
-    public void removeMoneyToBookmaker() {
-        Bookmaker.bookmaker.getPersonsPurse().addCash(value);
-    }
+   /* public void removeMoneyToBookmaker() {
+        bookmaker.getPersonsPurse().addCash(value);
+    }*/
 
     public void addCondition(Condition condition) {
         conditions.add(condition);

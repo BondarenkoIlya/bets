@@ -1,6 +1,7 @@
 package com.epam.ilya.services;
 
 import com.epam.ilya.model.Bet;
+import com.epam.ilya.model.Bookmaker;
 import com.epam.ilya.model.Condition;
 import com.epam.ilya.model.Customer;
 import org.slf4j.Logger;
@@ -18,15 +19,16 @@ public class BetService {
         log.info("Bet's possible gain is " + bet.getPossibleGain());
     }
 
-    public void putDownBetsResult(Customer customer, Bet bet) {
+    public void putDownBetsResult(Customer customer, Bet bet, Bookmaker bookmaker) {
         if (customer.getBets().contains(bet)) {
             bet.calculateFinalResult();
             log.info("Customer's " + customer.getFirstName() + " bet's " + bet + " result is " + bet.isFinalResult());
             if (bet.isFinalResult()) {
-                bet.removeGainToCustomer();
+                bookmaker.getPersonsPurse().removeCash(bet.getPossibleGain().minus(bet.getValue()));
+                customer.getPersonsPurse().addCash(bet.getPossibleGain());
                 log.info("Customer " + customer.getFirstName() + " win: " + bet.getPossibleGain() + ". Customer's balance: " + customer.getPersonsPurse().getBalance());
             } else {
-                bet.removeMoneyToBookmaker();
+                bookmaker.getPersonsPurse().addCash(bet.getValue());
                 log.info("Customer " + customer.getFirstName() + " lose: " + bet.getValue() + ". Customer's balance" + customer.getPersonsPurse().getBalance());
             }
         }

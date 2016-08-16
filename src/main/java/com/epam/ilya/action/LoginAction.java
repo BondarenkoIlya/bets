@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginAction implements Action {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(LoginAction.class));
+
     public LoginAction() {
     }
 
@@ -20,28 +21,33 @@ public class LoginAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         String email = req.getParameter("login");
         String password = req.getParameter("password");
-        log.info("Get email- {} and password- {}",email,password);
+        log.info("Get email- {} and password- {}", email, password);
         Person person;
-
         PersonService service = new PersonService();
-        Customer customer = null;
+
         try {
-            customer = (Customer) service.performUserLogin(email, password);
+            person = service.performUserLogin(email, password);
+            log.debug("Get customer - {} to Login action");
         } catch (ServiceException e) {
-            throw new ActionException("Cannot get customer from dao",e);
+            throw new ActionException("Cannot get customer from dao", e);
         }
 
-        if (email.equals(Bookmaker.bookmaker.getEmail()) && password.equals(Bookmaker.bookmaker.getPassword())) {
-            req.getSession(false).setAttribute("bookmaker",Bookmaker.bookmaker);
-            log.info("{} logged in", Bookmaker.bookmaker);
-            return new ActionResult("bookmaker-home",true);
-        }else if (customer!=null){
+        if (person instanceof Bookmaker) {
+            Bookmaker bookmaker = (Bookmaker) person;
+            req.getSession(false).setAttribute("bookmaker", bookmaker);
+            log.info("{} logged in", bookmaker);
+            log.info("Action result - bookmaker-home redirect");
+            return new ActionResult("bookmaker-home", true);
+        } else if (person instanceof Customer) {
+            Customer customer = (Customer) person;
             req.getSession(false).setAttribute("loggedCustomer", customer);
             log.info("{} logged in", customer);
+            log.info("Action result - home redirect");
             return new ActionResult("home", true);
         } else {
             req.setAttribute("loginError", "Invalid Login or Password");
             log.info("Wrong login ({}) or password ({})", email, password);
+            log.info("Action result - welcome forward");
             return new ActionResult("welcome");
         }
     }

@@ -21,7 +21,7 @@ public class CashAccount extends BaseEntity {
         this.setBalance(getBalance().plus(amount));
     }
 
-    public boolean removeCash(Money amount) {//что делать ?
+    public boolean removeCash(Money amount) {
         if (balanceAvailabilityFor(amount)) {
             setBalance(getBalance().minus(amount));
             return true;

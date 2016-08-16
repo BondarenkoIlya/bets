@@ -10,6 +10,7 @@ public abstract class Person extends BaseEntity {
     @Override
     public String toString() {
         return "Person{" +
+                "id='"+ getId()+'\''+
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

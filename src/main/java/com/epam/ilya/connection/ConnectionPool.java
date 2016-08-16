@@ -47,13 +47,15 @@ public class ConnectionPool {
         } catch (IOException e) {
             throw new ConnectionPoolException("Cannot load properties",e);
         }
-        if (properties != null) {
+        if (!properties.isEmpty()) {
             log.info("Set information about DB to instance");
             setUrl(properties.getProperty("url"));
             setUsername(properties.getProperty("username"));
             setPassword(properties.getProperty("password"));
             setConnectionsLimit(Integer.parseInt(properties.getProperty("connections.limit")));
             setGetConnectionTimeout(Integer.parseInt(properties.getProperty("get.connection.timeout")));
+        }else {
+            log.error("Property have not any parameters");
         }
     }
 
