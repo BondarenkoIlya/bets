@@ -19,6 +19,7 @@ public class Bet extends BaseEntity implements Cloneable {
     private boolean finalResult;
 
     public Bet() {
+        this.date = DateTime.now();
     }
 
     public Bet(Money value) {

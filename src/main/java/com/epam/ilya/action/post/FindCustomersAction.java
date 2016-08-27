@@ -1,5 +1,8 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.post;
 
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionException;
+import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
@@ -23,6 +26,6 @@ public class FindCustomersAction implements Action {
             req.setAttribute("searchError", true);
         }
         req.setAttribute("customers", customers);
-        return new ActionResult("bookmaker-home");
+        return new ActionResult("bookmaker/home");
     }
 }

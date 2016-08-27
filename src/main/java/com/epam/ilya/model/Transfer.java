@@ -4,17 +4,17 @@ import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 public class Transfer extends BaseEntity {
-    private Person senderId;
-    private Person recipientId;
+    private Person sender;
+    private Person recipient;
     private Money amount;
     private DateTime time;
 
     public Transfer() {
     }
 
-    public Transfer(Person senderId, Person recipientId, Money amount) {
-        this.senderId = senderId;
-        this.recipientId = recipientId;
+    public Transfer(Person sender, Person recipient, Money amount) {
+        this.sender = sender;
+        this.recipient = recipient;
         this.amount = amount;
         this.time = DateTime.now();
     }
@@ -27,20 +27,20 @@ public class Transfer extends BaseEntity {
         this.time = time;
     }
 
-    public Person getSenderId() {
-        return senderId;
+    public Person getSender() {
+        return sender;
     }
 
-    public void setSenderId(Person senderId) {
-        this.senderId = senderId;
+    public void setSender(Person sender) {
+        this.sender = sender;
     }
 
-    public Person getRecipientId() {
-        return recipientId;
+    public Person getRecipient() {
+        return recipient;
     }
 
-    public void setRecipientId(Person recipientId) {
-        this.recipientId = recipientId;
+    public void setRecipient(Person recipient) {
+        this.recipient = recipient;
     }
 
     public Money getAmount() {
@@ -49,5 +49,15 @@ public class Transfer extends BaseEntity {
 
     public void setAmount(Money amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "sender=" + sender +
+                ", recipient=" + recipient +
+                ", amount=" + amount +
+                ", time=" + time +
+                '}';
     }
 }

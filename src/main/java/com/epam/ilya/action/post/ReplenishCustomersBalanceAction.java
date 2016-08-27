@@ -1,5 +1,8 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.post;
 
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionException;
+import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
@@ -37,7 +40,7 @@ public class ReplenishCustomersBalanceAction implements Action {
 
         if (money.matches(properties.getProperty("notEmptyNumber.regex"))) {
             try {
-                service.depositOnAccount( Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)),customer);
+                service.transferMoney( Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)),customer);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }
@@ -45,6 +48,6 @@ public class ReplenishCustomersBalanceAction implements Action {
         }else {
             req.setAttribute("flash.add_massage","error");
         }
-        return new ActionResult("bookmaker-home",true);
+        return new ActionResult("bookmaker/home",true);
     }
 }

@@ -1,12 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%@ attribute name="role"  required="true" rtexprvalue="true" type="java.lang.String" %>
+<%@ attribute name="role" required="true" rtexprvalue="true" type="java.lang.String" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="pattern.welcome" var="welcome"/>
+    <fmt:message key="pattern.step.one" var="step_one"/>
+    <fmt:message key="pattern.step.two" var="step_two"/>
     <fmt:message key="pattern.inset.home" var="home_inset"/>
+    <fmt:message key="pattern.inset.bets" var="bets_inset"/>
     <fmt:message key="pattern.inset.cabinet" var="cabinet_inset"/>
     <fmt:message key="pattern.logout" var="logout"/>
     <fmt:message key="pattern.customer.balance" var="balance"/>
@@ -18,13 +21,16 @@
 
 <c:url value="/do/home" var="home"/>
 <c:url value="/do/cabinet" var="cabinet"/>
-<c:url value="/do/bookmaker-home" var="bookmaker_home"/>
-<c:url value="/do/match-editor" var="match_editor"/>
+<c:url value="/do/bookmaker/home" var="bookmaker_home"/>
+<c:url value="/do/match/edit" var="match_editor"/>
+<c:url value="/do/bets" var="bets"/>
+
 
 <html>
 <head>
     <title>Bets</title>
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
+    <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.3.7/css/bootstrap.css"/>">
+    <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
 </head>
 <body>
 <div id="header">
@@ -36,7 +42,8 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-2 col-lg-2"><a href="${home}">${home_inset}</a></div>
-                                <div class="col-md-4 col-lg-4"><a href="${cabinet}">${cabinet_inset}</a></div>
+                                <div class="col-md-2 col-lg-2"><a href="${cabinet}">${cabinet_inset}</a></div>
+                                <div class="col-md-2 col-lg-2"><a href="${bets}">${bets_inset}</a></div>
                                 <div class="col-md-2 col-lg-2"><a
                                         href="<c:url value="/do/logout"/>">${logout}</a>
                                 </div>
@@ -77,6 +84,12 @@
                     </c:if>
                     <c:if test="${role.equals('guest')}">
                         <h3>${welcome}</h3>
+                    </c:if>
+                    <c:if test="${role.equals('stepOne')}">
+                        <h3>${step_one}</h3>
+                    </c:if>
+                    <c:if test="${role.equals('stepTwo')}">
+                        <h3>${step_two}</h3>
                     </c:if>
                 </div>
             </div>

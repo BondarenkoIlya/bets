@@ -7,22 +7,22 @@ import java.util.List;
 
 public class Match extends BaseEntity {
 
-    private String sportName;
-    private String leagueName;
+    private String sportsName;
+    private String leaguesName;
     private DateTime date;
-    private String nameOfSide1;
-    private String nameOfSide2;
+    private String firstSidesName;
+    private String secondSidesName;
     private List<Condition> conditionList= new ArrayList<Condition>();
 
     public Match() {
     }
 
-    public Match(String sportName, String leagueName, DateTime date, String nameOfSide1, String nameOfSide2) {
-        this.setSportName(sportName);
-        this.setLeagueName(leagueName);
+    public Match(String sportsName, String leagueName, DateTime date, String nameOfSide1, String nameOfSide2) {
+        this.setSportsName(sportsName);
+        this.setLeaguesName(leagueName);
         this.setDate(date);
-        this.setNameOfSide1(nameOfSide1);
-        this.setNameOfSide2(nameOfSide2);
+        this.setFirstSidesName(nameOfSide1);
+        this.setSecondSidesName(nameOfSide2);
     }
 
     public void setResults(String nameOfWinSide,int differenceInScore){
@@ -31,20 +31,20 @@ public class Match extends BaseEntity {
     public void setRandomResults(){
     }
 
-    public String getLeagueName() {
-        return leagueName;
+    public String getLeaguesName() {
+        return leaguesName;
     }
 
-    public void setLeagueName(String leagueName) {
-        this.leagueName = leagueName;
+    public void setLeaguesName(String leaguesName) {
+        this.leaguesName = leaguesName;
     }
 
-    public String getSportName() {
-        return sportName;
+    public String getSportsName() {
+        return sportsName;
     }
 
-    public void setSportName(String sportName) {
-        this.sportName = sportName;
+    public void setSportsName(String sportsName) {
+        this.sportsName = sportsName;
     }
 
     public DateTime getDate() {
@@ -55,20 +55,20 @@ public class Match extends BaseEntity {
         this.date = date;
     }
 
-    public String getNameOfSide1() {
-        return nameOfSide1;
+    public String getFirstSidesName() {
+        return firstSidesName;
     }
 
-    public void setNameOfSide1(String nameOfSide1) {
-        this.nameOfSide1 = nameOfSide1;
+    public void setFirstSidesName(String firstSidesName) {
+        this.firstSidesName = firstSidesName;
     }
 
-    public String getNameOfSide2() {
-        return nameOfSide2;
+    public String getSecondSidesName() {
+        return secondSidesName;
     }
 
-    public void setNameOfSide2(String nameOfSide2) {
-        this.nameOfSide2 = nameOfSide2;
+    public void setSecondSidesName(String secondSidesName) {
+        this.secondSidesName = secondSidesName;
     }
 
     public List<Condition> getConditionList() {
@@ -90,10 +90,10 @@ public class Match extends BaseEntity {
     @Override
     public String toString() {
         return "Match{" +
-                "sportName='" + sportName + '\'' +
+                "sportsName='" + sportsName + '\'' +
                 ", date=" + date +
-                ", nameOfSide1='" + nameOfSide1 + '\'' +
-                ", nameOfSide2='" + nameOfSide2 + '\'' +
+                ", firstSidesName='" + firstSidesName + '\'' +
+                ", secondSidesName='" + secondSidesName + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,8 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.post;
 
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionException;
+import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bookmaker;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.model.Person;
@@ -37,7 +40,7 @@ public class LoginAction implements Action {
             req.getSession(false).setAttribute("bookmaker", bookmaker);
             log.info("{} logged in", bookmaker);
             log.info("Action result - bookmaker-home redirect");
-            return new ActionResult("bookmaker-home", true);
+            return new ActionResult("bookmaker/home", true);
         } else if (person instanceof Customer) {
             Customer customer = (Customer) person;
             req.getSession(false).setAttribute("loggedCustomer", customer);

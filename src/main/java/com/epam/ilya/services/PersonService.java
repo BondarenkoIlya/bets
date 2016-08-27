@@ -2,10 +2,7 @@ package com.epam.ilya.services;
 
 import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.dao.DaoFactory;
-import com.epam.ilya.dao.entityDao.BookmakerDao;
-import com.epam.ilya.dao.entityDao.CashAccountDao;
-import com.epam.ilya.dao.entityDao.CustomerDao;
-import com.epam.ilya.dao.entityDao.TransferToBookmakerDao;
+import com.epam.ilya.dao.entityDao.*;
 import com.epam.ilya.model.*;
 import org.joda.money.Money;
 import org.slf4j.Logger;
@@ -21,7 +18,7 @@ import static java.util.Arrays.asList;
 public class PersonService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(PersonService.class));
 
-    public void addPurseToPerson(Person person) {// должен сразу сам в базе создавать новый кашелёк пустой
+    public void addPurseToPerson(Person person) {
         CashAccount account = new CashAccount();
         person.setPersonsPurse(account);
         account.setPerson(person);
@@ -32,65 +29,51 @@ public class PersonService {
         DaoFactory daoFactory = new DaoFactory();
         customer.add(bet);
         bet.setCustomer(customer);
-
-
         bet.removeMoneyFromCustomerToBet();
-
         log.info("Customer " + customer.getFirstName() + " make bet " + bet);
     }
 
-    public boolean transferMoney(Person sender, Money kzt, Person recipient){
-        DaoFactory daoFactory = new DaoFactory();
-        
-
+    //Method make money transfer to person from outside (not in system)
+    public boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
+        return transferMoney(null,kzt,recipient);
     }
 
-    public void depositOnAccount(Money kzt,Person recipient) throws ServiceException {
-        depositOnAccount(null,kzt,recipient);
-    }
-
-    public void depositOnAccount(Person sender, Money kzt, Person recipient) throws ServiceException {
+    //Method make transfer from one person to another
+    public boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
+        boolean result = false;
         try {
             CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
-            CashAccount cashAccount = recipient.getPersonsPurse();
-            cashAccount.addCash(kzt);
-            cashAccountDao.update(cashAccount);
+            CashAccount recipientPurse = recipient.getPersonsPurse();
+            if (sender != null) {
+                log.debug("Begin transfer amount - {} , from person - {} to person -{}", kzt, sender, recipient);
+                CashAccount senderPurse = sender.getPersonsPurse();
+                if (senderPurse.balanceAvailabilityFor(kzt)) {
+                    senderPurse.removeCash(kzt);
+                    recipientPurse.addCash(kzt);
+                    cashAccountDao.update(senderPurse);
+                    cashAccountDao.update(recipientPurse);
+                    createTransfer(sender, kzt, recipient);
+                    result = true;
+                } else {
+                    log.debug("Person - {} have not enough money to remove amount - {} to person - {}", sender, kzt, recipient);
+                    result = false;
+                }
+            } else {
+                log.debug("Person - {} get amount - {} from outside", recipient, kzt);
+                recipientPurse.addCash(kzt);
+                cashAccountDao.update(recipientPurse);
+                createTransfer(sender, kzt, recipient);
+                result = true;
+            }
             daoFactory.closeConnection();
-            creatreTransfer(sender,kzt,recipient);
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create cash account dao for updating purse", e);
+            throw new ServiceException("Cannot create cash account dao", e);
         }
-        log.info(recipient.getFirstName() + " add on cash account " + kzt);
-        log.info(recipient.getFirstName() + "'s balance become :" + recipient.getPersonsPurse());
-    }
-
-    public boolean withdrawFromTheAccount(Person sender, Money kzt) throws ServiceException {
-        withdrawFromTheAccount(sender,kzt,null);
-    }
-
-
-    public boolean withdrawFromTheAccount(Person sender, Money kzt,Person recipient) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        boolean result;
-        try {
-            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
-            CashAccount cashAccount = sender.getPersonsPurse();
-            result = cashAccount.removeCash(kzt);
-            cashAccountDao.update(cashAccount);
-            daoFactory.closeConnection();
-            creatreTransfer(sender, kzt, recipient);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot create cash account dao for updating purse", e);
-        }
-        log.info(sender.getFirstName() + " withdraw from account" + kzt);
         return result;
     }
 
-    public void showPersonsBalance(Person person) {
-        log.info("Person" + person + " has " + person.getPersonsPurse());
-    }
-
+    //Method register new customer in data base
     public void registerCustomer(Customer customer) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
         log.info("Try to register person {}", customer);
@@ -248,9 +231,20 @@ public class PersonService {
         return customer;
     }
 
-    public void creatreTransfer(Person sender, Money amount, Person recipirnt) {
+    private void createTransfer(Person sender, Money amount, Person recipient) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
-
-        daoFactory.getDao(TransferToBookmakerDao)
+        Transfer transfer = new Transfer(sender, recipient, amount);
+        try {
+            if (recipient instanceof Bookmaker) {
+                TransferToBookmakerDao transferToBookmakerDao = daoFactory.getDao(TransferToBookmakerDao.class);
+                transferToBookmakerDao.create(transfer);
+            } else {
+                TransferToCustomerDao transferToCustomerDao = daoFactory.getDao(TransferToCustomerDao.class);
+                transferToCustomerDao.create(transfer);
+            }
+            daoFactory.closeConnection();
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao for work with transfers", e);
+        }
     }
 }

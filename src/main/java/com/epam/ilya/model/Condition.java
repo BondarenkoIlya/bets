@@ -1,8 +1,8 @@
 package com.epam.ilya.model;
 
-public class Condition {
-    private Match match;
-    private String conditionName;
+public class Condition extends BaseEntity{
+    //private Match match;
+    private String conditionsName;
     private double coefficient;
     private boolean result;
 
@@ -11,23 +11,23 @@ public class Condition {
 
     public Condition(double coefficient, String conditionName) {
         this.coefficient = coefficient;
-        this.conditionName = conditionName;
+        this.conditionsName = conditionName;
     }
 
-    public Match getMatch() {
+    /*public Match getMatch() {
         return match;
     }
 
     public void setMatch(Match match) {
         this.match = match;
+    }*/
+
+    public String getConditionsName() {
+        return conditionsName;
     }
 
-    public String getConditionName() {
-        return conditionName;
-    }
-
-    public void setConditionName(String conditionName) {
-        this.conditionName = conditionName;
+    public void setConditionsName(String conditionsName) {
+        this.conditionsName = conditionsName;
     }
 
     public double getCoefficient() {
@@ -50,7 +50,7 @@ public class Condition {
     public String toString() {
         return "Condition{" +
                 "coefficient=" + coefficient +
-                ", conditionName='" + conditionName + '\'' +
+                ", conditionsName='" + conditionsName + '\'' +
                 '}';
     }
 }

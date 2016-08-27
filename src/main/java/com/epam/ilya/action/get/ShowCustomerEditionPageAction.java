@@ -1,5 +1,8 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionException;
+import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;

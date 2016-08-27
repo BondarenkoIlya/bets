@@ -10,6 +10,8 @@
     <fmt:message key="welcome.register" var="register"/>
     <fmt:message key="welcome.error" var="error"/>
 </fmt:bundle>
+<link rel="stylesheet" href="<c:url value="webjars/bootstrap/3.3.7/css/bootstrap.css"/>">
+<script src="webjars/jquery/1.11.1/jquery.js"></script>
 
 <c:url var="login_url" value="/do/login"/>
 <c:url var="register_url" value="/do/register"/>
@@ -24,7 +26,7 @@
                     <label for="pass" class="control-label">${password}</label> <br/>
                     <input type="password" id="pass" name="password" value=""><br/>
                     <c:if test="${not empty loginError}">
-                        <p class="alert alert-danger" style="width: 250px;height: 30px;padding: 5px">${error}</p>
+                        <p class="alert alert-danger" style="width: 250px;height: auto">${error}</p>
                     </c:if>
                     <input type="submit" class="btn btn-default" value=${loginButton}><br/>
                 </div>

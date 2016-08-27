@@ -1,4 +1,7 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.get;
+
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

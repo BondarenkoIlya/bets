@@ -18,9 +18,6 @@
     <fmt:message key="bookmaker.home.add.sum" var="sum"/>
     <fmt:message key="bookmaker.home.add.to.bookmaker" var="add_to_bookmaker"/>
     <fmt:message key="bookmaker.home.customers.edit.button" var="edit_button"/>
-    <fmt:message key="bookmaker.home.customers.withdraw.error.message" var="withdraw_error_masage"/>
-    <fmt:message key="bookmaker.home.customers.withdraw.input.error.message" var="withdraw_input_error_masage"/>
-    <fmt:message key="bookmaker.home.customers.withdraw.success.message" var="withdraw_success_masage"/>
 </fmt:bundle>
 
 <c:url var="search_url" value="/do/find/customer"/>
@@ -36,16 +33,6 @@
         </c:if>
         <c:if test="${add_message.equals('error')}">
             <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
-        </c:if>
-        <c:if test="${remoove_message.equals('success')}">
-            <p class="alert alert-success"
-               style="width: 250px;height: 30px;padding: 5px">${withdraw_success_masage}</p>
-        </c:if>
-        <c:if test="${remove_message.equals('input_error')}">
-            <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${withdraw_input_error_masage}</p>
-        </c:if>
-        <c:if test="${remove_message.equals('remove_error')}">
-            <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${withdraw_error_masage}</p>
         </c:if>
         <div class="container">
             <form role="form" action="${search_url}" method="post">

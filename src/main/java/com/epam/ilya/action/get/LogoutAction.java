@@ -1,5 +1,7 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

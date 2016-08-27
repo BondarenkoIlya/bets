@@ -1,6 +1,9 @@
-package com.epam.ilya.action;
+package com.epam.ilya.action.post;
 
-import com.epam.ilya.model.Customer;
+import com.epam.ilya.action.Action;
+import com.epam.ilya.action.ActionException;
+import com.epam.ilya.action.ActionResult;
+import com.epam.ilya.model.Bookmaker;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.money.CurrencyUnit;
@@ -11,37 +14,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
-public class WithdrawCustomersBalanceAction implements Action {
+public class ReplenishBookmakersBalanceAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         PersonService service = new PersonService();
-        String parameter = req.getParameter("addToCustomerBalance");
-        String id = req.getParameter("customersId");
+        String parameter = req.getParameter("addToBookmakerBalance");
         Properties properties = new Properties();
-        Customer customer = null;
-        try {
-            customer = service.findById(id);
-        } catch (ServiceException e) {
-            throw new ActionException("Cannot find customer by id",e);
-        }
         try {
             properties.load(RegisterAction.class.getClassLoader().getResourceAsStream("validation.properties"));
         } catch (IOException e) {
             throw new ActionException("Cannot load properties", e);
         }
         if (parameter.matches(properties.getProperty("notEmptyNumber.regex"))) {
+            Bookmaker bookmaker = (Bookmaker) req.getSession().getAttribute("bookmaker");
             try {
-                if (service.withdrawFromTheAccount(customer, Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)))){
-                    req.setAttribute("remove_message", "success");
-                }else {
-                    req.setAttribute("remove_massage", "remove_error");
-                }
+                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)),bookmaker);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }
-        } else {
-            req.setAttribute("remove_massage", "input_error");
+            req.getSession(false).setAttribute("bookmaker", bookmaker);
+            req.setAttribute("flash.message","success");
+        }else {
+            req.setAttribute("flash.massage","error");
         }
-        return new ActionResult("customers-edit");
+        return new ActionResult("bookmaker/home", true);
     }
 }
