@@ -9,7 +9,7 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowMatchEditionPageAction implements com.epam.ilya.action.Action {
+public class ShowSumUpMatchsResultPageAction implements com.epam.ilya.action.Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();
@@ -23,6 +23,6 @@ public class ShowMatchEditionPageAction implements com.epam.ilya.action.Action {
         }
 
         req.setAttribute("match",match);
-        return new ActionResult("match-edit");
+        return new ActionResult("sum-up-result");
     }
 }

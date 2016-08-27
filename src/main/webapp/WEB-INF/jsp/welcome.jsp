@@ -10,8 +10,6 @@
     <fmt:message key="welcome.register" var="register"/>
     <fmt:message key="welcome.error" var="error"/>
 </fmt:bundle>
-<link rel="stylesheet" href="<c:url value="webjars/bootstrap/3.3.7/css/bootstrap.css"/>">
-<script src="webjars/jquery/1.11.1/jquery.js"></script>
 
 <c:url var="login_url" value="/do/login"/>
 <c:url var="register_url" value="/do/register"/>

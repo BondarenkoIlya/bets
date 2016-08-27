@@ -1,11 +1,9 @@
 package com.epam.ilya.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStream;
 
 public class Customer extends Person {
-    private List<Bet> bets = new ArrayList<Bet>();
-
+    public InputStream avatar;
 
     public Customer() {
 
@@ -16,18 +14,11 @@ public class Customer extends Person {
         setPersonsPurse(new CashAccount());
     }
 
-
-
-    public List<Bet> getBets() {
-        return bets;
+    public InputStream getAvatar() {
+        return avatar;
     }
 
-    public void setBets(List<Bet> bets) {
-        this.bets = bets;
-    }
-
-
-    public void add(Bet bet) {
-        getBets().add(bet);
+    public void setAvatar(InputStream avatar) {
+        this.avatar = avatar;
     }
 }

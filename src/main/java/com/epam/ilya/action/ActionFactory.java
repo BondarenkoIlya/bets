@@ -25,6 +25,7 @@ public class ActionFactory {
         actions.put("GET/match/new/edit", new ShowPageAction("new-match-edit"));
         actions.put("GET/match/create/condition", new ShowPageAction("create-condition"));
         actions.put("GET/match/edit", new ShowMatchEditionPageAction());
+        actions.put("GET/match/edit/sum/up", new ShowSumUpMatchsResultPageAction());
         //Customer's operation with bet
         actions.put("GET/home", new ShowCustomersHomePageAction());
         actions.put("GET/bets", new ShowCustomersBetsPageAction());
@@ -45,6 +46,7 @@ public class ActionFactory {
         actions.put("POST/match/create", new CreateEmptyMatchAction());
         actions.put("POST/match/create/condition", new AddConditionToMatchAction());
         actions.put("POST/match/submit", new SaveNewMatchAction());
+        actions.put("POST/match/edit/sum/up", new SaveConditionsResultAction());
         //Customer's operation with bet
         actions.put("POST/bet/create", new CreateEmptyBetAction());
         actions.put("POST/bet/add/condition", new AddConditionToBetAction());
