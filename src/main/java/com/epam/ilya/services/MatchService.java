@@ -1,12 +1,11 @@
 package com.epam.ilya.services;
 
+import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.dao.DaoFactory;
 import com.epam.ilya.dao.entityDao.ConditionDao;
 import com.epam.ilya.dao.entityDao.MatchDao;
-import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Condition;
-import com.epam.ilya.model.Customer;
 import com.epam.ilya.model.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,22 +26,23 @@ public class MatchService {
         condition.setResult(result);
         log.info("Set result '" + result + "' to condition " + condition);
     }
-
-    public void calculateAllBetsResultForCustomer(Match match, Customer customer) {
-        for (Bet bet : customer.getBets()) {
-            bet.calculateFinalResult();
-        }
+    public List<Match> getAllActiveMatch() throws ServiceException {
+        return getAllMatch(Dao.ACTIVE);
     }
 
-    public List<Match> getAllMatchFromDao() throws ServiceException {//как доставать соответствующие кондишены
+    public List<Match> getAllInactiveMatch() throws ServiceException {
+        return getAllMatch(Dao.INACTIVE);
+    }
+
+    public List<Match> getAllMatch(boolean status) throws ServiceException {//как доставать соответствующие кондишены
         List<Match> matches = new ArrayList<>();
         DaoFactory daoFactory = new DaoFactory();
         try {
             MatchDao matchDao = daoFactory.getDao(MatchDao.class);
             ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
-            matches = matchDao.getAllMatches();
+            matches = matchDao.getAllMatches(status);
             for (Match match : matches) {
-                List<Condition> conditions = conditionDao.getMatchsCondition(match);
+                List<Condition> conditions = conditionDao.getMatchsConditions(match);
                 match.setConditionList(conditions);
             }
             daoFactory.closeConnection();
@@ -69,12 +69,20 @@ public class MatchService {
         DaoFactory daoFactory = new DaoFactory();
         try {
             ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
+            MatchDao matchDao = daoFactory.getDao(MatchDao.class);
+            daoFactory.startTransaction();
             for (Condition condition : match.getConditionList()) {
                 conditionDao.create(condition);
                 conditionDao.addConditionToMatch(condition, match);
             }
-            daoFactory.closeConnection();
+            matchDao.setStatus(match,MatchDao.ACTIVE);
+            daoFactory.commitTransaction();
         } catch (DaoException e) {
+            try {
+                daoFactory.rollbackTransaction();
+            } catch (DaoException e1) {
+                throw new ServiceException("Cannot rollback transaction",e);
+            }
             throw new ServiceException("Cannot create dao for add conditions to match", e);
         }
     }
@@ -100,7 +108,7 @@ public class MatchService {
             ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
             daoFactory.startTransaction();
             match = matchDao.findById(Integer.parseInt(id));
-            List<Condition> conditions = conditionDao.getMatchsCondition(match);
+            List<Condition> conditions = conditionDao.getMatchsConditions(match);
             match.setConditionList(conditions);
             daoFactory.commitTransaction();
         } catch (DaoException e) {

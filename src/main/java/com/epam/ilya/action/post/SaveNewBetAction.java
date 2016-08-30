@@ -21,7 +21,7 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
             throw new ActionException("Cannot complete bets creation",e);
         }
         req.getSession().removeAttribute("bet");
-        req.setAttribute("flash.create_bet_successfully",true);
+        req.setAttribute("flash.create_bet_successfully","true");
         return new ActionResult("bets",true);
     }
 }

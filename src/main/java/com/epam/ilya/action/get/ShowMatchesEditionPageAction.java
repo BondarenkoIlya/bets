@@ -16,13 +16,16 @@ public class ShowMatchesEditionPageAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();
 
-        List<Match> matches;
+        List<Match> activeMatches;
+        List<Match> inactiveMatches;
         try {
-            matches = service.getAllMatchFromDao();
+            activeMatches = service.getAllActiveMatch();
+            inactiveMatches = service.getAllInactiveMatch();
         } catch (ServiceException e) {
             throw new ActionException("Cannot get matches list in action", e);
         }
-        req.setAttribute("matches", matches);
+        req.setAttribute("activeMatches", activeMatches);
+        req.setAttribute("inactiveMatches", inactiveMatches);
         return new ActionResult("matches-edit");
     }
 }

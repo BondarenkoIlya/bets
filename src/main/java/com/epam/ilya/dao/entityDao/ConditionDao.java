@@ -2,6 +2,7 @@ package com.epam.ilya.dao.entityDao;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
+import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Condition;
 import com.epam.ilya.model.Match;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
     private static String SET_CONDITION_TO_MATCH = "INSERT INTO matches_conditions VALUES (?,?)";
     private static String FIND_BY_ID = "SELECT * FROM conditions WHERE id=?";
     private static String GET_MATCHS_CONDITIONS ="SELECT id , conditionsName, coefficient FROM conditions JOIN matches_conditions on conditions.id = matches_conditions.condition_id WHERE matches_conditions.match_id=?";
+    private static String GET_BETS_CONDITIONS ="SELECT id , conditionsName, coefficient FROM conditions JOIN bets_conditions on conditions.id = bets_conditions.conditions_id WHERE bets_conditions.bets_id=?";
 
     @Override
     public Condition create(Condition condition) throws DaoException {
@@ -81,11 +83,10 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
 
     }
 
-    public List<Condition> getMatchsCondition(Match match) throws DaoException {
+    public List<Condition> getMatchsConditions(Match match) throws DaoException {
         List<Condition> conditions = new ArrayList<>();
-        PreparedStatement statement = null;
         try {
-            statement = getConnection().prepareStatement(GET_MATCHS_CONDITIONS);
+            PreparedStatement statement = getConnection().prepareStatement(GET_MATCHS_CONDITIONS);
             statement.setInt(1, match.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -100,6 +101,23 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
     }
 
 
+    public List<Condition> getBetsConditions(Bet bet) throws DaoException {
+        List<Condition> conditions = new ArrayList<>();
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(GET_BETS_CONDITIONS);
+            statement.setInt(1, bet.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                conditions.add(pickConditionFromResultSet(resultSet));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for get conditions",e);
+        }
+        return conditions;
+    }
+
     private Condition pickConditionFromResultSet(ResultSet resultSet) throws DaoException {
         Condition condition = new Condition();
         try {
@@ -111,6 +129,5 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
         }
         return condition;
     }
-
 }
 

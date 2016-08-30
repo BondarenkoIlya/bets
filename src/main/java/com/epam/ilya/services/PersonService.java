@@ -25,14 +25,6 @@ public class PersonService {
         log.info(person.getFirstName() + " add cash account");
     }
 
-    public void addBetToCustomer(Customer customer, Bet bet) {
-        DaoFactory daoFactory = new DaoFactory();
-        customer.add(bet);
-        bet.setCustomer(customer);
-        bet.removeMoneyFromCustomerToBet();
-        log.info("Customer " + customer.getFirstName() + " make bet " + bet);
-    }
-
     //Method make money transfer to person from outside (not in system)
     public boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
         return transferMoney(null,kzt,recipient);

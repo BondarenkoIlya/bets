@@ -27,6 +27,6 @@ public class ShowBookmakerHomePageAction implements Action {
             throw new ActionException("Cannot get customers list in action", e);
         }
         req.setAttribute("customers", customers);
-        return new ActionResult("bookmaker/home");
+        return new ActionResult("bookmaker-home");
     }
 }

@@ -18,7 +18,7 @@ public class ShowCustomersHomePageAction implements Action {
 
         List<Match> matches;
         try {
-            matches = service.getAllMatchFromDao();
+            matches = service.getAllActiveMatch();
         } catch (ServiceException e) {
             throw new ActionException("Cannot get matches list in action", e);
         }

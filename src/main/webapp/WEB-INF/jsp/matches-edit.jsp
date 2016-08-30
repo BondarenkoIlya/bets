@@ -15,6 +15,7 @@
 <my:page-pattern role="bookmaker">
     <div>
         <h3>${match_edition}</h3>
+        <h2>${active_matches}</h2>
         <div class="container">
             <div class="row">
                 <table class="table table-striped">
@@ -27,7 +28,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${matches}" var="match">
+                    <c:forEach items="${activeMatches}" var="match">
                         <tr>
                             <td>${match.date}</td>
                             <td>${match.firstSidesName}</td>
@@ -38,6 +39,30 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <h2>${inactive_matches}</h2>
+                <div class="container">
+                    <div class="row">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>${match_date}</th>
+                                <th>${match_side_1}</th>
+                                <th>${match_side_2}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${inactiveMatches}" var="match">
+                                <tr>
+                                    <td>${match.date}</td>
+                                    <td>${match.firstSidesName}</td>
+                                    <td>${match.secondSidesName}</td>
+                                    <td><a href="<c:url value="/do/match/edit?id=${match.id}"/> ">${edit_match_button}
+                                    </a></td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                 <button type="button" class="button btn-link"><a
                         href="<c:url value="/do/match/create"/>">${create_new_match}</a></button>
             </div>

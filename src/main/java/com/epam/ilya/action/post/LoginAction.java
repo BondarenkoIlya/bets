@@ -39,7 +39,7 @@ public class LoginAction implements Action {
             Bookmaker bookmaker = (Bookmaker) person;
             req.getSession(false).setAttribute("bookmaker", bookmaker);
             log.info("{} logged in", bookmaker);
-            log.info("Action result - bookmaker-home redirect");
+            log.info("Action result - bookmaker/home redirect");
             return new ActionResult("bookmaker/home", true);
         } else if (person instanceof Customer) {
             Customer customer = (Customer) person;

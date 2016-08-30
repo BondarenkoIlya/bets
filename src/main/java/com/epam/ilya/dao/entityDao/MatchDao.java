@@ -13,9 +13,10 @@ import java.util.List;
 
 public class MatchDao extends Dao implements EntityDao<Match>{
     static final Logger log = LoggerFactory.getLogger(String.valueOf(Match.class));
-    private static final String FIND_ALL = "SELECT * FROM matches " ;
+    private static final String FIND_ALL = "SELECT * FROM matches WHERE active=?" ;
     private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?" ;
     private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)" ;
+    private static final String MATCHS_STATUS = "update matchs set active = ?  where id=?" ;
 
     @Override
     public Match create(Match match) throws DaoException {
@@ -70,11 +71,12 @@ public class MatchDao extends Dao implements EntityDao<Match>{
 
     }
 
-    public List<Match> getAllMatches() throws DaoException {
+    public List<Match> getAllMatches(boolean status) throws DaoException {
         List<Match> matches = new ArrayList<>();
         try {
-            Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL);
+            PreparedStatement statement = getConnection().prepareStatement(FIND_ALL);
+            statement.setBoolean(1,status);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 matches.add(pickMatchFromResultSet(resultSet));
             }
@@ -84,6 +86,18 @@ public class MatchDao extends Dao implements EntityDao<Match>{
             throw new DaoException("Cannot create statement for finding all matches",e);
         }
         return matches;
+    }
+
+    public void setStatus(Match match, boolean status) throws DaoException {
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(MATCHS_STATUS);
+            statement.setBoolean(1, status);
+            statement.setInt(2, match.getId());
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for making match active", e);
+        }
     }
 
     private Match pickMatchFromResultSet(ResultSet resultSet) throws DaoException {

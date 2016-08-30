@@ -17,7 +17,7 @@ public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Act
         List<Match> matches;
 
         try {
-            matches = service.getAllMatchFromDao();
+            matches = service.getAllActiveMatch();
         } catch (ServiceException e) {
             throw new ActionException("Cannot get all matches",e);
         }

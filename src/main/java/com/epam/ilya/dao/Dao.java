@@ -4,6 +4,8 @@ import java.sql.Connection;
 
 public abstract class Dao {
     private Connection connection;
+    public static final boolean ACTIVE = true;
+    public static final boolean INACTIVE = false;
 
     public Dao() {
     }
