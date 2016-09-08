@@ -12,36 +12,36 @@
 </fmt:bundle>
 
 <my:page-pattern role="stepTwo">
-<div>
-    <h3>${add_conditions}</h3>
+    <div>
+        <h3>${add_conditions}</h3>
 
-    <div class="container">
-        <div class="row">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>${conditions_name}</th>
-                    <th>${coefficient}</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${match.conditionList}" var="condition">
+        <div class="container">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>${condition.conditionsName}</td>
-                        <td>${condition.coefficient}</td>
-                        <td><%--<a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> ">${delete_condition_button}
-                        </a>--%></td>
+                        <th>${conditions_name}</th>
+                        <th>${coefficient}</th>
+                        <th></th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <button type="button" class="button btn-link"><a
-                    href="<c:url value="/do/match/create/condition"/>">${create_new_condition_button}</a></button>
-            <form role="form" method="post" action="<c:url value="/do/match/submit"/>">
-                <input type="submit" class="button btn-link" value="${submit_button}"  />
-            </form>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${match.conditionList}" var="condition">
+                        <tr>
+                            <td>${condition.conditionsName}</td>
+                            <td>${condition.coefficient}</td>
+                            <td><%--<a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> ">${delete_condition_button}
+                        </a>--%></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <button type="button" class="button btn-link"><a
+                        href="<c:url value="/do/match/create/condition"/>">${create_new_condition_button}</a></button>
+                <form role="form" method="post" action="<c:url value="/do/match/submit"/>">
+                    <input type="submit" class="button btn-link" value="${submit_button}"/>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </my:page-pattern>

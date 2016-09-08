@@ -16,13 +16,13 @@ public class FindCustomersAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         PersonService service = new PersonService();
         String parameter = req.getParameter("search");
-        List<Customer> customers = null;
+        List<Customer> customers;
         try {
             customers = service.searchByParameter(parameter);
         } catch (ServiceException e) {
             throw new ActionException("Cannot find by parameter", e);
         }
-        if (customers.size()==0) {
+        if (customers.size() == 0) {
             req.setAttribute("searchError", true);
         }
         req.setAttribute("customers", customers);

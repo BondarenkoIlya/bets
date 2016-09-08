@@ -20,9 +20,11 @@
     <fmt:message key="bookmaker.home.customers.edit.button" var="edit_button"/>
 </fmt:bundle>
 
-<c:url var="search_url" value="/do/find/customer"/>
-<c:url var="add_to_bookmaker_balance_url" value="/do/replenish/bookmaker"/>
-<c:url var="add_to_customer_balance_url" value="/do/replenish/customer"/>
+<c:url var="search_url" value="/do/customer/find"/>
+<c:url var="add_to_bookmaker_balance_url" value="/do/bookmaker/replenish"/>
+<c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
+
+<%--@elvariable id="customers" type="com.epam.ilya.model.PaginatedList"--%>
 
 <my:page-pattern role="bookmaker">
     <div>
@@ -55,16 +57,17 @@
                             <tbody>
                             <c:forEach items="${customers}" var="customer">
                                 <tr>
-                                        <td>${customer.getFirstName()}</td>
-                                        <td>${customer.getLastName()}</td>
-                                        <td>${customer.getEmail()}</td>
-                                        <td>${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}</td>
-                                        <td><a href="<c:url value="/do/bookmaker-home/customer-edit?id=${customer.id}"/> ">${edit_button}
-                                        </a></td>
+                                    <td>${customer.getFirstName()}</td>
+                                    <td>${customer.getLastName()}</td>
+                                    <td>${customer.getEmail()}</td>
+                                    <td>${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}</td>
+                                    <td><a href="<c:url value="/do/customer/edit?id=${customer.id}"/> ">${edit_button}
+                                    </a></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
+                        <my:pagination pageCount="${customers.pageCount}" pageNumber="${customers.pageNumber}" url="do/bookmaker/home"/>
                     </c:if>
                     <c:if test="${not empty searchError}">
                         <p class="alert alert-info"
@@ -79,10 +82,12 @@
                         <input type="submit" class="btn btn-default" value=${add_button}><br/>
                     </form>
                     <c:if test="${message.equals('success')}">
-                        <p class="alert alert-success" style="width: 250px;height: 30px;padding: 5px">${replenish_success_masage}</p>
+                        <p class="alert alert-success"
+                           style="width: 250px;height: 30px;padding: 5px">${replenish_success_masage}</p>
                     </c:if>
                     <c:if test="${message.equals('error')}">
-                        <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
+                        <p class="alert alert-warning"
+                           style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
                     </c:if>
                 </div>
             </div>

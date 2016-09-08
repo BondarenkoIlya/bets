@@ -7,37 +7,38 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchDao extends Dao implements EntityDao<Match>{
+public class MatchDao extends Dao implements EntityDao<Match> {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(Match.class));
-    private static final String FIND_ALL = "SELECT * FROM matches WHERE active=?" ;
-    private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?" ;
-    private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)" ;
-    private static final String MATCHS_STATUS = "update matchs set active = ?  where id=?" ;
+    private static final String FIND_ALL = "SELECT * FROM matches WHERE active=?";
+    private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?";
+    private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)";
+    private static final String MATCHS_STATUS = "update matches set active = ?  where id=?";
 
     @Override
     public Match create(Match match) throws DaoException {
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(INSERT_MATCH,PreparedStatement.RETURN_GENERATED_KEYS);
-            statement.setString(1,match.getSportsName());
-            statement.setString(2,match.getLeaguesName());
-            statement.setTimestamp(3,new Timestamp(match.getDate().getMillis()));
-            statement.setString(4,match.getFirstSidesName());
-            statement.setString(5,match.getSecondSidesName());
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_MATCH, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, match.getSportsName());
+            statement.setString(2, match.getLeaguesName());
+            statement.setTimestamp(3, new Timestamp(match.getDate().getMillis()));
+            statement.setString(4, match.getFirstSidesName());
+            statement.setString(5, match.getSecondSidesName());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             int id;
             id = resultSet.getInt(1);
-            log.debug("Set id - {} to match - {}",id,match);
+            log.debug("Set id - {} to match - {}", id, match);
             match.setId(id);
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for insert match",e);
+            throw new DaoException("Cannot create statement for insert match", e);
         }
         return match;
     }
@@ -45,17 +46,15 @@ public class MatchDao extends Dao implements EntityDao<Match>{
     @Override
     public Match findById(int id) throws DaoException {
         Match match = null;
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID);
-            statement.setInt(1,id);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 match = pickMatchFromResultSet(resultSet);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding by id",e);
+            throw new DaoException("Cannot create statement for finding by id", e);
         }
 
         return match;
@@ -73,28 +72,24 @@ public class MatchDao extends Dao implements EntityDao<Match>{
 
     public List<Match> getAllMatches(boolean status) throws DaoException {
         List<Match> matches = new ArrayList<>();
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(FIND_ALL);
-            statement.setBoolean(1,status);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL)) {
+            statement.setBoolean(1, status);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 matches.add(pickMatchFromResultSet(resultSet));
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding all matches",e);
+            throw new DaoException("Cannot create statement for finding all matches", e);
         }
         return matches;
     }
 
     public void setStatus(Match match, boolean status) throws DaoException {
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(MATCHS_STATUS);
+        try (PreparedStatement statement = getConnection().prepareStatement(MATCHS_STATUS)) {
             statement.setBoolean(1, status);
             statement.setInt(2, match.getId());
             statement.executeUpdate();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for making match active", e);
         }
@@ -110,7 +105,7 @@ public class MatchDao extends Dao implements EntityDao<Match>{
             match.setFirstSidesName(resultSet.getString(5));
             match.setSecondSidesName(resultSet.getString(6));
         } catch (SQLException e) {
-            throw new DaoException("Cannot create match from result set",e);
+            throw new DaoException("Cannot create match from result set", e);
         }
         return match;
     }

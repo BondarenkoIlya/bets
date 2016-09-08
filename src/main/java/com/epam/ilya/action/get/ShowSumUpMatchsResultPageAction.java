@@ -19,10 +19,10 @@ public class ShowSumUpMatchsResultPageAction implements com.epam.ilya.action.Act
         try {
             match = service.getMatchById(id);
         } catch (ServiceException e) {
-            throw new ActionException("Cannot get match by id",e);
+            throw new ActionException("Cannot get match by id", e);
         }
 
-        req.setAttribute("match",match);
+        req.setAttribute("match", match);
         return new ActionResult("sum-up-result");
     }
 }

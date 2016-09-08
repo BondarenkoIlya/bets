@@ -10,8 +10,8 @@ public abstract class Dao {
     public Dao() {
     }
 
-    public void enterConnectionToDao(Connection connection){
-        this.connection=connection;
+    public void enterConnectionToDao(Connection connection) {
+        this.connection = connection;
     }
 
     public Connection getConnection() {

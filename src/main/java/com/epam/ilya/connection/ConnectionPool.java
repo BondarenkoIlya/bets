@@ -20,17 +20,17 @@ public class ConnectionPool {
     private String password;
     private int connectionsLimit;
     private int getConnectionTimeout;
-    private BlockingQueue<Connection> freeConnections=null;
-    private BlockingQueue<Connection> usedConnections=null;
+    private BlockingQueue<Connection> freeConnections = null;
+    private BlockingQueue<Connection> usedConnections = null;
 
 
-    public ConnectionPool(){
+    public ConnectionPool() {
         try {
             loadDBProperties();
             loadDriver();
             init();
         } catch (ConnectionPoolException e) {
-            log.error("Cannot create new instance of connection pool. ",e);
+            log.error("Cannot create new instance of connection pool. ", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class ConnectionPool {
             properties.load(ConnectionPool.class.getClassLoader().getResourceAsStream("database.properties"));
             log.info("Load property file with information about DB");
         } catch (IOException e) {
-            throw new ConnectionPoolException("Cannot load properties",e);
+            throw new ConnectionPoolException("Cannot load properties", e);
         }
         if (!properties.isEmpty()) {
             log.info("Set information about DB to instance");
@@ -54,7 +54,7 @@ public class ConnectionPool {
             setPassword(properties.getProperty("password"));
             setConnectionsLimit(Integer.parseInt(properties.getProperty("connections.limit")));
             setGetConnectionTimeout(Integer.parseInt(properties.getProperty("get.connection.timeout")));
-        }else {
+        } else {
             log.error("Property have not any parameters");
         }
     }
@@ -65,7 +65,7 @@ public class ConnectionPool {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
-            throw new ConnectionPoolException("Cannot get driver manager",e);
+            throw new ConnectionPoolException("Cannot get driver manager", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class ConnectionPool {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("Cannot found class",e);
+            throw new ConnectionPoolException("Cannot found class", e);
         }
         freeConnections = new ArrayBlockingQueue<Connection>(connectionsLimit);
         usedConnections = new ArrayBlockingQueue<Connection>(connectionsLimit);
@@ -82,7 +82,7 @@ public class ConnectionPool {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 freeConnections.put(connection);
             } catch (SQLException | InterruptedException e) {
-                throw new ConnectionPoolException("Cannot get connection or put in the connection list",e);
+                throw new ConnectionPoolException("Cannot get connection or put in the connection list", e);
             }
         }
     }
@@ -94,7 +94,7 @@ public class ConnectionPool {
             currentConnection = freeConnections.take();
             usedConnections.put(currentConnection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Cannot replace connection",e);
+            throw new ConnectionPoolException("Cannot replace connection", e);
         }
         log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
         return currentConnection;
@@ -105,7 +105,7 @@ public class ConnectionPool {
             usedConnections.remove(connection);
             freeConnections.put(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Cannot replace connection back",e);
+            throw new ConnectionPoolException("Cannot replace connection back", e);
         }
         log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
     }
@@ -165,11 +165,12 @@ public class ConnectionPool {
             }
         }
     }
-    public static class InstanceHolder {
-        static ConnectionPool instance ;
 
-        public static void setInstance(ConnectionPool connectionPool){
-            instance=connectionPool;
+    public static class InstanceHolder {
+        static ConnectionPool instance;
+
+        public static void setInstance(ConnectionPool connectionPool) {
+            instance = connectionPool;
         }
 
     }

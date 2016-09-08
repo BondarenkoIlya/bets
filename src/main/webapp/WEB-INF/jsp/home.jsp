@@ -6,6 +6,7 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="customer.home.create.bet.button" var="create_bet_button"/>
+    <fmt:message key="customer.home.success.register.message" var="success_register_message"/>
     <fmt:message key="customer.home.matches.table" var="matches_table"/>
     <fmt:message key="customer.home.matches.date" var="date"/>
     <fmt:message key="customer.home.matches.sport" var="sport"/>
@@ -18,9 +19,12 @@
 <my:page-pattern role="customer">
     <div>
         <div class="container">
+            <c:if test="${not empty registerMessage}">
+                <p class="alert alert-success" style="width: 250px;height: auto">${success_register_message}</p>
+            </c:if>
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6">
-                    ${matches_table}
+                        ${matches_table}
                     <table class="table table-striped">
                         <thead>
                         <tr>

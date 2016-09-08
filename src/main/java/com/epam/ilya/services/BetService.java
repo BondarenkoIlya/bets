@@ -4,57 +4,28 @@ import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.dao.DaoFactory;
 import com.epam.ilya.dao.entityDao.BetDao;
+import com.epam.ilya.dao.entityDao.CashAccountDao;
 import com.epam.ilya.dao.entityDao.ConditionDao;
-import com.epam.ilya.model.Bet;
-import com.epam.ilya.model.Condition;
-import com.epam.ilya.model.Customer;
+import com.epam.ilya.dao.entityDao.CustomerDao;
+import com.epam.ilya.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BetService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(BetService.class));
-
-   /* public void addConditionToBet(Condition condition, Bet bet) {
-        bet.addCondition(condition);
-        log.info("Add condition " + condition + " to bet " + bet);
-        bet.calculateFinalCoefficient();
-        log.info("Bet's final coefficient become " + bet.getFinalCoefficient());
-        bet.calculatePossibleGain();
-        log.info("Bet's possible gain is " + bet.getPossibleGain());
-    }
-
-    public void putDownBetsResult(Customer customer, Bet bet, Bookmaker bookmaker) {
-        if (customer.getBets().contains(bet)) {
-            bet.calculateFinalResult();
-            log.info("Customer's " + customer.getFirstName() + " bet's " + bet + " result is " + bet.isFinalResult());
-            if (bet.isFinalResult()) {
-                bookmaker.getPersonsPurse().removeCash(bet.getPossibleGain().minus(bet.getValue()));
-                customer.getPersonsPurse().addCash(bet.getPossibleGain());
-                log.info("Customer " + customer.getFirstName() + " win: " + bet.getPossibleGain() + ". Customer's balance: " + customer.getPersonsPurse().getBalance());
-            } else {
-                bookmaker.getPersonsPurse().addCash(bet.getValue());
-                log.info("Customer " + customer.getFirstName() + " lose: " + bet.getValue() + ". Customer's balance" + customer.getPersonsPurse().getBalance());
-            }
-        }
-    }*/
-
+    private DaoFactory daoFactory = new DaoFactory();
 
     public Bet registerCustomersBet(Bet bet, Customer customer) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
+        try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
             daoFactory.startTransaction();
             bet = betDao.create(bet);
             betDao.addBetToCustomer(bet, customer);
             daoFactory.commitTransaction();
         } catch (DaoException e) {
-            try {
-                daoFactory.rollbackTransaction();
-            } catch (DaoException e1) {
-                throw new ServiceException("Cannot rollback transaction", e);
-            }
             throw new ServiceException("Cannot get do for register bet", e);
         }
         return bet;
@@ -62,8 +33,7 @@ public class BetService {
 
 
     public void completeBetsCreation(Bet bet) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
+        try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
             daoFactory.startTransaction();
             betDao.update(bet);
@@ -71,13 +41,9 @@ public class BetService {
                 betDao.addConditionToBet(condition, bet);
             }
             betDao.setStatus(bet, Dao.ACTIVE);
+
             daoFactory.commitTransaction();
         } catch (DaoException e) {
-            try {
-                daoFactory.rollbackTransaction();
-            } catch (DaoException e1) {
-                throw new ServiceException("Cannot rollback transaction", e);
-            }
             throw new ServiceException("Cannot get dao for complete bet", e);
         }
     }
@@ -91,29 +57,97 @@ public class BetService {
     }
 
     private List<Bet> getAllCustomersBets(Customer customer, boolean status) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         List<Bet> bets;
-        try {
+        try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
             ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
             daoFactory.startTransaction();
-            bets = betDao.getAllCustomersBets(status,customer);
-            if(bets!=null){
-                for (Bet bet: bets) {
-                    List<Condition> conditions= conditionDao.getBetsConditions(bet);
+            bets = betDao.getAllCustomersBets(status, customer);
+            if (!bets.isEmpty()) {
+                for (Bet bet : bets) {
+                    log.debug("Found bet - {}", bet);
+                    List<Condition> conditions = conditionDao.getBetsConditions(bet);
                     bet.setCustomer(customer);
                     bet.setConditions(conditions);
                 }
             }
             daoFactory.commitTransaction();
         } catch (DaoException e) {
-            try {
-                daoFactory.rollbackTransaction();
-            } catch (DaoException e1) {
-                throw new ServiceException("Cannot rollback transaction",e);
-            }
             throw new ServiceException("Cannot get dao for getting all bets", e);
         }
         return bets;
+    }
+
+    public List<Bet> sumUpBetsResultByFinishedMatch(Match match) throws ServiceException {
+        List<Bet> playedBets = new ArrayList<>();
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            try {
+                BetDao betDao = daoFactory.getDao(BetDao.class);
+                daoFactory.startTransaction();
+                for (Condition condition : match.getConditionList()) {
+                    List<Bet> bets = getBetsWithCondition(condition);
+                    for (Bet bet : bets) {
+                        log.debug("Sum up bet's result - {}",bet);
+                        if (bet.getConditions().size() == 1) {
+                            playedBets.add(bet);
+                            bet.setFinalResult(condition.getResult());
+                            betDao.update(bet);
+                            betDao.setStatus(bet, Dao.INACTIVE);
+                        } else {
+                            boolean completeBet = true;
+                            boolean betsResult = true;
+                            for (Condition betsCondition : bet.getConditions()) {
+                                if (betsCondition.getResult() != null) {
+                                    if (!betsCondition.getResult()) {
+                                        betsResult = false;
+                                    }
+                                } else {
+                                    completeBet = false;
+                                }
+                            }
+                            if (completeBet) {
+                                playedBets.add(bet);
+                                bet.setFinalResult(betsResult);
+                                betDao.update(bet);
+                                betDao.setStatus(bet, Dao.INACTIVE);
+                            }
+                        }
+                    }
+                }
+                daoFactory.commitTransaction();
+            } catch (DaoException e) {
+                daoFactory.rollbackTransaction();
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get bet dao", e);
+        }
+        return playedBets;
+    }
+
+    private List<Bet> getBetsWithCondition(Condition condition) throws ServiceException {
+        List<Bet> betsWithCondition = new ArrayList<>();
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            BetDao betDao = daoFactory.getDao(BetDao.class);
+            ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
+            CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
+            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+            betsWithCondition = betDao.getBetsByCondition(condition);
+            for (Bet bet : betsWithCondition) {
+                log.debug("Pick bet - {}",bet);
+                List<Condition> conditions = conditionDao.getBetsConditions(bet);
+                log.debug("Set conditions");
+                bet.setConditions(conditions);
+                Customer customer = customerDao.getBetsCustomer(bet);
+                log.debug("Get bet's customer - {}",customer);
+                CashAccount cashAccount = cashAccountDao.findByPerson(customer);
+                log.debug("Get customer's purse - {}",cashAccount);
+                customer.setPersonsPurse(cashAccount);
+                bet.setCustomer(customer);
+                log.debug("Set customer and purse to bet");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot get bet dao", e);
+        }
+        return betsWithCondition;
     }
 }

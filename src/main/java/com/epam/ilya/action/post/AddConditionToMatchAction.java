@@ -21,7 +21,7 @@ public class AddConditionToMatchAction implements Action {
         condition.setConditionsName(conditionsName);
 
         match.addCondition(condition);
-        req.getSession(false).setAttribute("match",match);
-        return new ActionResult("/match/new/edit",true);
+        req.getSession(false).setAttribute("match", match);
+        return new ActionResult("/match/new/edit", true);
     }
 }

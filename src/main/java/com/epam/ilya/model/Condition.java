@@ -1,10 +1,9 @@
 package com.epam.ilya.model;
 
-public class Condition extends BaseEntity{
-    //private Match match;
+public class Condition extends BaseEntity {
     private String conditionsName;
     private double coefficient;
-    private boolean result;
+    private Boolean result;
 
     public Condition() {
     }
@@ -13,14 +12,6 @@ public class Condition extends BaseEntity{
         this.coefficient = coefficient;
         this.conditionsName = conditionName;
     }
-
-    /*public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }*/
 
     public String getConditionsName() {
         return conditionsName;
@@ -38,19 +29,20 @@ public class Condition extends BaseEntity{
         this.coefficient = coefficient;
     }
 
-    public boolean isResult() {
+    public Boolean getResult() {
         return result;
     }
 
-    public void setResult(boolean result) {
+    public void setResult(Boolean result) {
         this.result = result;
     }
 
     @Override
     public String toString() {
         return "Condition{" +
-                "coefficient=" + coefficient +
-                ", conditionsName='" + conditionsName + '\'' +
+                "conditionsName='" + conditionsName + '\'' +
+                ", coefficient=" + coefficient +
+                ", result=" + result +
                 '}';
     }
 }

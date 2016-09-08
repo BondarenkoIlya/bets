@@ -1,3 +1,4 @@
+<%@ tag pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ attribute name="role" required="true" rtexprvalue="true" type="java.lang.String" %>
@@ -22,9 +23,11 @@
 <c:url value="/do/home" var="home"/>
 <c:url value="/do/cabinet" var="cabinet"/>
 <c:url value="/do/bookmaker/home" var="bookmaker_home"/>
-<c:url value="/do/match/edit" var="match_editor"/>
+<c:url value="/do/matches/edit" var="matches_editor"/>
 <c:url value="/do/bets" var="bets"/>
-
+<c:url value="/do/locale?locale=en" var="en_locale_url"/>
+<c:url value="/do/locale?locale=ru" var="ru_locale_url"/>
+<c:url value="/images/noavatar.png" var="no_avatar" />
 
 <html>
 <head>
@@ -33,6 +36,8 @@
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
 </head>
 <body>
+<%--@elvariable id="loggedCustomer" type="com.epam.ilya.model.Customer"--%>
+<%--@elvariable id="bookmaker" type="com.epam.ilya.model.Person"--%>
 <div id="header">
     <div align="center" style="width: 1200px;margin: auto; color: #66afe9">
         <nav class="navbar navbar-inverse">
@@ -41,22 +46,40 @@
                     <c:if test="${role.equals('customer')}">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-2 col-lg-2"><a href="${home}">${home_inset}</a></div>
-                                <div class="col-md-2 col-lg-2"><a href="${cabinet}">${cabinet_inset}</a></div>
-                                <div class="col-md-2 col-lg-2"><a href="${bets}">${bets_inset}</a></div>
-                                <div class="col-md-2 col-lg-2"><a
+                                <div class="col-md-1 col-lg-1"><a href="${home}">${home_inset}</a></div>
+                                <div class="col-md-1 col-lg-1"><a href="${cabinet}">${cabinet_inset}</a></div>
+                                <div class="col-md-1 col-lg-1"><a href="${bets}">${bets_inset}</a></div>
+                                <div class="col-md-1 col-lg-1"><a
                                         href="<c:url value="/do/logout"/>">${logout}</a>
                                 </div>
-                                <div class="col-md-2 col-lg-2 "><a>
-                                    <ruby>${loggedCustomer.getFirstName()}
+                                <div class="col-md-2 col-lg-2 ">
+                                    <ruby>${loggedCustomer.firstName}
                                         <rt>${name}</rt>
                                     </ruby>
-                                </a></div>
-                                <div class="col-md-2 col-lg-2"><a>
-                                    <ruby>${loggedCustomer.getPersonsPurse().getBalance().getAmount().doubleValue()}
+                                </div>
+                                <div class="col-md-2 col-lg-2">
+                                    <c:if test="${not empty loggedCustomer.avatar}">
+                                        <img src="<c:url value="/image/avatar"/>" style="width: 50px;height: 80px"
+                                             class="img-responsive">
+                                    </c:if>
+                                    <c:if test="${empty loggedCustomer.avatar}">
+                                        <img src="${no_avatar}" style="width: 80px;height: 80px" class="img-responsive">
+                                    </c:if>
+                                </div>
+                                <div class="col-md-1 col-lg-1">
+                                    <ruby>${loggedCustomer.personsPurse.balance.getAmount().doubleValue()}
                                         <rt>${balance}</rt>
                                     </ruby>
-                                </a></div>
+                                </div>
+                                <div class="col-md-1 col-lg-1">
+                                    <form role="form" action="${en_locale_url}" method="post">
+                                        <input type="submit" class="button btn-link" value="English"/>
+                                    </form>
+                                    /
+                                    <form role="form" action="${ru_locale_url}" method="post">
+                                        <input type="submit" class="button btn-link" value="Русский"/>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </c:if>
@@ -65,25 +88,48 @@
                             <div class="row">
                                 <div class="col-md-2 col-lg-2"><a href="${bookmaker_home}">${bookmaker_home_inset}</a>
                                 </div>
-                                <div class="col-md-4 col-lg-4"><a href="${match_editor}">${match_editor_inset}</a></div>
+                                <div class="col-md-4 col-lg-4"><a href="${matches_editor}">${match_editor_inset}</a>
+                                </div>
                                 <div class="col-md-2 col-lg-2"><a
                                         href="<c:url value="/do/logout"/>">${logout}</a>
                                 </div>
-                                <div class="col-md-2 col-lg-2 "><a>
-                                    <ruby>${bookmaker.getFirstName()}
+                                <div class="col-md-2 col-lg-2 ">
+                                    <ruby>${bookmaker.firstName}
                                         <rt>${bookmaker_name}</rt>
                                     </ruby>
-                                </a></div>
-                                <div class="col-md-2 col-lg-2"><a>
-                                    <ruby>${bookmaker.getPersonsPurse().getBalance().getAmount().doubleValue()}
+                                </div>
+                                <div class="col-md-1 col-lg-1">
+                                    <ruby>${bookmaker.personsPurse.balance.getAmount().doubleValue()}
                                         <rt>${balance}</rt>
                                     </ruby>
-                                </a></div>
+                                </div>
+                                <div class=" col-md-1 col-lg-1">
+                                    <form role="form" action="${en_locale_url}" method="post">
+                                        <input type="submit" class="button btn-link" value="English"/>
+                                    </form>
+                                    /
+                                    <form role="form" action="${ru_locale_url}" method="post">
+                                        <input type="submit" class="button btn-link" value="Русский"/>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </c:if>
                     <c:if test="${role.equals('guest')}">
-                        <h3>${welcome}</h3>
+                        <div class="row">
+                            <div class="col-md-10 col-lg-10">
+                                <h3>${welcome}</h3>
+                            </div>
+                            <div class=" col-md-1 col-lg-1">
+                                <form role="form" action="${en_locale_url}" method="post">
+                                    <input type="submit" class="button btn-link" value="English"/>
+                                </form>
+                                /
+                                <form role="form" action="${ru_locale_url}" method="post">
+                                    <input type="submit" class="button btn-link" value="Русский"/>
+                                </form>
+                            </div>
+                        </div>
                     </c:if>
                     <c:if test="${role.equals('stepOne')}">
                         <h3>${step_one}</h3>

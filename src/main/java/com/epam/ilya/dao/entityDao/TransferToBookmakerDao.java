@@ -14,9 +14,8 @@ public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
 
     @Override
     public Transfer create(Transfer transfer) throws DaoException {
-        try {
+        try(PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             log.debug("Write transfer to database - {}", transfer);
-            PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS);
             if (transfer.getSender() == null) {
                 statement.setNull(1, Types.INTEGER);
             } else {
@@ -30,10 +29,9 @@ public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 transfer.setId(id);
-                log.debug("Set id - {} to transfer",id);
+                log.debug("Set id - {} to transfer", id);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for insert transfer", e);
         }

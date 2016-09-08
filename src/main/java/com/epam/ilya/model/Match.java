@@ -12,7 +12,7 @@ public class Match extends BaseEntity {
     private DateTime date;
     private String firstSidesName;
     private String secondSidesName;
-    private List<Condition> conditionList= new ArrayList<Condition>();
+    private List<Condition> conditionList = new ArrayList<Condition>();
 
     public Match() {
     }
@@ -25,10 +25,10 @@ public class Match extends BaseEntity {
         this.setSecondSidesName(nameOfSide2);
     }
 
-    public void setResults(String nameOfWinSide,int differenceInScore){
+    public void setResults(String nameOfWinSide, int differenceInScore) {
     }
 
-    public void setRandomResults(){
+    public void setRandomResults() {
     }
 
     public String getLeaguesName() {
@@ -79,11 +79,11 @@ public class Match extends BaseEntity {
         this.conditionList = conditionList;
     }
 
-    public void addCondition (Condition condition){
+    public void addCondition(Condition condition) {
         conditionList.add(condition);
     }
 
-    public void removeCondition (Condition condition){
+    public void removeCondition(Condition condition) {
         conditionList.remove(condition);
     }
 

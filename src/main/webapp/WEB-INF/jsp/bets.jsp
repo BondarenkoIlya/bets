@@ -77,10 +77,12 @@
                         <td>${bet.finalCoefficient}</td>
                         <td>
                             <c:if test="${bet.finalResult.equals(true)}">
-                                <p class="alert alert-success" style="width: 250px;height: auto">${win_message} ${bet.possibleGain.getAmount().doubleValue()}</p>
+                                <p class="alert alert-success"
+                                   style="width: 250px;height: auto">${win_message} ${bet.possibleGain.getAmount().doubleValue()}</p>
                             </c:if>
                             <c:if test="${bet.finalResult.equals(false)}">
-                                <p class="alert alert-warning" style="width: 250px;height: auto">${lose_message} ${bet.value.getAmount().doubleValue()}</p>
+                                <p class="alert alert-warning"
+                                   style="width: 250px;height: auto">${lose_message} ${bet.value.getAmount().doubleValue()}</p>
                             </c:if>
                         </td>
                     </tr>

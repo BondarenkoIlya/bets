@@ -35,19 +35,19 @@ public class ReplenishCustomersBalanceAction implements Action {
         try {
             customer = service.findById(id);
         } catch (ServiceException e) {
-            throw new ActionException("Cannot find customer by id",e);
+            throw new ActionException("Cannot find customer by id", e);
         }
 
         if (money.matches(properties.getProperty("notEmptyNumber.regex"))) {
             try {
-                service.transferMoney( Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)),customer);
+                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)), customer);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }
-            req.setAttribute("flash.add_message","success");
-        }else {
-            req.setAttribute("flash.add_massage","error");
+            req.setAttribute("flash.add_message", "success");
+        } else {
+            req.setAttribute("flash.add_massage", "error");
         }
-        return new ActionResult("bookmaker/home",true);
+        return new ActionResult("bookmaker/home", true);
     }
 }

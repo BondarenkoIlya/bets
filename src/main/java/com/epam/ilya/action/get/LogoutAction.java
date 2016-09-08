@@ -13,7 +13,17 @@ public class LogoutAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().invalidate();
-        return new ActionResult("welcome",true);
+        String role = req.getParameter("role");
+        req.getSession().removeAttribute("bookmaker");
+        req.getSession().removeAttribute("loggedCustomer");
+
+        if (role != null) {
+            if (role.equals("customer")) {
+                req.setAttribute("flash.authorizationError", "customer");
+            }else {
+                req.setAttribute("flash.authorizationError", "bookmaker");
+            }
+        }
+        return new ActionResult("welcome", true);
     }
 }

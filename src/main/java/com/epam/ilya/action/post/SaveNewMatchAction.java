@@ -18,10 +18,10 @@ public class SaveNewMatchAction implements com.epam.ilya.action.Action {
         try {
             service.completeMatchsCreation(match);
         } catch (ServiceException e) {
-            throw new ActionException("Cannot add conditions to match",e);
+            throw new ActionException("Cannot add conditions to match", e);
         }
         req.getSession(false).removeAttribute("match");
-        req.getSession(false).setAttribute("flash.successAddMatch",true);
-        return new ActionResult("/matches/edit",true);
+        req.getSession(false).setAttribute("flash.successAddMatch", true);
+        return new ActionResult("/matches/edit", true);
     }
 }

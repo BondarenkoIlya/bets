@@ -28,14 +28,14 @@ public class ReplenishBookmakersBalanceAction implements Action {
         if (parameter.matches(properties.getProperty("notEmptyNumber.regex"))) {
             Bookmaker bookmaker = (Bookmaker) req.getSession().getAttribute("bookmaker");
             try {
-                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)),bookmaker);
+                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)), bookmaker);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }
             req.getSession(false).setAttribute("bookmaker", bookmaker);
-            req.setAttribute("flash.message","success");
-        }else {
-            req.setAttribute("flash.massage","error");
+            req.setAttribute("flash.message", "success");
+        } else {
+            req.setAttribute("flash.massage", "error");
         }
         return new ActionResult("bookmaker/home", true);
     }

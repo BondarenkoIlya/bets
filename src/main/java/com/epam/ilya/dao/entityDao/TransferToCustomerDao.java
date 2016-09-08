@@ -6,22 +6,18 @@ import com.epam.ilya.model.Transfer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 
-public class TransferToCustomerDao extends Dao implements EntityDao<Transfer>{
+public class TransferToCustomerDao extends Dao implements EntityDao<Transfer> {
     static final Logger log = LoggerFactory.getLogger(TransferToBookmakerDao.class);
     private String INSERT_TRANSFER = "INSERT INTO transfers_to_customers VALUES (id,?,?,?,?)";
 
     @Override
     public Transfer create(Transfer transfer) throws DaoException {
-        try {
+        try(PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             log.debug("Write transfer to database - {}", transfer);
-            PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS);
             if (transfer.getSender() == null) {
-                statement.setInt(1, 0);
+                statement.setNull(1, Types.INTEGER);
             } else {
                 statement.setInt(1, transfer.getSender().getId());
             }
@@ -33,7 +29,7 @@ public class TransferToCustomerDao extends Dao implements EntityDao<Transfer>{
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 transfer.setId(id);
-                log.debug("Set id - {} to transfer",id);
+                log.debug("Set id - {} to transfer", id);
             }
             resultSet.close();
             statement.close();

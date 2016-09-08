@@ -9,13 +9,15 @@
     <fmt:message key="welcome.password" var="password"/>
     <fmt:message key="welcome.register" var="register"/>
     <fmt:message key="welcome.error" var="error"/>
+    <fmt:message key="welcome.error.authorizationError.customer" var="reloggin_customer_error_message"/>
+    <fmt:message key="welcome.error.authorizationError.bookmaker" var="reloggin_bookmaker_error_message"/>
 </fmt:bundle>
 
 <c:url var="login_url" value="/do/login"/>
 <c:url var="register_url" value="/do/register"/>
 
 <my:page-pattern role="guest">
-    <div>
+    <div class="container">
         <div class="col-lg-10 " align="center">
             <form role="form" action="${login_url}" method="POST">
                 <div class="form-group">
@@ -32,6 +34,12 @@
             <button type="button" class="btn btn-default"><a
                     href="${register_url}">${register}</a></button>
         </div>
+        <c:if test="${authorizationError.equals('customer')}">
+            <p class="alert alert-danger" style="width: 250px;height: auto">${reloggin_customer_error_message}</p>
+        </c:if>
+        <c:if test="${authorizationError.equals('bookmaker')}">
+            <p class="alert alert-danger" style="width: 250px;height: auto">${reloggin_bookmaker_error_message}</p>
+        </c:if>
     </div>
 </my:page-pattern>
 

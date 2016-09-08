@@ -21,7 +21,7 @@
 </fmt:bundle>
 <c:url value="/do/register" var="register_url"/>
 
-<my:page-pattern role="guest">
+<my:page-pattern role="stepOne">
     <div class="container">
             ${register}<br/>
         <form role="form" action="${register_url}" method="POST">

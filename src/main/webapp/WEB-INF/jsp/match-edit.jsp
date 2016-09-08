@@ -16,6 +16,7 @@
     <div class="container">
             ${edit_match}<br/>
             ${match.firstSidesName} ${against} ${match.secondSidesName}<br/>
+                вставить здесь условия
         <button type="button" class="btn btn-default"><a
                 href="${sum_up_result_of_match_url}">${sum_up_button}</a>
         </button>

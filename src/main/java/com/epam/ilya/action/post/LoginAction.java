@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Properties;
 
 public class LoginAction implements Action {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(LoginAction.class));
@@ -27,6 +29,17 @@ public class LoginAction implements Action {
         log.info("Get email- {} and password- {}", email, password);
         Person person;
         PersonService service = new PersonService();
+        Properties properties = new Properties();
+        try {
+            properties.load(LoginAction.class.getClassLoader().getResourceAsStream("validation.properties"));
+        } catch (IOException e) {
+            throw new ActionException("Cannot get properties", e);
+        }
+        if (!email.matches(properties.getProperty("email.regex")) || !password.matches(properties.getProperty("password.regex"))) {
+            req.setAttribute("loginError", "Invalid Login or Password");
+            log.info("Wrong login ({}) or password ({})", email, password);
+            return new ActionResult("welcome");
+        }
 
         try {
             person = service.performUserLogin(email, password);

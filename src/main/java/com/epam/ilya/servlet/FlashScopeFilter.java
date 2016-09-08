@@ -9,13 +9,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebFilter(filterName = "FlashScope" , urlPatterns = "/do/*" )
+@WebFilter(filterName = "FlashScope", urlPatterns = "/do/*")
 public class FlashScopeFilter implements Filter {
 
     private static final String FLASH_SESSION_KEY = "FLASH_SESSION_KEY";
 
     @SuppressWarnings("unchecked")
-    public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;

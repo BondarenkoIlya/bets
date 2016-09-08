@@ -1,9 +1,7 @@
 package com.epam.ilya.model;
 
-import java.io.InputStream;
-
 public class Customer extends Person {
-    public InputStream avatar;
+    private Avatar avatar;
 
     public Customer() {
 
@@ -14,11 +12,22 @@ public class Customer extends Person {
         setPersonsPurse(new CashAccount());
     }
 
-    public InputStream getAvatar() {
+    public Avatar getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(InputStream avatar) {
+    public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + getId() + '\'' +
+                "firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                "avatar=" + (avatar!=null) +
+                '}';
     }
 }

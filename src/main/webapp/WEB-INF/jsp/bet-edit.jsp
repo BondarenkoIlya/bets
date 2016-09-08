@@ -14,7 +14,7 @@
 </fmt:bundle>
 
 <my:page-pattern role="stepTwo">
-    <div>
+    <div class="container">
             ${bets_constructor}<br/>
         <h3>${bet_value} - ${bet.value.getAmount().doubleValue()}<br/></h3>
         <table class="table table-striped">

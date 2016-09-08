@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BookmakerDao extends Dao implements EntityDao<Bookmaker> {
-
+    private static String GET_BOOKMAKER_BY_EMAIL = "SELECT * FROM bookmakers WHERE email = ?";
+    private static String GET_BOOKMAKER_BY_EMAIL_PASSWORD = "SELECT * FROM bookmakers WHERE email=? AND  password=?";
 
     @Override
     public Bookmaker create(Bookmaker bookmaker) throws DaoException {
@@ -33,19 +34,17 @@ public class BookmakerDao extends Dao implements EntityDao<Bookmaker> {
 
     public Bookmaker getBookmaker(String email, String password) throws DaoException {
         Bookmaker bookmaker = null;
-        try {
-            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM bookmakers WHERE email=? AND  password=?");
-            statement.setString(1,email);
-            statement.setString(2,password);
+        try (PreparedStatement statement = getConnection().prepareStatement(GET_BOOKMAKER_BY_EMAIL_PASSWORD)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                bookmaker= pickBookmakerFromResultSet(resultSet);
+            while (resultSet.next()) {
+                bookmaker = pickBookmakerFromResultSet(resultSet);
             }
             resultSet.close();
-            statement.close();
             return bookmaker;
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding bookmaker",e);
+            throw new DaoException("Cannot create statement for finding bookmaker", e);
         }
     }
 
@@ -65,17 +64,15 @@ public class BookmakerDao extends Dao implements EntityDao<Bookmaker> {
 
     public Bookmaker getBookmaker(String email) throws DaoException {
         Bookmaker bookmaker = null;
-        try {
-            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM bookmakers WHERE email = ?");
-            statement.setString(1,email);
+        try (PreparedStatement statement = getConnection().prepareStatement(GET_BOOKMAKER_BY_EMAIL)) {
+            statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 bookmaker = pickBookmakerFromResultSet(resultSet);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding by email",e);
+            throw new DaoException("Cannot create statement for finding by email", e);
         }
         return bookmaker;
     }

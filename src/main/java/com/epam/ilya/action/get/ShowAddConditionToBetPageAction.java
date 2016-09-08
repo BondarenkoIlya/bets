@@ -19,9 +19,9 @@ public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Act
         try {
             matches = service.getAllActiveMatch();
         } catch (ServiceException e) {
-            throw new ActionException("Cannot get all matches",e);
+            throw new ActionException("Cannot get all matches", e);
         }
-        req.setAttribute("matches",matches);
+        req.setAttribute("matches", matches);
 
         return new ActionResult("bet-add-condition");
     }

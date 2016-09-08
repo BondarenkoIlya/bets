@@ -38,9 +38,9 @@ public class CreateEmptyBetAction implements Action {
                 bet.calculateFinalCoefficient();
                 bet.calculatePossibleGain();
                 try {
-                    service.registerCustomersBet(bet,loggedCustomer);
+                    service.registerCustomersBet(bet, loggedCustomer);
                 } catch (ServiceException e) {
-                    throw new ActionException("cannot register bet",e);
+                    throw new ActionException("cannot register bet", e);
                 }
                 req.getSession(false).setAttribute("bet", bet);
                 return new ActionResult("bet/edit", true);

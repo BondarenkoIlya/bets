@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class CreateEmptyMatchAction implements Action {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(CreateEmptyMatchAction.class));
-    boolean invalid=false;
+    boolean invalid = false;
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -33,17 +33,17 @@ public class CreateEmptyMatchAction implements Action {
         String eventsDate = req.getParameter("eventsDate");
         String firstSidesName = req.getParameter("firstSidesName");
         String secondSidesName = req.getParameter("secondSidesName");
-        log.debug("Parameters for creating new match {}, {}, {}, {}, {}",sportsName,leaguesName,eventsDate,firstSidesName,secondSidesName);
+        log.debug("Parameters for creating new match {}, {}, {}, {}, {}", sportsName, leaguesName, eventsDate, firstSidesName, secondSidesName);
         try {
             properties.load(CreateEmptyMatchAction.class.getClassLoader().getResourceAsStream("validation.properties"));
         } catch (IOException e) {
-            throw new ActionException("Cannot load validation properties",e);
+            throw new ActionException("Cannot load validation properties", e);
         }
-        checkParameterBeRegex(sportsName,"sportsName",properties.getProperty("notEmptyText.regex"),req);
-        checkParameterBeRegex(leaguesName,"leaguesName",properties.getProperty("notEmptyText.regex"),req);
-        checkParameterBeRegex(eventsDate,"eventsDate",properties.getProperty("dateTime.regex"),req);
-        checkParameterBeRegex(firstSidesName,"firstSidesName",properties.getProperty("notEmptyText.regex"),req);
-        checkParameterBeRegex(secondSidesName,"secondSidesName",properties.getProperty("notEmptyText.regex"),req);
+        checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("notEmptyText.regex"), req);
+        checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("notEmptyText.regex"), req);
+        checkParameterBeRegex(eventsDate, "eventsDate", properties.getProperty("dateTime.regex"), req);
+        checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("notEmptyText.regex"), req);
+        checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("notEmptyText.regex"), req);
 
 
         if (invalid) {
@@ -64,21 +64,21 @@ public class CreateEmptyMatchAction implements Action {
                 log.debug("Try to register match - {}");
                 registeredMatch = service.createEmptyMatch(match);
             } catch (ServiceException e) {
-                throw new ActionException("Cannot create empty match",e);
+                throw new ActionException("Cannot create empty match", e);
             }
-            req.getSession(false).setAttribute("match",registeredMatch);
-            return new ActionResult("match/new/edit",true);
+            req.getSession(false).setAttribute("match", registeredMatch);
+            return new ActionResult("match/new/edit", true);
         }
     }
 
-    private void checkParameterBeRegex(String parameter, String parameterName, String regex,HttpServletRequest req) {
-        log.debug("Check parameter '{}' with value '{}' by regex '{}'",parameterName,parameter,regex);
+    private void checkParameterBeRegex(String parameter, String parameterName, String regex, HttpServletRequest req) {
+        log.debug("Check parameter '{}' with value '{}' by regex '{}'", parameterName, parameter, regex);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(parameter);
-        if (!matcher.matches()){
-            log.debug("Parameter '{}' with value '{}' is unsuitable.",parameterName,parameter);
-            req.setAttribute(parameterName+"Error","true");
-            invalid=true;
+        if (!matcher.matches()) {
+            log.debug("Parameter '{}' with value '{}' is unsuitable.", parameterName, parameter);
+            req.setAttribute(parameterName + "Error", "true");
+            invalid = true;
         }
     }
 }

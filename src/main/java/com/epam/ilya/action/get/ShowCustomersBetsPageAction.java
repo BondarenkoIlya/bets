@@ -7,12 +7,16 @@ import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.BetService;
 import com.epam.ilya.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ShowCustomersBetsPageAction implements Action {
+    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowCustomersBetsPageAction.class));
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
@@ -22,13 +26,16 @@ public class ShowCustomersBetsPageAction implements Action {
         List<Bet> inactiveBets;
         try {
             activeBets = service.getAllActiveCustomersBets(loggedCustomer);
+            for (Bet bet: activeBets) {
+                log.debug("Active bet contain - {}",bet);
+            }
             inactiveBets = service.getAllInactiveCustomersBets(loggedCustomer);
         } catch (ServiceException e) {
-            throw new ActionException("Cannot get all active and inactive customer's bets",e);
+            throw new ActionException("Cannot get all active and inactive customer's bets", e);
         }
 
-        req.setAttribute("activeBets",activeBets);
-        req.setAttribute("inactiveBets",inactiveBets);
+        req.setAttribute("activeBets", activeBets);
+        req.setAttribute("inactiveBets", inactiveBets);
         return new ActionResult("bets");
     }
 }

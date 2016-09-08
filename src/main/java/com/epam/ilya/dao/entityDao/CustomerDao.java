@@ -2,7 +2,9 @@ package com.epam.ilya.dao.entityDao;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
+import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Customer;
+import com.epam.ilya.model.PaginatedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,23 +19,25 @@ import java.util.Map;
 public class CustomerDao extends Dao implements EntityDao<Customer> {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(CustomerDao.class));
     private String FIND_BY_ID = "SELECT * FROM customers WHERE id = ?";
-    private String UPDATE_CUSTOMER = "UPDATE customers SET first_name = ? , last_name = ? ,password=?, email = ?   WHERE id = ?";
+    private String UPDATE_CUSTOMER = "UPDATE customers SET first_name = ? , last_name = ? ,password=?, email = ? WHERE id = ?";
+    private String UPDATE_CUSTOMERS_AVATAR = "UPDATE customers SET avatar_id=?  WHERE id = ?";
     private String DELETE_CUSTOMER = "DELETE FROM customers WHERE id = ?";
-    private String INSERT_CUSTOMER = "Insert INTO customers VALUES (id,?,?,?,?,?,purse_id)";
-    private String FIND_BY_EMAIL_PASSWORD = "SELECT * FROM customers WHERE email=? AND password=?";
-    private String FIND_ALL = "SELECT * FROM customers";
-    private String FIND_BY_EMAIL = "SELECT * FROM customers WHERE email=?";
+    private String INSERT_CUSTOMER = "Insert INTO customers VALUES (id,?,?,?,?,?,?,NULL)";
+    private String FIND_ALL = "SELECT * FROM customers WHERE active = ?";
+    private String FIND_ALL_IN_RANGE = "SELECT * FROM customers WHERE active = ? LIMIT ?,?";
+    private String GET_BETS_CUSTOMER = "SELECT id, firstName, lastName, password, email FROM customers JOIN customers_bets ON customers.id=customers_bets.customer_id WHERE customers_bets.bets_id=?";
+    private String CUSTOMERS_COUNT = "SELECT COUNT (*) FROM customers";
 
 
     @Override
     public Customer create(Customer customer) throws DaoException {
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(INSERT_CUSTOMER, PreparedStatement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_CUSTOMER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getLastName());
             statement.setString(3, customer.getPassword());
             statement.setString(4, customer.getEmail());
-            statement.setBoolean(5,true);
+            statement.setBoolean(5, true);
+            statement.setInt(6, customer.getPersonsPurse().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             while (resultSet.next()) {
@@ -42,7 +46,6 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
                 customer.setId(id);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create customer in database", e);
         }
@@ -52,15 +55,13 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
     @Override
     public Customer findById(int id) throws DaoException {
         Customer customer = new Customer();
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 customer = pickCustomerFromResultSet(resultSet);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot find by id", e);
         }
@@ -69,17 +70,15 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
 
     @Override
     public void update(Customer customer) throws DaoException {
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(UPDATE_CUSTOMER);
+        try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_CUSTOMER)) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getLastName());
             statement.setString(3, customer.getPassword());
             statement.setString(4, customer.getEmail());
             statement.setInt(5, customer.getId());
             statement.execute();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for updating customer",e);
+            throw new DaoException("Cannot create statement for updating customer", e);
         }
 
 
@@ -87,56 +86,51 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
 
     @Override
     public void delete(Customer customer) throws DaoException {
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(DELETE_CUSTOMER);
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_CUSTOMER)) {
             statement.setInt(1, customer.getId());
             statement.execute();
-            statement.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for deleting customer",e);
+            throw new DaoException("Cannot create statement for deleting customer", e);
         }
     }
 
-    public List<Customer> getAllCustomers() throws DaoException {
+    public List<Customer> getAllActiveCustomers() throws DaoException {
         List<Customer> customers = new ArrayList<>();
-        try {
-            Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL)) {
+            statement.setBoolean(1,Dao.ACTIVE);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 customers.add(pickCustomerFromResultSet(resultSet));
             }
-            resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for finding all customers", e);
         }
         return customers;
     }
 
-    public Customer pickCustomerFromResultSet(ResultSet resultSet) throws DaoException {
-        Customer customer = new Customer();
-        try {
-            customer.setId(resultSet.getInt(1));
-            customer.setFirstName(resultSet.getString(2));
-            customer.setLastName(resultSet.getString(3));
-            customer.setEmail(resultSet.getString(5));
-            customer.setPassword(resultSet.getString(4));
+    public List<Customer> getAllActiveCustomers(int pageNumber, int pageSize) throws DaoException {
+        List<Customer> customers = new PaginatedList<>(pageNumber, pageSize);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL_IN_RANGE)) {
+            statement.setInt(1,((pageNumber-1)*pageSize));
+            statement.setInt(2,pageSize);//TODO already disabled error marker because expression (limit) make it active
+            statement.setBoolean(3,Dao.ACTIVE);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                customers.add(pickCustomerFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
-            throw new DaoException("Cannot create customer from resultSet", e);
+            throw new DaoException("Cannot create statement for finding all customers", e);
         }
-        return customer;
+        return customers;
     }
 
     public List<Customer> findByParameters(Map<String, String> parameters) throws DaoException {
         List<Customer> customers = new ArrayList<>();
-        try {
-            Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(createQuery(parameters));
+        try (Statement statement = getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(createQuery(parameters))) {
             while (resultSet.next()) {
                 customers.add(pickCustomerFromResultSet(resultSet));
             }
-            resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for finding by parameters", e);
         }
@@ -156,6 +150,57 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
             }
         }
         return query.substring(0, query.length() - 5);
+    }
+
+    public Customer getBetsCustomer(Bet bet) throws DaoException {
+        Customer customer = null;
+        try (PreparedStatement statement = getConnection().prepareStatement(GET_BETS_CUSTOMER)) {
+            statement.setInt(1, bet.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                customer = pickCustomerFromResultSet(resultSet);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for getting customer by bet", e);
+        }
+        return customer;
+    }
+
+    public Customer pickCustomerFromResultSet(ResultSet resultSet) throws DaoException {
+        Customer customer = new Customer();
+        try {
+            customer.setId(resultSet.getInt(1));
+            customer.setFirstName(resultSet.getString(2));
+            customer.setLastName(resultSet.getString(3));
+            customer.setPassword(resultSet.getString(4));
+            customer.setEmail(resultSet.getString(5));
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create customer from resultSet", e);
+        }
+        return customer;
+    }
+
+    public void updateAvatar(Customer customer) throws DaoException {
+        try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_CUSTOMERS_AVATAR)) {
+            statement.setInt(1, customer.getAvatar().getId());
+            statement.setInt(2, customer.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for updating customer", e);
+        }
+    }
+
+    public int getCustomersCount() throws DaoException {
+        int count;
+        try(Statement statement= getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(CUSTOMERS_COUNT)) {
+            resultSet.next();
+            count = resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for counting customers",e);
+        }
+        return count;
     }
 }
 

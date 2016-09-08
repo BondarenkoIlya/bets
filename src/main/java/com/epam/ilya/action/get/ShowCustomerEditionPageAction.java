@@ -22,11 +22,11 @@ public class ShowCustomerEditionPageAction implements Action {
         Customer customer;
         try {
             customer = service.findById(id);
-            log.info("Get current customer - {} with purse - {}",customer,customer.getPersonsPurse());
+            log.info("Get current customer - {} with purse - {}", customer, customer.getPersonsPurse());
         } catch (ServiceException e) {
-            throw new ActionException("Cannot find by id",e);
+            throw new ActionException("Cannot find by id", e);
         }
-        req.setAttribute("customer",customer);
+        req.setAttribute("customer", customer);
         return new ActionResult("customer-edit");
     }
 }

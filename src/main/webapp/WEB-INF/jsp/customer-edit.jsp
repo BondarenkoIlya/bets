@@ -16,13 +16,22 @@
 
 </fmt:bundle>
 
-<c:url var="add_to_customer_balance_url" value="/do/replenish/customer"/>
-<c:url var="back_url" value="/do/bookmaker-home"/>
-
+<c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
+<c:url var="back_url" value="/do/bookmaker/home"/>
+<c:url var="no_avatar" value="/images/noavatar.png"/>
+<%--@elvariable id="customer" type="com.epam.ilya.model.Customer"--%>
 <my:page-pattern role="bookmaker">
-    <div>
+    <div class="container">
             ${customer_edition}<br/>
             ${customer_edition_name}-${customer.firstName} ${customer.lastName}<br/>
+
+        <c:if test="${ not empty customer.avatar}">
+            <img src="<c:url value="/image/avatar?customer_id=${customer.id}"/>" style="width: 250px;height: 380px"
+                 class="img-responsive">
+        </c:if>
+        <c:if test="${empty customer.avatar}">
+            <img src="${no_avatar}" class="img-responsive">
+        </c:if>
             ${customer_edition_balance} - ${customer.personsPurse.balance.getAmount().doubleValue()}<br/>
 
         <form role="form" action="${add_to_customer_balance_url}" method="post">
