@@ -1,5 +1,6 @@
 package com.epam.ilya.servlet;
 
+import com.epam.ilya.model.Avatar;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
@@ -32,10 +33,19 @@ public class ImageServlet extends HttpServlet {
         InputStream avatarStream;
         if (loggedCustomer != null) {
             log.debug("Get customer - {} from session to show avatar", loggedCustomer);
-            avatarStream = loggedCustomer.getAvatar().getPicture();
+
+
+
+            try {
+                Avatar avatar = service.getCustomersAvatar(loggedCustomer);
+                avatarStream = avatar.getPicture();
+            } catch (ServiceException e) {
+                throw new ServletException("Cannot get customers avatar",e);
+            }
+
         } else {
             String customer_id = req.getParameter("customer_id");
-            Customer customer = null;
+            Customer customer;
             try {
                 customer = service.findById(customer_id);
             } catch (ServiceException e) {
@@ -57,4 +67,6 @@ public class ImageServlet extends HttpServlet {
             }
         }
     }
+
+
 }

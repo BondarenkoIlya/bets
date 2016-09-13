@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<fmt:bundle basename="i18n">
-    <fmt:message key="avatar.upload.button" var="upload_button"/>
-    <fmt:message key="avatar.upload" var="upload"/>
-</fmt:bundle>
 
 <c:url value="/do/avatar/upload" var="avatar_upload_url"/>
 
-<my:page-pattern role="stetTwo">
+<my:page-pattern role="stepTwo">
+    <fmt:message key="avatar.upload.button" var="upload_button"/>
+    <fmt:message key="avatar.upload" var="upload"/>
 <div class="container">
     ${upload}
 

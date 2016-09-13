@@ -16,13 +16,16 @@
     <fmt:message key="customer.bets.result" var="result"/>
     <fmt:message key="customer.bets.message.win" var="win_message"/>
     <fmt:message key="customer.bets.message.lose" var="lose_message"/>
-    <c:if test="${create_bet_successfully.equals('true')}">
-        <p class="alert alert-info"
-           style="width: auto;height: auto">${new_bet_message}</p>
-    </c:if>
-    <h3>${bets_edit}</h3>
     <div class="container">
-        <h2>${active_bets}</h2>
+        <c:if test="${create_bet_successfully.equals('true')}">
+            <p class="alert alert-info"
+               style="width: auto;height: auto">${new_bet_message}</p>
+        </c:if>
+        <h3>${bets_edit}</h3>
+        <ul class="nav nav-tabs">
+            <li class="active">${active_bets}</li>
+            <li><a href="<c:url value="/do/bets/inactive"/>">${inactive_bets}</a></li>
+        </ul>
         <div class="row">
             <table class="table table-striped">
                 <thead>
@@ -50,42 +53,8 @@
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
-        <h2>${inactive_bets}</h2>
-        <div class="row">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>${value}</th>
-                    <th>${bets_conditions}</th>
-                    <th>${final_coefficient}</th>
-                    <th>${result}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${inactiveBets}" var="bet">
-                    <tr>
-                        <td>${bet.value.getAmount().doubleValue()}</td>
-                        <td>
-                            <c:forEach items="${bet.conditions}" var="condition">
-                                ${condition.conditionsName} ${condition.coefficient} ${condition.result}<br/>
-                            </c:forEach>
-                        </td>
-                        <td>${bet.finalCoefficient}</td>
-                        <td>
-                            <c:if test="${bet.finalResult.equals(true)}">
-                                <p class="alert alert-success"
-                                   style="width: 250px;height: auto">${win_message} ${bet.possibleGain.getAmount().doubleValue()}</p>
-                            </c:if>
-                            <c:if test="${bet.finalResult.equals(false)}">
-                                <p class="alert alert-warning"
-                                   style="width: 250px;height: auto">${lose_message} ${bet.value.getAmount().doubleValue()}</p>
-                            </c:if>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <my:pagination pageNumber="${activeBets.getPageNumber()}" pageCount="${activeBets.getPageCount()}"
+                           url="/do/bets/active"/>
         </div>
     </div>
 </my:page-pattern>

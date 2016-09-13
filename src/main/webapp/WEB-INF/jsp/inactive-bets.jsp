@@ -16,42 +16,13 @@
     <fmt:message key="customer.bets.result" var="result"/>
     <fmt:message key="customer.bets.message.win" var="win_message"/>
     <fmt:message key="customer.bets.message.lose" var="lose_message"/>
-    <c:if test="${create_bet_successfully.equals('true')}">
-        <p class="alert alert-info"
-           style="width: auto;height: auto">${new_bet_message}</p>
-    </c:if>
-    <h3>${bets_edit}</h3>
+
     <div class="container">
-        <h2>${active_bets}</h2>
-        <div class="row">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>${value}</th>
-                    <th>${possible_gain}</th>
-                    <th>${bets_conditions}</th>
-                    <th>${final_coefficient}</th>
-                    <th>${date}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${activeBets}" var="bet">
-                    <tr>
-                        <td>${bet.value.getAmount().doubleValue()}</td>
-                        <td>${bet.possibleGain.getAmount().doubleValue()}</td>
-                        <td>
-                            <c:forEach items="${bet.conditions}" var="condition">
-                                ${condition.conditionsName} ${condition.coefficient}<br/>
-                            </c:forEach>
-                        </td>
-                        <td>${bet.finalCoefficient}</td>
-                        <td>${bet.date}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <h2>${inactive_bets}</h2>
+        <h3>${bets_edit}</h3>
+        <ul class="nav nav-tabs">
+            <li><a href="<c:url value="/do/bets/active"/>">${active_bets}</a></li>
+            <li class="active">${inactive_bets}</li>
+        </ul>
         <div class="row">
             <table class="table table-striped">
                 <thead>
@@ -86,6 +57,8 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <my:pagination pageNumber="${inactiveBets.getPageNumber()}" pageCount="${inactiveBets.getPageCount()}"
+                           url="/do/bets/inactive"/>
         </div>
     </div>
 </my:page-pattern>

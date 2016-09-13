@@ -24,12 +24,14 @@ public class ShowBookmakerHomePageAction implements Action {
         int pageSize=5;
         int pageNumber;
         if (pageNumberParam==null){
+            log.debug("Do not get page number parameter. Set page number 1");
             pageNumber = 1;
         }else {
             pageNumber = Integer.parseInt(pageNumberParam);
         }
         try {
-            customers = (PaginatedList<Customer>) service.getAllCustomers(pageNumber,pageSize);
+            customers = service.getAllCustomers(pageNumber,pageSize);
+            log.debug("Get customers paginated list with {} page numbers of {} pages at all and {} page size ",customers.getPageNumber(),customers.getPageCount(),customers.getPageSize());
         } catch (ServiceException e) {
             throw new ActionException("Cannot get customers list in action", e);
         }

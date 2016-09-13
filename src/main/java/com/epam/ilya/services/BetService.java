@@ -16,7 +16,7 @@ import java.util.List;
 
 public class BetService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(BetService.class));
-    private DaoFactory daoFactory = new DaoFactory();
+    private DaoFactory daoFactory;
 
     public Bet registerCustomersBet(Bet bet, Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -40,29 +40,32 @@ public class BetService {
             for (Condition condition : bet.getConditions()) {
                 betDao.addConditionToBet(condition, bet);
             }
-            betDao.setStatus(bet, Dao.ACTIVE);
-
             daoFactory.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("Cannot get dao for complete bet", e);
         }
     }
 
-    public List<Bet> getAllActiveCustomersBets(Customer customer) throws ServiceException {
-        return getAllCustomersBets(customer, Dao.ACTIVE);
+    public PaginatedList<Bet> getAllActiveCustomersBets(Customer customer, int pageNumber, int pageSize) throws ServiceException {
+        return getAllCustomersBets(customer, Dao.ACTIVE, pageNumber, pageSize);
     }
 
-    public List<Bet> getAllInactiveCustomersBets(Customer customer) throws ServiceException {
-        return getAllCustomersBets(customer, Dao.INACTIVE);
+    public PaginatedList<Bet> getAllInactiveCustomersBets(Customer customer, int pageNumber, int pageSize) throws ServiceException {
+        return getAllCustomersBets(customer, Dao.INACTIVE,pageNumber, pageSize);
     }
 
-    private List<Bet> getAllCustomersBets(Customer customer, boolean status) throws ServiceException {
-        List<Bet> bets;
+    private PaginatedList<Bet> getAllCustomersBets(Customer customer, boolean status, int pageNumber, int pageSize) throws ServiceException {
+        PaginatedList<Bet> bets;
         try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
             ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
             daoFactory.startTransaction();
-            bets = betDao.getAllCustomersBets(status, customer);
+            bets = betDao.getAllCustomersBets(status, customer,pageNumber, pageSize);
+            int betsCount = betDao.getBetsCount(status,customer);
+            log.debug("{} bets at all", betsCount);
+            int pageCount = countUpPages(pageSize, betsCount);
+            log.debug("{} pages by {} bets on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
+            bets.setPageCount(pageCount);
             if (!bets.isEmpty()) {
                 for (Bet bet : bets) {
                     log.debug("Found bet - {}", bet);
@@ -76,6 +79,16 @@ public class BetService {
             throw new ServiceException("Cannot get dao for getting all bets", e);
         }
         return bets;
+    }
+
+    private int countUpPages(int pageSize, int customersCount) {
+        int pageCount;
+        if (customersCount % pageSize == 0) {
+            pageCount = customersCount / pageSize;
+        } else {
+            pageCount = (customersCount / pageSize) + 1;
+        }
+        return pageCount;
     }
 
     public List<Bet> sumUpBetsResultByFinishedMatch(Match match) throws ServiceException {
@@ -92,7 +105,6 @@ public class BetService {
                             playedBets.add(bet);
                             bet.setFinalResult(condition.getResult());
                             betDao.update(bet);
-                            betDao.setStatus(bet, Dao.INACTIVE);
                         } else {
                             boolean completeBet = true;
                             boolean betsResult = true;
@@ -109,7 +121,6 @@ public class BetService {
                                 playedBets.add(bet);
                                 bet.setFinalResult(betsResult);
                                 betDao.update(bet);
-                                betDao.setStatus(bet, Dao.INACTIVE);
                             }
                         }
                     }

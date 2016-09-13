@@ -5,6 +5,7 @@ import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Condition;
 import com.epam.ilya.model.Customer;
+import com.epam.ilya.model.PaginatedList;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -18,12 +19,14 @@ import java.util.List;
 public class BetDao extends Dao implements EntityDao<Bet> {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(BetDao.class));
     private String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
-    private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?,FALSE)";
+    private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
     private String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
-    private String BETS_STATUS = "update bets set  active = ?  where id=?";
     private String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
-    private String GET_CUSTOMERS_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE active=? AND customer_id=?";
+    private String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? limit ?,?";
+    private String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? limit ?,?";
     private String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
+    private String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
+    private String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";
 
     @Override
     public Bet create(Bet bet) throws DaoException {
@@ -56,9 +59,9 @@ public class BetDao extends Dao implements EntityDao<Bet> {
         try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_BET)) {
             statement.setDouble(1, bet.getPossibleGain().getAmount().doubleValue());
             statement.setDouble(2, bet.getFinalCoefficient());
-            if (bet.getFinalResult()!=null){
+            if (bet.getFinalResult() != null) {
                 statement.setBoolean(3, bet.getFinalResult());
-            }else {
+            } else {
                 statement.setNull(3, Types.BOOLEAN);
             }
             statement.setInt(4, bet.getId());
@@ -79,7 +82,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             statement.setInt(2, bet.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create stetement for adding bet to customer", e);
+            throw new DaoException("Cannot create statement for adding bet to customer", e);
         }
     }
 
@@ -93,22 +96,18 @@ public class BetDao extends Dao implements EntityDao<Bet> {
         }
     }
 
-    public void setStatus(Bet bet, boolean status) throws DaoException {
-        try (PreparedStatement statement = getConnection().prepareStatement(BETS_STATUS)) {
-            statement.setBoolean(1, status);
-            statement.setInt(2, bet.getId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for baking bet active", e);
+    public PaginatedList<Bet> getAllCustomersBets(boolean status, Customer customer, int pageNumber, int pageSize) throws DaoException {
+        PaginatedList<Bet> bets = new PaginatedList<>(pageNumber, pageSize);
+        String query;
+        if (status) {
+            query = GET_CUSTOMERS_ACTIVE_BETS;
+        } else {
+            query = GET_CUSTOMERS_INACTIVE_BETS;
         }
-    }
-
-
-    public List<Bet> getAllCustomersBets(boolean status, Customer customer) throws DaoException {
-        List<Bet> bets = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(GET_CUSTOMERS_BETS)) {
-            statement.setBoolean(1, status);
-            statement.setInt(2, customer.getId());
+        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+            statement.setInt(1, customer.getId());
+            statement.setInt(2, ((pageNumber - 1) * pageSize));
+            statement.setInt(3, pageSize);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Bet bet = pickBetFromResultSet(resultSet);
@@ -118,7 +117,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for getting customer's bets", e);
         }
-        log.debug("Bets size",bets.size());
+        log.debug("Bets size", bets.size());
         return bets;
     }
 
@@ -129,7 +128,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Bet bet = pickBetFromResultSet(resultSet);
-                log.debug("Pick bet from result set - {}",bet);
+                log.debug("Pick bet from result set - {}", bet);
                 bets.add(bet);
                 log.debug("Add to bets");
             }
@@ -147,8 +146,8 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             bet.setValue(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble(2)));
             bet.setPossibleGain(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble(3)));
             bet.setFinalCoefficient(resultSet.getDouble(4));
-            bet.setFinalResult(resultSet.getBoolean(5));// как получить null
-            if (resultSet.wasNull()){
+            bet.setFinalResult(resultSet.getBoolean(5));
+            if (resultSet.wasNull()) {
                 bet.setFinalResult(null);
             }
             bet.setDate(new DateTime(resultSet.getTimestamp(6)));
@@ -156,5 +155,26 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             throw new DaoException("Cannot pick bet from result set", e);
         }
         return bet;
+    }
+
+    public int getBetsCount(boolean status, Customer customer) throws DaoException {
+        int count = 0;
+        String query;
+        if (status) {
+            query = ACTIVE_BET_COUNT;
+        } else {
+            query = INACTIVE_BET_COUNT;
+        }
+        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+            statement.setInt(1,customer.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for counting bets", e);
+        }
+        return count;
     }
 }

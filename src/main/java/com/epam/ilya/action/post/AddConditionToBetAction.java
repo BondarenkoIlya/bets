@@ -21,7 +21,7 @@ public class AddConditionToBetAction implements com.epam.ilya.action.Action {
         String id = req.getParameter("conditionId");
         log.debug("Condition's id - {}",id);
 
-        Condition condition = null;
+        Condition condition;
         try {
             condition = service.getConditionById(id);
             log.debug("Get condition - {} by id",condition);

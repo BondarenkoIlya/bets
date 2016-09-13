@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
-<fmt:bundle basename="i18n">
+
+<my:page-pattern role="stepTwo">
     <fmt:message key="customer.bet.edit" var="bets_constructor"/>
     <fmt:message key="customer.bet.edit.value" var="bet_value"/>
     <fmt:message key="customer.bet.edit.condition" var="conditions_name"/>
@@ -11,9 +12,6 @@
     <fmt:message key="customer.bet.edit.possible.gain" var="bet_possible_gain"/>
     <fmt:message key="customer.bet.edit.add.condition.button" var="add_condition_button"/>
     <fmt:message key="customer.bet.edit.submit.button" var="submit_button"/>
-</fmt:bundle>
-
-<my:page-pattern role="stepTwo">
     <div class="container">
             ${bets_constructor}<br/>
         <h3>${bet_value} - ${bet.value.getAmount().doubleValue()}<br/></h3>

@@ -26,7 +26,7 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
     private String FIND_ALL = "SELECT * FROM customers WHERE active = ?";
     private String FIND_ALL_IN_RANGE = "SELECT * FROM customers WHERE active = ? LIMIT ?,?";
     private String GET_BETS_CUSTOMER = "SELECT id, firstName, lastName, password, email FROM customers JOIN customers_bets ON customers.id=customers_bets.customer_id WHERE customers_bets.bets_id=?";
-    private String CUSTOMERS_COUNT = "SELECT COUNT (*) FROM customers";
+    private String CUSTOMERS_COUNT = "SELECT count(*) FROM bets.customers where active =1";
 
 
     @Override
@@ -94,26 +94,12 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
         }
     }
 
-    public List<Customer> getAllActiveCustomers() throws DaoException {
-        List<Customer> customers = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL)) {
-            statement.setBoolean(1,Dao.ACTIVE);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                customers.add(pickCustomerFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding all customers", e);
-        }
-        return customers;
-    }
-
     public List<Customer> getAllActiveCustomers(int pageNumber, int pageSize) throws DaoException {
         List<Customer> customers = new PaginatedList<>(pageNumber, pageSize);
         try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL_IN_RANGE)) {
-            statement.setInt(1,((pageNumber-1)*pageSize));
-            statement.setInt(2,pageSize);//TODO already disabled error marker because expression (limit) make it active
-            statement.setBoolean(3,Dao.ACTIVE);
+            statement.setBoolean(1,Dao.ACTIVE);
+            statement.setInt(2,((pageNumber-1)*pageSize));
+            statement.setInt(3,pageSize);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 customers.add(pickCustomerFromResultSet(resultSet));
@@ -192,11 +178,13 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
     }
 
     public int getCustomersCount() throws DaoException {
-        int count;
-        try(Statement statement= getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(CUSTOMERS_COUNT)) {
-            resultSet.next();
-            count = resultSet.getInt(1);
+        int count = 0;
+        try(Statement statement= getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(CUSTOMERS_COUNT);
+            while (resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+            resultSet.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for counting customers",e);
         }

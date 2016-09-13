@@ -2,16 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
-<fmt:bundle basename="i18n">
+
+<my:page-pattern role="stepTwo">
     <fmt:message key="bookmaker.match.add.condition" var="add_conditions"/>
     <fmt:message key="bookmaker.match.add.condition.name" var="conditions_name"/>
     <fmt:message key="bookmaker.match.add.condition.coefficient" var="coefficient"/>
     <fmt:message key="bookmaker.match.add.condition.delete.button" var="delete_condition_button"/>
     <fmt:message key="bookmaker.match.add.condition.new.button" var="create_new_condition_button"/>
     <fmt:message key="bookmaker.match.submit.button" var="submit_button"/>
-</fmt:bundle>
-
-<my:page-pattern role="stepTwo">
     <div>
         <h3>${add_conditions}</h3>
 

@@ -7,6 +7,7 @@ import com.epam.ilya.model.Avatar;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +25,11 @@ public class UploadAvatarAction implements Action {
         Customer customer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         PersonService service = new PersonService();
         try {
-            Part avatar = req.getPart("avatar");// как валидируется эта штука
+            Part avatar = req.getPart("avatar");//TODO как валидируется эта штука
             if (avatar!=null){
                 Avatar avatarPic = new Avatar();
                 avatarPic.setPicture(avatar.getInputStream());
+                avatarPic.setCreationDate(DateTime.now());
                 service.setAvatarToCustomer(avatarPic,customer);
                 req.getSession(false).setAttribute("loggedCustomer",customer);
             }
@@ -36,6 +38,7 @@ public class UploadAvatarAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Cannot set Avatar to customer",e);
         }
+
 
 
         req.setAttribute("flash.registerMessage", "success");

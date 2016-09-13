@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
+<my:page-pattern role="guest">
 
-<fmt:bundle basename="i18n">
     <fmt:message key="welcome.login" var="login"/>
     <fmt:message key="welcome.login.button" var="loginButton"/>
     <fmt:message key="welcome.password" var="password"/>
@@ -11,12 +11,11 @@
     <fmt:message key="welcome.error" var="error"/>
     <fmt:message key="welcome.error.authorizationError.customer" var="reloggin_customer_error_message"/>
     <fmt:message key="welcome.error.authorizationError.bookmaker" var="reloggin_bookmaker_error_message"/>
-</fmt:bundle>
 
-<c:url var="login_url" value="/do/login"/>
-<c:url var="register_url" value="/do/register"/>
 
-<my:page-pattern role="guest">
+    <c:url var="login_url" value="/do/login"/>
+    <c:url var="register_url" value="/do/register"/>
+
     <div class="container">
         <div class="col-lg-10 " align="center">
             <form role="form" action="${login_url}" method="POST">

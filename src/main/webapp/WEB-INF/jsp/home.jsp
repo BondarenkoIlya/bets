@@ -3,8 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
+<c:url value="/do/bet/create" var="create_bet_url"/>
 
-<fmt:bundle basename="i18n">
+<my:page-pattern role="customer">
     <fmt:message key="customer.home.create.bet.button" var="create_bet_button"/>
     <fmt:message key="customer.home.success.register.message" var="success_register_message"/>
     <fmt:message key="customer.home.matches.table" var="matches_table"/>
@@ -13,10 +14,6 @@
     <fmt:message key="customer.home.matches.league" var="league"/>
     <fmt:message key="customer.home.matches.side.first" var="first_side"/>
     <fmt:message key="customer.home.matches.side.second" var="second_side"/>
-</fmt:bundle>
-<c:url value="/do/bet/create" var="create_bet_url"/>
-
-<my:page-pattern role="customer">
     <div>
         <div class="container">
             <c:if test="${not empty registerMessage}">
@@ -47,6 +44,8 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <my:pagination pageNumber="${matches.getPageNumber()}" pageCount="${matches.getPageCount()}"
+                                   url="/do/home"/>
                 </div>
                 <button type="button" class="btn btn-default"><a
                         href="${create_bet_url}">${create_bet_button}</a></button>

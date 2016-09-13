@@ -3,7 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
-<fmt:bundle basename="i18n">
+<c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
+<c:url var="back_url" value="/do/bookmaker/home"/>
+<c:url var="no_avatar" value="/images/noavatar.png"/>
+
+<%--@elvariable id="customer" type="com.epam.ilya.model.Customer"--%>
+
+<my:page-pattern role="bookmaker">
     <fmt:message key="bookmaker.customer.edit" var="customer_edition"/>
     <fmt:message key="bookmaker.customer.edit.name" var="customer_edition_name"/>
     <fmt:message key="bookmaker.customer.edit.balance" var="customer_edition_balance"/>
@@ -13,20 +19,12 @@
     <fmt:message key="bookmaker.home.back.button" var="back_button"/>
     <fmt:message key="bookmaker.home.customers.replenish.success.message" var="replenish_success_masage"/>
     <fmt:message key="bookmaker.home.customers.replenish.error.message" var="replenish_error_masage"/>
-
-</fmt:bundle>
-
-<c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
-<c:url var="back_url" value="/do/bookmaker/home"/>
-<c:url var="no_avatar" value="/images/noavatar.png"/>
-<%--@elvariable id="customer" type="com.epam.ilya.model.Customer"--%>
-<my:page-pattern role="bookmaker">
     <div class="container">
             ${customer_edition}<br/>
             ${customer_edition_name}-${customer.firstName} ${customer.lastName}<br/>
 
         <c:if test="${ not empty customer.avatar}">
-            <img src="<c:url value="/image/avatar?customer_id=${customer.id}"/>" style="width: 250px;height: 380px"
+            <img src="<c:url value="/image/avatar?customer_id=${customer.id}"/>" style="width: auto;height: 250px"
                  class="img-responsive">
         </c:if>
         <c:if test="${empty customer.avatar}">

@@ -22,6 +22,6 @@ public class SaveNewMatchAction implements com.epam.ilya.action.Action {
         }
         req.getSession(false).removeAttribute("match");
         req.getSession(false).setAttribute("flash.successAddMatch", true);
-        return new ActionResult("/matches/edit", true);
+        return new ActionResult("/matches/edit/active", true);
     }
 }

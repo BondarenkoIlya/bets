@@ -3,7 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
-<fmt:bundle basename="i18n">
+<c:url value="/do/match/create" var="new_match_url"/>
+
+<my:page-pattern role="stepOne">
     <fmt:message key="bookmaker.match.create" var="match_creation"/>
     <fmt:message key="bookmaker.match.new.next.button" var="next_step_button"/>
     <fmt:message key="bookmaker.match.new.sportsName" var="sportsName"/>
@@ -12,11 +14,7 @@
     <fmt:message key="bookmaker.match.new.firstSidesName" var="firstSidesName"/>
     <fmt:message key="bookmaker.match.new.secondSidesName" var="secondSidesName"/>
     <fmt:message key="bookmaker.match.new.eventsDate.example" var="example"/>
-</fmt:bundle>
 
-<c:url value="/do/match/create" var="new_match_url"/>
-
-<my:page-pattern role="stepOne">
     <div class="container">
             ${match_creation}
         <form role="form" action="${new_match_url}" method="POST">

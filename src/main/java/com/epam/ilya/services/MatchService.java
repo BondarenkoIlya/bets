@@ -7,31 +7,37 @@ import com.epam.ilya.dao.entityDao.ConditionDao;
 import com.epam.ilya.dao.entityDao.MatchDao;
 import com.epam.ilya.model.Condition;
 import com.epam.ilya.model.Match;
+import com.epam.ilya.model.PaginatedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MatchService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(MatchService.class));
+    DaoFactory daoFactory;
 
-    public List<Match> getAllActiveMatch() throws ServiceException {
-        return getAllMatch(Dao.ACTIVE);
+    public PaginatedList<Match> getAllActiveMatch(int pageNumber, int pageSize) throws ServiceException {
+        return getAllMatch(Dao.ACTIVE,pageNumber, pageSize);
     }
 
-    public List<Match> getAllInactiveMatch() throws ServiceException {
-        return getAllMatch(Dao.INACTIVE);
+    public PaginatedList<Match> getAllInactiveMatch(int pageNumber, int pageSize) throws ServiceException {
+        return getAllMatch(Dao.INACTIVE,pageNumber, pageSize);
     }
 
-    public List<Match> getAllMatch(boolean status) throws ServiceException {//как доставать соответствующие кондишены
-        List<Match> matches = new ArrayList<>();
+    public PaginatedList<Match> getAllMatch(boolean status,int pageNumber, int pageSize) throws ServiceException {//как доставать соответствующие кондишены
+        PaginatedList<Match> matches;
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
                 MatchDao matchDao = daoFactory.getDao(MatchDao.class);
                 ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
                 daoFactory.startTransaction();
-                matches = matchDao.getAllMatches(status);
+                matches = matchDao.getAllMatches(status,pageNumber, pageSize);
+                int matchesCount = matchDao.getMatchCount(status);
+                log.debug("{} matches at all", matchesCount);
+                int pageCount = countUpPages(pageSize, matchesCount);
+                log.debug("{} pages by {} matches on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
+                matches.setPageCount(pageCount);
                 for (Match match : matches) {
                     List<Condition> conditions = conditionDao.getMatchsConditions(match);
                     match.setConditionList(conditions);
@@ -39,11 +45,22 @@ public class MatchService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot get all match",e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao for matches", e);
         }
         return matches;
+    }
+
+    private int countUpPages(int pageSize, int matchesCount) {
+        int pageCount;
+        if (matchesCount % pageSize == 0) {
+            pageCount = matchesCount / pageSize;
+        } else {
+            pageCount = (matchesCount / pageSize) + 1;
+        }
+        return pageCount;
     }
 
     public Match createEmptyMatch(Match match) throws ServiceException {
@@ -101,6 +118,7 @@ public class MatchService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot get match by id",e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot get dao for finding match by id", e);

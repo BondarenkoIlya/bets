@@ -19,7 +19,8 @@ public class ActionFactory {
         actions.put("GET/bookmaker/home", new ShowBookmakerHomePageAction());
         actions.put("GET/customer/edit", new ShowCustomerEditionPageAction());
         //Bookmaker's operations with match
-        actions.put("GET/matches/edit", new ShowMatchesEditionPageAction());
+        actions.put("GET/matches/edit/active", new ShowActiveMatchesEditionPageAction());
+        actions.put("GET/matches/edit/inactive", new ShowInactiveMatchesEditionPageAction());
         actions.put("GET/match/create", new ShowPageAction("create-match"));
         actions.put("GET/match/new/edit", new ShowPageAction("new-match-edit"));
         actions.put("GET/match/create/condition", new ShowPageAction("create-condition"));
@@ -29,7 +30,8 @@ public class ActionFactory {
         actions.put("GET/avatar/upload", new ShowPageAction("upload-avatar"));
         //Customer's operation with bet
         actions.put("GET/home", new ShowCustomersHomePageAction());
-        actions.put("GET/bets", new ShowCustomersBetsPageAction());
+        actions.put("GET/bets/active", new ShowCustomersActiveBetsPageAction());
+        actions.put("GET/bets/inactive", new ShowCustomersInactiveBetsPageAction());
         actions.put("GET/bet/create", new ShowPageAction("create-bet"));
         actions.put("GET/bet/edit", new ShowBetEditPageAction());
         actions.put("GET/bet/add/condition", new ShowAddConditionToBetPageAction());

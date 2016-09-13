@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowAddConditionToBetPageAction.class));
+public class ShowInactiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
+    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowInactiveMatchesEditionPageAction.class));
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();
@@ -27,14 +28,13 @@ public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Act
         }else {
             pageNumber = Integer.parseInt(pageNumberParam);
         }
-
         try {
-            matches = service.getAllActiveMatch(pageNumber,pageSize);
+            matches = service.getAllInactiveMatch(pageNumber, pageSize);
+            log.debug("Get paginated list of matches with {} pageNumber, {} pageCount, {} page size and size - {}",matches.getPageNumber(),matches.getPageCount(),matches.getPageSize(),matches.size());
         } catch (ServiceException e) {
-            throw new ActionException("Cannot get all matches", e);
+            throw new ActionException("Cannot get matches list in action", e);
         }
-        req.setAttribute("matches", matches);
-
-        return new ActionResult("bet-add-condition");
+        req.setAttribute("inactiveMatches", matches);
+        return new ActionResult("inactive-matches-edit");
     }
 }

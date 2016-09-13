@@ -4,16 +4,13 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%--@elvariable id="match" type="com.epam.ilya.model.Match"--%>
 
-<fmt:bundle basename="i18n">
+<c:url value="/do/match/edit/sum/up?match_id=${match.id}" var="sum_up_result_url"/>
+
+<my:page-pattern role="bookmaker">
     <fmt:message key="bookmaker.match.conditions.result" var="button"/>
     <fmt:message key="bookmaker.match.add.condition.coefficient" var="coefficient"/>
     <fmt:message key="bookmaker.match.add.condition.name" var="conditions_name"/>
     <fmt:message key="bookmaker.match.result.error.message" var="result_error_message"/>
-</fmt:bundle>
-
-<c:url value="/do/match/edit/sum/up?match_id=${match.id}" var="sum_up_result_url"/>
-
-<my:page-pattern role="bookmaker">
     <div>
         <table class="table table-striped">
             <thead>

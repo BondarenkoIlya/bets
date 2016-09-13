@@ -3,17 +3,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
-<fmt:bundle basename="i18n">
+<c:url value="/do/bet/create" var="create_bet_url"/>
+
+<my:page-pattern role="stepOne">
     <fmt:message key="customer.create.bet" var="create_bet"/>
     <fmt:message key="customer.create.bet.step.one" var="step_one"/>
     <fmt:message key="customer.create.bet.value" var="input_value"/>
     <fmt:message key="customer.create.bet.error.available" var="available_error"/>
     <fmt:message key="customer.create.bet.error" var="incorrect_error"/>
     <fmt:message key="customer.create.bet.next.button" var="next_step_button"/>
-</fmt:bundle>
-
-<c:url value="/do/bet/create" var="create_bet_url"/>
-<my:page-pattern role="stepOne">
     <div class="container">
             ${create_bet}<br/>
         <h2>${step_one}<br/></h2>

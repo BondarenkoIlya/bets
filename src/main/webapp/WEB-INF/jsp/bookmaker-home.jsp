@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
-
-<fmt:bundle basename="i18n">
+<my:page-pattern role="bookmaker">
     <fmt:message key="bookmaker.home.customers" var="customers_editor"/>
     <fmt:message key="bookmaker.home.customers.name.first" var="customer_first_name"/>
     <fmt:message key="bookmaker.home.customers.name.last" var="customer_last_name"/>
@@ -18,7 +17,7 @@
     <fmt:message key="bookmaker.home.add.sum" var="sum"/>
     <fmt:message key="bookmaker.home.add.to.bookmaker" var="add_to_bookmaker"/>
     <fmt:message key="bookmaker.home.customers.edit.button" var="edit_button"/>
-</fmt:bundle>
+
 
 <c:url var="search_url" value="/do/customer/find"/>
 <c:url var="add_to_bookmaker_balance_url" value="/do/bookmaker/replenish"/>
@@ -26,8 +25,8 @@
 
 <%--@elvariable id="customers" type="com.epam.ilya.model.PaginatedList"--%>
 
-<my:page-pattern role="bookmaker">
-    <div>
+
+    <div class="container">
         <h3>${customers_editor}</h3>
         <c:if test="${add_message.equals('success')}">
             <p class="alert alert-success"
@@ -36,7 +35,7 @@
         <c:if test="${add_message.equals('error')}">
             <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
         </c:if>
-        <div class="container">
+        <div>
             <form role="form" action="${search_url}" method="post">
                 <input type="search" required name="search" value="" placeholder="${search}">
                 <input type="submit" class="btn btn-default" value=${search_button}><br/>
@@ -67,7 +66,7 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                        <my:pagination pageCount="${customers.pageCount}" pageNumber="${customers.pageNumber}" url="do/bookmaker/home"/>
+                        <my:pagination pageCount="${customers.getPageCount()}" pageNumber="${customers.getPageNumber()}" url="/do/bookmaker/home"/>
                     </c:if>
                     <c:if test="${not empty searchError}">
                         <p class="alert alert-info"

@@ -1,11 +1,11 @@
 <%@ tag pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ attribute name="role" required="true" rtexprvalue="true" type="java.lang.String" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 
-<fmt:bundle basename="i18n">
+<fmt:setBundle basename="i18n" scope="request"/>
     <fmt:message key="pattern.welcome" var="welcome"/>
     <fmt:message key="pattern.step.one" var="step_one"/>
     <fmt:message key="pattern.step.two" var="step_two"/>
@@ -18,13 +18,13 @@
     <fmt:message key="pattern.bookmaker.name" var="bookmaker_name"/>
     <fmt:message key="pattern.bookmaker.inset.match" var="match_editor_inset"/>
     <fmt:message key="pattern.bookmaker.inset.home" var="bookmaker_home_inset"/>
-</fmt:bundle>
+
 
 <c:url value="/do/home" var="home"/>
 <c:url value="/do/cabinet" var="cabinet"/>
 <c:url value="/do/bookmaker/home" var="bookmaker_home"/>
-<c:url value="/do/matches/edit" var="matches_editor"/>
-<c:url value="/do/bets" var="bets"/>
+<c:url value="/do/matches/edit/active" var="matches_editor"/>
+<c:url value="/do/bets/active" var="bets"/>
 <c:url value="/do/locale?locale=en" var="en_locale_url"/>
 <c:url value="/do/locale?locale=ru" var="ru_locale_url"/>
 <c:url value="/images/noavatar.png" var="no_avatar" />
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-2 col-lg-2">
                                     <c:if test="${not empty loggedCustomer.avatar}">
-                                        <img src="<c:url value="/image/avatar"/>" style="width: 50px;height: 80px"
+                                        <img src="<c:url value="/image/avatar"/>" style="width: auto;height: 80px"
                                              class="img-responsive">
                                     </c:if>
                                     <c:if test="${empty loggedCustomer.avatar}">
@@ -99,7 +99,7 @@
                                     </ruby>
                                 </div>
                                 <div class="col-md-1 col-lg-1">
-                                    <ruby>${bookmaker.personsPurse.balance.getAmount().doubleValue()}
+                                    <ruby>${bookmaker.personsPurse.balance.amount.doubleValue()}
                                         <rt>${balance}</rt>
                                     </ruby>
                                 </div>

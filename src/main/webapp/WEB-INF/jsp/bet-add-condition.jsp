@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
-<fmt:bundle basename="i18n">
 
-</fmt:bundle>
 
 <c:url value="/do/bet/add/condition" var="add_condition_url"/>
 <my:page-pattern role="stepTwo">
@@ -41,7 +39,10 @@
                     </td>
                 </tr>
             </c:forEach>
+
             </tbody>
         </table>
+        <my:pagination pageNumber="${matches.getPageNumber()}" pageCount="${matches.getPageCount()}"
+                       url="/do/bet/add/condition"/>
     </div>
 </my:page-pattern>

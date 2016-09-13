@@ -3,7 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
-<fmt:bundle basename="i18n">
+<c:url value="/do/register" var="register_url"/>
+
+<my:page-pattern role="stepOne">
     <fmt:message key="register" var="register"/>
     <fmt:message key="register.firstName" var="firstName"/>
     <fmt:message key="register.lastName" var="lastName"/>
@@ -18,10 +20,6 @@
     <fmt:message key="register.password.error.repeat" var="wrongRepeatPasswordErrorAlert"/>
     <fmt:message key="register.password.error.unsuitable" var="passwordErrorAlert"/>
 
-</fmt:bundle>
-<c:url value="/do/register" var="register_url"/>
-
-<my:page-pattern role="stepOne">
     <div class="container">
             ${register}<br/>
         <form role="form" action="${register_url}" method="POST">

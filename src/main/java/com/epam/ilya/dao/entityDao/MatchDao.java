@@ -3,23 +3,20 @@ package com.epam.ilya.dao.entityDao;
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.model.Match;
+import com.epam.ilya.model.PaginatedList;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
 
 public class MatchDao extends Dao implements EntityDao<Match> {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(Match.class));
-    private static final String FIND_ALL = "SELECT * FROM matches WHERE active=?";
+    private static final String FIND_ALL_IN_RANGE = "SELECT * FROM matches WHERE active=? limit ?,?";
     private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?";
     private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)";
     private static final String MATCHS_STATUS = "update matches set active = ?  where id=?";
+    private static final String MATCH_COUNT = "SELECT count(*) FROM bets.matches where active =?";
 
     @Override
     public Match create(Match match) throws DaoException {
@@ -70,10 +67,12 @@ public class MatchDao extends Dao implements EntityDao<Match> {
 
     }
 
-    public List<Match> getAllMatches(boolean status) throws DaoException {
-        List<Match> matches = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL)) {
+    public PaginatedList<Match> getAllMatches(boolean status, int pageNumber, int pageSize) throws DaoException {
+        PaginatedList<Match> matches = new PaginatedList<>(pageNumber,pageSize);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL_IN_RANGE)) {
             statement.setBoolean(1, status);
+            statement.setInt(2,((pageNumber-1)*pageSize));
+            statement.setInt(3,pageSize);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 matches.add(pickMatchFromResultSet(resultSet));
@@ -108,5 +107,20 @@ public class MatchDao extends Dao implements EntityDao<Match> {
             throw new DaoException("Cannot create match from result set", e);
         }
         return match;
+    }
+
+    public int getMatchCount(boolean status) throws DaoException {
+        int count = 0;
+        try(PreparedStatement statement=  getConnection().prepareStatement(MATCH_COUNT)) {
+            statement.setBoolean(1,status);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for counting matches",e);
+        }
+        return count;
     }
 }

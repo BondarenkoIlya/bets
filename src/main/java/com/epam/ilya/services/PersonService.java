@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 
 public class PersonService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(PersonService.class));
+    DaoFactory daoFactory;
 
     //Method make money transfer to person from outside (not in system)
     public boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
@@ -84,7 +85,7 @@ public class PersonService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot register customer",e);
+                throw new ServiceException("Cannot register customer", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot register customer and create cash account", e);
@@ -118,7 +119,7 @@ public class PersonService {
                         customer.setPersonsPurse(cashAccount);
                         log.debug("Set purse - {} to customer - {}", cashAccount, customer);
                         Avatar avatar = avatarDao.findByPerson(customer);
-                        if (avatar!=null){
+                        if (avatar != null) {
                             customer.setAvatar(avatar);
                         }
                         daoFactory.commitTransaction();
@@ -131,47 +132,34 @@ public class PersonService {
                 }
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot find any account",e);
+                throw new ServiceException("Cannot find any account with this login and password", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao for finding customer", e);
         }
     }
 
-    public List<Customer> getAllCustomers() throws ServiceException {
-        List<Customer> customers = null;
+    public PaginatedList<Customer> getAllCustomers(int pageNumber, int pageSize) throws ServiceException {
+        PaginatedList<Customer> customers;
         try (DaoFactory daoFactory = new DaoFactory()) {
+            this.daoFactory = daoFactory;
             try {
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
-                customers = customerDao.getAllActiveCustomers();
-                setPurseToAllCustomers(customers);
-                daoFactory.commitTransaction();
-            } catch (DaoException e) {
-                daoFactory.rollbackTransaction();
-            }
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot create list of all customers", e);
-        }
-        return customers;
-    }
-
-    public List<Customer> getAllCustomers(int pageNumber, int pageSize) throws ServiceException {
-        PaginatedList<Customer> customers = null;
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            try {
-                CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
-                daoFactory.startTransaction();
-                customers = (PaginatedList<Customer>) customerDao.getAllActiveCustomers(pageNumber,pageSize);//TODO is it normal that i am must to cast otherwise i cannot use paginated list methods
+                customers = (PaginatedList<Customer>) customerDao.getAllActiveCustomers(pageNumber, pageSize);//TODO is it normal that i am must to cast otherwise i cannot use paginated list methods
+                log.debug("Get customers paginated list list with {} customers", customers.size());
                 int customersCount = customerDao.getCustomersCount();
-                log.debug("Customers count is - []",customersCount);
-                int pageCount = countUpPages(pageSize,customersCount);
-                log.debug("{} pages by [] customers on one page",pageCount,customersCount);//TODO мысль: логировать только сервисы
+                log.debug("{} customers at all", customersCount);
+                int pageCount = countUpPages(pageSize, customersCount);
+                log.debug("{} pages by {} customers on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
                 customers.setPageCount(pageCount);
+                customers.setPageNumber(pageNumber);
+                customers.setPageSize(pageSize);
                 setPurseToAllCustomers(customers);// TODO может назвать как то по другому, что бы сетило все вложеные сущности
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot get customers in range", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create list of all customers", e);
@@ -181,19 +169,19 @@ public class PersonService {
 
     private int countUpPages(int pageSize, int customersCount) {
         int pageCount;
-        pageCount = (customersCount/pageSize) + 1;
+        if (customersCount % pageSize == 0) {
+            pageCount = customersCount / pageSize;
+        } else {
+            pageCount = (customersCount / pageSize) + 1;
+        }
         return pageCount;
     }
 
-    private void setPurseToAllCustomers(List<Customer> customers) throws ServiceException {
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
-            for (Customer customer : customers) {
-                CashAccount purse = cashAccountDao.findByPerson(customer);
-                customer.setPersonsPurse(purse);
-            }
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot get cashAccountDao", e);
+    private void setPurseToAllCustomers(List<Customer> customers) throws DaoException {
+        CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+        for (Customer customer : customers) {
+            CashAccount purse = cashAccountDao.findByPerson(customer);
+            customer.setPersonsPurse(purse);
         }
     }
 
@@ -220,6 +208,7 @@ public class PersonService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot check email available",e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot find by email", e);
@@ -245,6 +234,7 @@ public class PersonService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot find by parameters",e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao for search by parameter", e);
@@ -304,17 +294,35 @@ public class PersonService {
                 AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
+                Avatar byPerson = avatarDao.findByPerson(customer);
+              /*  if (byPerson==null){TODO did this if done with modify
+
+                }else {
+                    avatar.setId(byPerson.getId());
+                    avatarDao.update(avatar);
+                }*/
                 avatar = avatarDao.create(avatar);
                 customer.setAvatar(avatar);
                 customerDao.updateAvatar(customer);
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot set avatar to customer",e);
+                throw new ServiceException("Cannot set avatar to customer", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao factory", e);
         }
 
+    }
+
+    public Avatar getCustomersAvatar(Customer loggedCustomer) throws ServiceException {
+        Avatar avatar;
+        try(DaoFactory daoFactory = new DaoFactory()){
+            AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
+            avatar = avatarDao.findByPerson(loggedCustomer);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory",e);
+        }
+        return avatar;
     }
 }
