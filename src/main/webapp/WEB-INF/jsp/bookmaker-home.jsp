@@ -36,13 +36,8 @@
             <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
         </c:if>
         <div>
-            <form role="form" action="${search_url}" method="post">
-                <input type="search" required name="search" value="" placeholder="${search}">
-                <input type="submit" class="btn btn-default" value=${search_button}><br/>
-            </form>
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6">
-                    <c:if test="${empty searchError}">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -67,11 +62,6 @@
                             </tbody>
                         </table>
                         <my:pagination pageCount="${customers.getPageCount()}" pageNumber="${customers.getPageNumber()}" url="/do/bookmaker/home"/>
-                    </c:if>
-                    <c:if test="${not empty searchError}">
-                        <p class="alert alert-info"
-                           style="width: 250px;height: 30px;padding: 5px">${search_error_massage}</p>
-                    </c:if>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <form role="form" action="${add_to_bookmaker_balance_url}" method="post">

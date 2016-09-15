@@ -24,6 +24,7 @@ public class SecurityFilter implements Filter {
         customersPages.add("/bets/");
         customersPages.add("/bet/");
         customersPages.add("/avatar/");
+        customersPages.add("/cabinet");
         bookmakersPages.add("/bookmaker/");
         bookmakersPages.add("/customer/");
         bookmakersPages.add("/matches/");

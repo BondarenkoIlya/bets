@@ -28,7 +28,7 @@ public class ReplenishBookmakersBalanceAction implements Action {
         if (parameter.matches(properties.getProperty("notEmptyNumber.regex"))) {
             Bookmaker bookmaker = (Bookmaker) req.getSession().getAttribute("bookmaker");
             try {
-                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)), bookmaker);
+                service.replenishPersonsBalance(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)), bookmaker);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }

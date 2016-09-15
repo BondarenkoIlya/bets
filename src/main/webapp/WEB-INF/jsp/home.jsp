@@ -49,6 +49,9 @@
                 </div>
                 <button type="button" class="btn btn-default"><a
                         href="${create_bet_url}">${create_bet_button}</a></button>
+                <c:if test="${not empty cancelBet}">
+                    <p class="alert alert-info" style="width: 250px;height: auto"><fmt:message key="customer.home.create.bet.cancel"/></p>
+                </c:if>
             </div>
         </div>
     </div>

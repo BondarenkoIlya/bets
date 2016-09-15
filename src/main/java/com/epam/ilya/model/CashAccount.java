@@ -62,4 +62,13 @@ public class CashAccount extends BaseEntity {
                 ", person=" + person +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + balance.hashCode();
+        hash = hash*37 + person.hashCode();
+        return hash;
+    }
 }

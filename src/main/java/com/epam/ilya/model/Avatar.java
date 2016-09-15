@@ -26,4 +26,21 @@ public class Avatar extends BaseEntity {
     public void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id="+ getId()+
+                "creationDate=" + creationDate +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + picture.hashCode();
+        hash = hash*37 + creationDate.hashCode();
+        return hash;
+    }
 }

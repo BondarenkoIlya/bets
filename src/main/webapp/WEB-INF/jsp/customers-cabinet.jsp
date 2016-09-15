@@ -5,6 +5,10 @@
 
 <my:page-pattern role="customer">
     <div class="container">
-
+        <fmt:message key="castomer.cabinet.change.avatar"/>
+        <form role="form" action="<c:url value="/do/avatar/update"/>" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatar" />
+            <input type="submit" class="btn btn-link" value="<fmt:message key="avatar.upload.button"/> "/>
+        </form>
     </div>
 </my:page-pattern>

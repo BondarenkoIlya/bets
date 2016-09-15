@@ -25,18 +25,18 @@ public class SessionListner implements HttpSessionListener {
         if (bet != null) {
             BetService betService = new BetService();
             try {
-                betService.completeBetsCreation(bet);
+                betService.cancelBetCreation(bet);
             } catch (ServiceException e) {
-                log.error("Cannot complete bet after sessions invalidating", e);
+                log.error("Cannot cancel bet creation after sessions invalidating", e);
             }
         }
         Match match = (Match) httpSessionEvent.getSession().getAttribute("match");
         if (match != null) {
             MatchService matchService = new MatchService();
             try {
-                matchService.completeMatchsCreation(match);
+                matchService.cancelMatchCreation(match);
             } catch (ServiceException e) {
-                log.error("Cannot complete match after session invalidating ", e);
+                log.error("Cannot cancel match creation after session invalidating ", e);
             }
         }
     }

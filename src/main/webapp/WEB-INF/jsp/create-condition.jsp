@@ -31,6 +31,8 @@
             </c:if>
             <input type="submit" class="btn btn-default" value=${create_condition_button}><br/>
         </form>
-        <button type="button" class="button btn-link"><a href="${add_condition_url}">${back}</a></button>
+        <a href="<c:url value="/do/match/new/edit"/>" role="button" class="btn btn-default"><fmt:message
+                key="back"/></a>
     </div>
+
 </my:page-pattern>

@@ -4,6 +4,8 @@ import com.epam.ilya.model.Avatar;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,15 +32,24 @@ public class ImageServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PersonService service = new PersonService();
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
-        InputStream avatarStream;
+        InputStream avatarStream = null;
+        log.info("Work with avatar images");
         if (loggedCustomer != null) {
             log.debug("Get customer - {} from session to show avatar", loggedCustomer);
 
-
-
             try {
-                Avatar avatar = service.getCustomersAvatar(loggedCustomer);
-                avatarStream = avatar.getPicture();
+                String modifyDate = req.getHeader("if-modified-since");
+                log.debug("Header 'if-modified-since' contain - {} date",modifyDate);
+                Avatar avatar = service.getCustomersAvatar(loggedCustomer,modifyDate);
+                if (avatar==null){
+                    resp.sendError(HttpServletResponse.SC_NOT_MODIFIED);
+                }else {
+                    avatarStream = avatar.getPicture();
+                    DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+                    String lastModified = format.print(avatar.getCreationDate());
+                    log.debug("Set - {} date to Last-Modified header",lastModified);
+                    resp.setHeader("Last-Modified", lastModified);
+                }
             } catch (ServiceException e) {
                 throw new ServletException("Cannot get customers avatar",e);
             }
@@ -54,16 +65,17 @@ public class ImageServlet extends HttpServlet {
             log.debug("Get customer - {} from dao to show avatar", customer);
             avatarStream = customer.getAvatar().getPicture();
         }
-
+        resp.setHeader ("Cache-Control", "max-age=3600");
         resp.setContentType("image/jpeg");
+        if (avatarStream!=null){
+            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(avatarStream, DEFAULT_BUFFER_SIZE);
+                 BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(resp.getOutputStream(), DEFAULT_BUFFER_SIZE)) {
 
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(avatarStream, DEFAULT_BUFFER_SIZE);
-             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(resp.getOutputStream(), DEFAULT_BUFFER_SIZE)) {
-
-            byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-            int length;
-            while ((length = bufferedInputStream.read(buffer)) > 0) {
-                bufferedOutputStream.write(buffer, 0, length);
+                byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+                int length;
+                while ((length = bufferedInputStream.read(buffer)) > 0) {
+                    bufferedOutputStream.write(buffer, 0, length);
+                }
             }
         }
     }

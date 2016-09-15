@@ -5,15 +5,20 @@ import com.epam.ilya.dao.DaoFactory;
 import com.epam.ilya.dao.entityDao.*;
 import com.epam.ilya.model.*;
 import org.joda.money.Money;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
+/**
+ * This class do all works with bookmaker and customers
+ * @author Bondarenko Ilya
+ */
 
 public class PersonService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(PersonService.class));
@@ -27,39 +32,34 @@ public class PersonService {
     //Method make transfer from one person to another
     public boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
         boolean result = false;
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            try {
-                CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
-                daoFactory.startTransaction();
-                CashAccount recipientPurse = recipient.getPersonsPurse();
-                if (sender != null) {
-                    log.debug("Begin transfer amount - {} , from person - {} to person -{}", kzt, sender, recipient);
-                    CashAccount senderPurse = sender.getPersonsPurse();
-                    log.debug("Sender purse - {}", senderPurse);
-                    if (senderPurse.balanceAvailabilityFor(kzt)) {
-                        log.debug("Sender purse with balance - {} available for - {}", senderPurse.getBalance(), kzt);
-                        senderPurse.removeCash(kzt);
-                        log.debug("Remove from {} value - {}", senderPurse, kzt);
-                        recipientPurse.addCash(kzt);
-                        log.debug("Add to {} value - {}", recipientPurse, kzt);
-                        cashAccountDao.update(senderPurse);
-                        cashAccountDao.update(recipientPurse);
-                        createTransfer(sender, kzt, recipient);
-                        result = true;
-                    } else {
-                        log.debug("Person - {} have not enough money to remove amount - {} to person - {}", sender, kzt, recipient);
-                        result = false;
-                    }
-                } else {
-                    log.debug("Person - {} get amount - {} from outside", recipient, kzt);
+        try {
+            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+            daoFactory.startTransaction();
+            CashAccount recipientPurse = recipient.getPersonsPurse();
+            if (sender != null) {
+                log.debug("Begin transfer amount - {} , from person - {} to person -{}", kzt, sender, recipient);
+                CashAccount senderPurse = sender.getPersonsPurse();
+                log.debug("Sender purse - {}", senderPurse);
+                if (senderPurse.balanceAvailabilityFor(kzt)) {
+                    log.debug("Sender purse with balance - {} available for - {}", senderPurse.getBalance(), kzt);
+                    senderPurse.removeCash(kzt);
+                    log.debug("Remove from {} value - {}", senderPurse, kzt);
                     recipientPurse.addCash(kzt);
+                    log.debug("Add to {} value - {}", recipientPurse, kzt);
+                    cashAccountDao.update(senderPurse);
                     cashAccountDao.update(recipientPurse);
                     createTransfer(sender, kzt, recipient);
                     result = true;
+                } else {
+                    log.debug("Person - {} have not enough money to remove amount - {} to person - {}", sender, kzt, recipient);
+                    result = false;
                 }
-                daoFactory.commitTransaction();
-            } catch (DaoException e) {
-                daoFactory.rollbackTransaction();
+            } else {
+                log.debug("Person - {} get amount - {} from outside", recipient, kzt);
+                recipientPurse.addCash(kzt);
+                cashAccountDao.update(recipientPurse);
+                createTransfer(sender, kzt, recipient);
+                result = true;
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create cash account dao", e);
@@ -93,6 +93,7 @@ public class PersonService {
         return registeredCustomer;
     }
 
+    //Method find current person, bookmakers or customer, bu login and password
     public Person performUserLogin(String email, String password) throws ServiceException {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
@@ -139,6 +140,7 @@ public class PersonService {
         }
     }
 
+    //Method give customers from data base in range for creation pagination list
     public PaginatedList<Customer> getAllCustomers(int pageNumber, int pageSize) throws ServiceException {
         PaginatedList<Customer> customers;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -146,16 +148,16 @@ public class PersonService {
             try {
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
-                customers = (PaginatedList<Customer>) customerDao.getAllActiveCustomers(pageNumber, pageSize);//TODO is it normal that i am must to cast otherwise i cannot use paginated list methods
+                customers = (PaginatedList<Customer>) customerDao.getAllActiveCustomers(pageNumber, pageSize);
                 log.debug("Get customers paginated list list with {} customers", customers.size());
                 int customersCount = customerDao.getCustomersCount();
                 log.debug("{} customers at all", customersCount);
                 int pageCount = countUpPages(pageSize, customersCount);
-                log.debug("{} pages by {} customers on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
+                log.debug("{} pages by {} customers on one page", pageCount, pageSize);
                 customers.setPageCount(pageCount);
                 customers.setPageNumber(pageNumber);
                 customers.setPageSize(pageSize);
-                setPurseToAllCustomers(customers);// TODO может назвать как то по другому, что бы сетило все вложеные сущности
+                setPurseToAllCustomers(customers);
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
@@ -177,6 +179,7 @@ public class PersonService {
         return pageCount;
     }
 
+    //Method find and set purse to list of customers
     private void setPurseToAllCustomers(List<Customer> customers) throws DaoException {
         CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
         for (Customer customer : customers) {
@@ -185,6 +188,7 @@ public class PersonService {
         }
     }
 
+    //Method try to find usage of current email and return true if email free
     public boolean checkEmailAvailable(String email) throws ServiceException {
         boolean result = true;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -208,7 +212,7 @@ public class PersonService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot check email available",e);
+                throw new ServiceException("Cannot check email available", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot find by email", e);
@@ -216,32 +220,7 @@ public class PersonService {
         return result;
     }
 
-    public List<Customer> searchByParameter(String parameter) throws ServiceException {
-
-        List<Customer> customers = new ArrayList<>();
-        List<String> parameterNames = asList("firstName", "lastName", "email");
-        Map<String, String> parameters = new HashMap<>();
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            try {
-                CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
-                daoFactory.startTransaction();
-                for (String parameterName : parameterNames) {
-                    parameters.put(parameterName, parameter);
-                    List<Customer> byParameters = customerDao.findByParameters(parameters);
-                    customers.addAll(byParameters);
-                    parameters.clear();
-                }
-                daoFactory.commitTransaction();
-            } catch (DaoException e) {
-                daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot find by parameters",e);
-            }
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot create dao for search by parameter", e);
-        }
-        return customers;
-    }
-
+    //Method find and return customer by id
     public Customer findById(String id) throws ServiceException {
         Customer customer;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -266,6 +245,7 @@ public class PersonService {
         return customer;
     }
 
+    //Write transfer in data base
     private void createTransfer(Person sender, Money amount, Person recipient) throws ServiceException {
 
         Transfer transfer = new Transfer(sender, recipient, amount);
@@ -282,12 +262,27 @@ public class PersonService {
         }
     }
 
+    //Method do work by making transfer by bets result
     public void summarizeBet(Bet bet, Bookmaker bookmaker) throws ServiceException {
-        if (bet.getFinalResult()) {
-            transferMoney(bookmaker, bet.getPossibleGain(), bet.getCustomer());
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            this.daoFactory = daoFactory;
+            try {
+                daoFactory.startTransaction();
+                if (bet.getFinalResult()) {
+                    transferMoney(bookmaker, bet.getPossibleGain(), bet.getCustomer());
+                }
+                daoFactory.commitTransaction();
+            } catch (DaoException e) {
+                daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot transfer money", e);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory for summarise bet", e);
         }
+
     }
 
+    //Method create new or update customer's avatar
     public void setAvatarToCustomer(Avatar avatar, Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -295,15 +290,16 @@ public class PersonService {
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
                 Avatar byPerson = avatarDao.findByPerson(customer);
-              /*  if (byPerson==null){TODO did this if done with modify
-
-                }else {
+                if (byPerson == null) {
+                    avatar = avatarDao.create(avatar);
+                    log.debug("Have no old avatar, create new one - {}", avatar);
+                    customer.setAvatar(avatar);
+                    customerDao.updateAvatar(customer);
+                } else {
                     avatar.setId(byPerson.getId());
                     avatarDao.update(avatar);
-                }*/
-                avatar = avatarDao.create(avatar);
-                customer.setAvatar(avatar);
-                customerDao.updateAvatar(customer);
+                    log.debug("Have old avatar, take it from base - {}", avatar);
+                }
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
@@ -315,14 +311,59 @@ public class PersonService {
 
     }
 
-    public Avatar getCustomersAvatar(Customer loggedCustomer) throws ServiceException {
+    //Method return customer's avatar if avatar's date of creation later then modify date
+    public Avatar getCustomersAvatar(Customer loggedCustomer, String modifyDate) throws ServiceException {
         Avatar avatar;
-        try(DaoFactory daoFactory = new DaoFactory()){
+        try (DaoFactory daoFactory = new DaoFactory()) {
             AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
-            avatar = avatarDao.findByPerson(loggedCustomer);
+            if (modifyDate != null) {
+                DateTime date = DateTime.parse(modifyDate);
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = formatter.print(date);
+                log.debug("Try to find avatar by modified date - {}", formattedDate);
+                avatar = avatarDao.findByPersonAndDate(loggedCustomer, formattedDate);
+                log.debug("Find avatar - {} just by customer and modified date", avatar);
+            } else {
+                avatar = avatarDao.findByPerson(loggedCustomer);
+                log.debug("Find avatar - {} just by customer", avatar);
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create dao factory",e);
+            throw new ServiceException("Cannot create dao factory", e);
         }
         return avatar;
+    }
+
+    //Method add money to bookmaker's or customer's purse and do transaction work
+    public void replenishPersonsBalance(Money kzt, Person person) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            this.daoFactory = daoFactory;
+            try {
+                daoFactory.startTransaction();
+                transferMoney(kzt, person);
+                daoFactory.commitTransaction();
+            } catch (DaoException e) {
+                daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot transfer money", e);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory for replenish person's balance", e);
+        }
+    }
+
+    //Method do work by replacing money from customer, whom make bet, to bookmaker
+    public void replaceBatsValueToBookmaker(Customer loggedCustomer, Money value, Bookmaker bookmaker) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            this.daoFactory = daoFactory;
+            try {
+                daoFactory.startTransaction();
+                transferMoney(loggedCustomer, value, bookmaker);
+                daoFactory.commitTransaction();
+            } catch (DaoException e) {
+                daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot transfer money", e);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory for replace money to bookmaker", e);
+        }
     }
 }

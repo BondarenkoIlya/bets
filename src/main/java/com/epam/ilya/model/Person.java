@@ -56,6 +56,18 @@ public abstract class Person extends BaseEntity {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + getEmail().hashCode();
+        hash = hash*37 + getFirstName().hashCode();
+        hash = hash*37 + getLastName().hashCode();
+        hash = hash*37 + getPersonsPurse().hashCode();
+        hash = hash*37 + getPassword().hashCode();
+        return hash;
+    }
 }
 
 

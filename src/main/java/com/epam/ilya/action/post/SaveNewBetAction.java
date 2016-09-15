@@ -27,12 +27,12 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
             Bookmaker bookmaker = (Bookmaker) personService.performUserLogin("qwe@mail.ru", "1234567");//TODO remake in one method
             betService.completeBetsCreation(bet);
             log.debug("Logged customer's balance is - {}", loggedCustomer.getPersonsPurse().getBalance());
-            personService.transferMoney(loggedCustomer, bet.getValue(), bookmaker);
+            personService.replaceBatsValueToBookmaker(loggedCustomer, bet.getValue(), bookmaker);
         } catch (ServiceException e) {
             throw new ActionException("Cannot complete bets creation", e);
         }
         req.getSession().removeAttribute("bet");
         req.setAttribute("flash.create_bet_successfully", "true");
-        return new ActionResult("active-bets", true);
+        return new ActionResult("bets/active", true);
     }
 }

@@ -41,8 +41,10 @@
             </table>
             <my:pagination pageNumber="${activeMatches.getPageNumber()}" pageCount="${activeMatches.getPageCount()}"
                            url="/do/matches/edit/active"/>
-            <button type="button" class="button btn-link"><a
-                    href="<c:url value="/do/match/create"/>">${create_new_match}</a></button>
+            <a class="btn btn-default" role="button" href="<c:url value="/do/match/create"/>">${create_new_match}</a>
+            <c:if test="${not empty cancelMatch}">
+                <p class="alert alert-info" style="width: 250px;height: auto"><fmt:message key="bookmaker.matches.new.cancel"/></p>
+            </c:if>
         </div>
     </div>
 </my:page-pattern>

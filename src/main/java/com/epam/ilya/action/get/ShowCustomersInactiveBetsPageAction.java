@@ -22,7 +22,7 @@ public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action
         PaginatedList<Bet> inactiveBets;
         String pageNumberParam = req.getParameter("pageNumber");
 
-        int pageSize = 5;
+        int pageSize = 3;
         int pageNumber;
         if (pageNumberParam == null) {
             log.debug("Do not get page number parameter. Set page number 1");

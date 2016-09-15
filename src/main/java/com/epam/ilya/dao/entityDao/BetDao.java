@@ -19,6 +19,7 @@ import java.util.List;
 public class BetDao extends Dao implements EntityDao<Bet> {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(BetDao.class));
     private String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
+    private String DELETE_BET = "DELETE FROM bets WHERE id = ?";
     private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
     private String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
     private String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
@@ -27,6 +28,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
     private String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
     private String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
     private String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";
+    private String DELETE_COMMUNICATION = "DELETE  FROM customers_bets WHERE bets_id=?";
 
     @Override
     public Bet create(Bet bet) throws DaoException {
@@ -73,6 +75,12 @@ public class BetDao extends Dao implements EntityDao<Bet> {
 
     @Override
     public void delete(Bet bet) throws DaoException {
+        try(PreparedStatement statement = getConnection().prepareStatement(DELETE_BET)) {
+            statement.setInt(1,bet.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for deleting bet",e);
+        }
 
     }
 
@@ -176,5 +184,14 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             throw new DaoException("Cannot create statement for counting bets", e);
         }
         return count;
+    }
+
+    public void deleteCommunication(Bet bet) throws DaoException {
+        try(PreparedStatement statement = getConnection().prepareStatement(DELETE_COMMUNICATION)) {
+            statement.setInt(1,bet.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for geleting communication",e);
+        }
     }
 }

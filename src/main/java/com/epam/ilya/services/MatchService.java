@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * This class do all works with matches
+ * @author Bondarenko Ilya
+ */
+
 public class MatchService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(MatchService.class));
     DaoFactory daoFactory;
@@ -25,7 +30,8 @@ public class MatchService {
         return getAllMatch(Dao.INACTIVE,pageNumber, pageSize);
     }
 
-    public PaginatedList<Match> getAllMatch(boolean status,int pageNumber, int pageSize) throws ServiceException {//как доставать соответствующие кондишены
+    //Method return matches in range for pagination, and pick all nested entities
+    private PaginatedList<Match> getAllMatch(boolean status, int pageNumber, int pageSize) throws ServiceException {//как доставать соответствующие кондишены
         PaginatedList<Match> matches;
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -63,6 +69,7 @@ public class MatchService {
         return pageCount;
     }
 
+    //Method create match without conditions
     public Match createEmptyMatch(Match match) throws ServiceException {
         Match registeredMatch;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -74,6 +81,7 @@ public class MatchService {
         return registeredMatch;
     }
 
+    //Method add conditions to match and make it active
     public void completeMatchsCreation(Match match) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -127,6 +135,7 @@ public class MatchService {
         return match;
     }
 
+    //Method write result of current condition to data base
     public void sumUpConditionsResult(Condition condition, Boolean result) throws ServiceException {
         condition.setResult(result);
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -137,12 +146,23 @@ public class MatchService {
         }
     }
 
+    //Method make match inactive
     public void deactivateMatch(Match match) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             MatchDao matchDao = daoFactory.getDao(MatchDao.class);
             matchDao.setStatus(match, Dao.INACTIVE);
         } catch (DaoException e) {
             throw new ServiceException("Cannot get match dao", e);
+        }
+    }
+
+    //Method make emergency deleting empty match without condition
+    public void cancelMatchCreation(Match match) throws ServiceException {
+        try(DaoFactory daoFactory = new DaoFactory()) {
+            MatchDao matchDao = daoFactory.getDao(MatchDao.class);
+            matchDao.delete(match);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory for cancel match creation",e);
         }
     }
 }

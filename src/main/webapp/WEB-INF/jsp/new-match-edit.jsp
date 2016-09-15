@@ -28,8 +28,7 @@
                         <tr>
                             <td>${condition.conditionsName}</td>
                             <td>${condition.coefficient}</td>
-                            <td><%--<a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> ">${delete_condition_button}
-                        </a>--%></td>
+                            <td><a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> "><span class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -38,6 +37,9 @@
                         href="<c:url value="/do/match/create/condition"/>">${create_new_condition_button}</a></button>
                 <form role="form" method="post" action="<c:url value="/do/match/submit"/>">
                     <input type="submit" class="button btn-link" value="${submit_button}"/>
+                </form>
+                <form role="form" method="post" action="<c:url value="/do/match/create/cancel"/>">
+                    <input type="submit" class="button btn-danger" value="<fmt:message key="cancel"/> "/>
                 </form>
             </div>
         </div>

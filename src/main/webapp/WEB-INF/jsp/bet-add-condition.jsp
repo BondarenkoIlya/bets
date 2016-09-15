@@ -5,17 +5,18 @@
 
 
 <c:url value="/do/bet/add/condition" var="add_condition_url"/>
+
 <my:page-pattern role="stepTwo">
     <div class="container">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>${date}</th>
-                <th>${sport}</th>
-                <th>${league}</th>
-                <th>${first_side}</th>
-                <th>${second_side}</th>
-                <th>${conditions}</th>
+                <th><fmt:message key="bookmaker.match.new.eventsDate"/> </th>
+                <th><fmt:message key="bookmaker.match.new.sportsName"/></th>
+                <th><fmt:message key="bookmaker.match.new.leaguesName"/></th>
+                <th><fmt:message key="bookmaker.match.new.firstSidesName"/></th>
+                <th><fmt:message key="bookmaker.match.new.secondSidesName"/></th>
+                <th><fmt:message key="customer.bets.conditions"/></th>
             </tr>
             </thead>
             <tbody>
@@ -44,5 +45,6 @@
         </table>
         <my:pagination pageNumber="${matches.getPageNumber()}" pageCount="${matches.getPageCount()}"
                        url="/do/bet/add/condition"/>
+        <a href="<c:url value="/do/bet/edit"/>" role="button" class="btn btn-default"><fmt:message key="back"/></a>
     </div>
 </my:page-pattern>

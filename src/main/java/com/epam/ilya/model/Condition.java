@@ -45,4 +45,18 @@ public class Condition extends BaseEntity {
                 ", result=" + result +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + conditionsName.hashCode();
+        hash = (int) (hash*37 + coefficient);
+        if (result){
+            hash = hash*37 + 1;
+        }else {
+            hash = hash*37;
+        }
+        return hash;
+    }
 }

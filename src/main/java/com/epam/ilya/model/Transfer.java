@@ -60,4 +60,15 @@ public class Transfer extends BaseEntity {
                 ", time=" + time +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + sender.hashCode();
+        hash = hash*37 + recipient.hashCode();
+        hash = hash*37 + time.hashCode();
+        hash = hash*37 + amount.hashCode();
+        return hash;
+    }
 }

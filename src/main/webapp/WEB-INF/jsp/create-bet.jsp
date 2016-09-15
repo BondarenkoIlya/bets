@@ -28,5 +28,6 @@
                 <input type="submit" class="btn btn-default" value=${next_step_button}><br/>
             </div>
         </form>
+        <a href="<c:url value="/do/home"/>" role="button" class="btn btn-default"><fmt:message key="back"/></a>
     </div>
 </my:page-pattern>

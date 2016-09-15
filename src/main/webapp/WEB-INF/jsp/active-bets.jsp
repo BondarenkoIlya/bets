@@ -44,7 +44,7 @@
                         <td>${bet.possibleGain.getAmount().doubleValue()}</td>
                         <td>
                             <c:forEach items="${bet.conditions}" var="condition">
-                                ${condition.conditionsName} ${condition.coefficient}<br/>
+                                ${condition.conditionsName} ${condition.coefficient} <c:if test="${condition.result!=null}">${condition.result}</c:if><br/>
                             </c:forEach>
                         </td>
                         <td>${bet.finalCoefficient}</td>

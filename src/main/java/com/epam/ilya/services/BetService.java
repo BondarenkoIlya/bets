@@ -14,10 +14,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class do all works with bets
+ * @author Bondarenko Ilya
+ */
+
 public class BetService {
     static final Logger log = LoggerFactory.getLogger(String.valueOf(BetService.class));
     private DaoFactory daoFactory;
 
+    //Method create bet for current customer and set communication
     public Bet registerCustomersBet(Bet bet, Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
@@ -31,7 +37,7 @@ public class BetService {
         return bet;
     }
 
-
+    //Method add conditions to bet
     public void completeBetsCreation(Bet bet) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             BetDao betDao = daoFactory.getDao(BetDao.class);
@@ -54,6 +60,7 @@ public class BetService {
         return getAllCustomersBets(customer, Dao.INACTIVE,pageNumber, pageSize);
     }
 
+    //Method retern list of customers in range
     private PaginatedList<Bet> getAllCustomersBets(Customer customer, boolean status, int pageNumber, int pageSize) throws ServiceException {
         PaginatedList<Bet> bets;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -64,7 +71,7 @@ public class BetService {
             int betsCount = betDao.getBetsCount(status,customer);
             log.debug("{} bets at all", betsCount);
             int pageCount = countUpPages(pageSize, betsCount);
-            log.debug("{} pages by {} bets on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
+            log.debug("{} pages by {} bets on one page", pageCount, pageSize);
             bets.setPageCount(pageCount);
             if (!bets.isEmpty()) {
                 for (Bet bet : bets) {
@@ -90,7 +97,7 @@ public class BetService {
         }
         return pageCount;
     }
-
+    //Method check all bets that add current match's conditions and fill up results
     public List<Bet> sumUpBetsResultByFinishedMatch(Match match) throws ServiceException {
         List<Bet> playedBets = new ArrayList<>();
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -135,6 +142,7 @@ public class BetService {
         return playedBets;
     }
 
+    //Method return list of bet that contain current condition
     private List<Bet> getBetsWithCondition(Condition condition) throws ServiceException {
         List<Bet> betsWithCondition = new ArrayList<>();
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -160,5 +168,16 @@ public class BetService {
             throw new ServiceException("Cannot get bet dao", e);
         }
         return betsWithCondition;
+    }
+
+    //Method emergency cancel creation of bet without condition
+    public void cancelBetCreation(Bet bet) throws ServiceException {
+        try(DaoFactory daoFactory = new DaoFactory()) {
+            BetDao betDao = daoFactory.getDao(BetDao.class);
+            betDao.deleteCommunication(bet);
+            betDao.delete(bet);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory for cancel bet creation",e);
+        }
     }
 }

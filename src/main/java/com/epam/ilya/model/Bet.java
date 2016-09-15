@@ -117,4 +117,22 @@ public class Bet extends BaseEntity {
                 ", finalResult=" + finalResult +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash*37 + getId();
+        hash = hash*37 + date.hashCode();
+        hash = hash*37 + value.hashCode();
+        hash = hash*37 + customer.hashCode();
+        hash = hash*37 + possibleGain.hashCode();
+        hash = hash*37 + conditions.hashCode();
+        hash = (int) (hash*37 + finalCoefficient);
+        if(finalResult){
+            hash = hash*37 + 1;
+        }else {
+            hash = hash*37;
+        }
+        return hash;
+    }
 }

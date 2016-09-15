@@ -96,5 +96,18 @@ public class Match extends BaseEntity {
                 ", secondSidesName='" + secondSidesName + '\'' +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = hash * 37 + getId();
+        hash = hash * 37 + sportsName.hashCode();
+        hash = hash * 37 + leaguesName.hashCode();
+        hash = hash * 37 + date.hashCode();
+        hash = hash * 37 + firstSidesName.hashCode();
+        hash = hash * 37 + secondSidesName.hashCode();
+        hash = hash * 37 + conditionList.hashCode();
+        return hash;
+    }
 }
 

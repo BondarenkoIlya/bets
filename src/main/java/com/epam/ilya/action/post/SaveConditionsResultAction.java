@@ -55,6 +55,6 @@ public class SaveConditionsResultAction implements com.epam.ilya.action.Action {
             throw new ActionException("Cannot get match by id", e);
         }
         req.getSession(false).setAttribute("bookmaker",bookmaker);
-        return new ActionResult("matches/edit", true);
+        return new ActionResult("matches/edit/active", true);
     }
 }

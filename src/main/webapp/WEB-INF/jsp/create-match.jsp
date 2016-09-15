@@ -53,5 +53,6 @@
             </div>
             <input type="submit" class="btn btn-default" value=${next_step_button}><br/>
         </form>
+    <a class="btn btn-default" role="button" href="<c:url value="/do/matches/edit/active"/>"><fmt:message key="back"/></a>
     </div>
 </my:page-pattern>

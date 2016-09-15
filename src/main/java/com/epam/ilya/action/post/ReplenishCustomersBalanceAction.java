@@ -24,7 +24,7 @@ public class ReplenishCustomersBalanceAction implements Action {
         PersonService service = new PersonService();
         String money = req.getParameter("addToCustomerBalance");
         String id = req.getParameter("customersId");
-        Customer customer = null;
+        Customer customer;
 
         Properties properties = new Properties();
         try {
@@ -40,7 +40,7 @@ public class ReplenishCustomersBalanceAction implements Action {
 
         if (money.matches(properties.getProperty("notEmptyNumber.regex"))) {
             try {
-                service.transferMoney(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)), customer);
+                service.replenishPersonsBalance(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)), customer);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }

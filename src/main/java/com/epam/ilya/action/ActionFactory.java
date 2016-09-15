@@ -30,12 +30,12 @@ public class ActionFactory {
         actions.put("GET/avatar/upload", new ShowPageAction("upload-avatar"));
         //Customer's operation with bet
         actions.put("GET/home", new ShowCustomersHomePageAction());
+        actions.put("GET/cabinet", new ShowPageAction("customers-cabinet"));
         actions.put("GET/bets/active", new ShowCustomersActiveBetsPageAction());
         actions.put("GET/bets/inactive", new ShowCustomersInactiveBetsPageAction());
         actions.put("GET/bet/create", new ShowPageAction("create-bet"));
         actions.put("GET/bet/edit", new ShowBetEditPageAction());
         actions.put("GET/bet/add/condition", new ShowAddConditionToBetPageAction());
-        //actions.put("GET/bet/edit/delete/condition", new DeleteConditionFromBetAction());
 
 // Post request
         //Main operations
@@ -46,16 +46,20 @@ public class ActionFactory {
         //Bookmaker's operations with customers
         actions.put("POST/bookmaker/replenish", new ReplenishBookmakersBalanceAction());
         actions.put("POST/customer/replenish", new ReplenishCustomersBalanceAction());
-        actions.put("POST/customer/find", new FindCustomersAction());// TODO как то совмещать с пагинацией
         //Bookmaker's operations with match
         actions.put("POST/match/create", new CreateEmptyMatchAction());
+        actions.put("POST/match/create/cancel", new CancelMatchCreationAction());
         actions.put("POST/match/create/condition", new AddConditionToMatchAction());
+        actions.put("GET/match/create/condition/delete", new DeleteConditionFromMatchAction());
         actions.put("POST/match/submit", new SaveNewMatchAction());
         actions.put("POST/match/edit/sum/up", new SaveConditionsResultAction());
         //Customer's main operation
         actions.put("POST/avatar/upload", new UploadAvatarAction());
+        actions.put("POST/avatar/update", new UpdateAvatarAction());
         //Customer's operation with bet
         actions.put("POST/bet/create", new CreateEmptyBetAction());
+        actions.put("POST/bet/create/cancel", new CancelBetCreationAction());
+        actions.put("GET/bet/edit/delete/condition", new DeleteConditionFromBetAction());
         actions.put("POST/bet/add/condition", new AddConditionToBetAction());
         actions.put("POST/bet/submit", new SaveNewBetAction());
 
