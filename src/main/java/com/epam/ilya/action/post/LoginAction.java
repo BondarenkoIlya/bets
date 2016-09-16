@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class LoginAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(LoginAction.class));
+    static final Logger log = LoggerFactory.getLogger(LoginAction.class);
 
     public LoginAction() {
     }

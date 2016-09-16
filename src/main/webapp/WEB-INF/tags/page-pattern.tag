@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-2 col-lg-2">
                                     <c:if test="${not empty loggedCustomer.avatar}">
-                                        <img src="<c:url value="/image/avatar"/>" style="width: auto;height: 80px"
+                                        <img src="<c:url value="/image/avatar/${loggedCustomer.avatar.id}"/>" style="width: auto;height: 80px"
                                              class="img-responsive">
                                     </c:if>
                                     <c:if test="${empty loggedCustomer.avatar}">

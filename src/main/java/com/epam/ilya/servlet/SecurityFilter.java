@@ -13,7 +13,7 @@ import java.util.List;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "/do/*")
 public class SecurityFilter implements Filter {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(SecurityFilter.class));
+    static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
     List<String> customersPages = new ArrayList<>();
     List<String> bookmakersPages = new ArrayList<>();
     List<String> guestsPages = new ArrayList<>();

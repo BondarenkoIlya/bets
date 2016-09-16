@@ -42,7 +42,7 @@ public class ActionFactory {
         actions.put("POST/login", new LoginAction());
         actions.put("POST/register", new RegisterAction());
         actions.put("POST/locale", new ChangeLocaleAction());
-        actions.put("GET/logout", new LogoutAction());// по хорошему это пост запрос но как тогда редеректать из секьюрити фильтра
+        actions.put("GET/logout", new LogoutAction());
         //Bookmaker's operations with customers
         actions.put("POST/bookmaker/replenish", new ReplenishBookmakersBalanceAction());
         actions.put("POST/customer/replenish", new ReplenishCustomersBalanceAction());
@@ -55,7 +55,6 @@ public class ActionFactory {
         actions.put("POST/match/edit/sum/up", new SaveConditionsResultAction());
         //Customer's main operation
         actions.put("POST/avatar/upload", new UploadAvatarAction());
-        actions.put("POST/avatar/update", new UpdateAvatarAction());
         //Customer's operation with bet
         actions.put("POST/bet/create", new CreateEmptyBetAction());
         actions.put("POST/bet/create/cancel", new CancelBetCreationAction());

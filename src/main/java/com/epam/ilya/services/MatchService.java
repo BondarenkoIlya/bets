@@ -19,8 +19,7 @@ import java.util.List;
  */
 
 public class MatchService {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(MatchService.class));
-    DaoFactory daoFactory;
+    static final Logger log = LoggerFactory.getLogger(MatchService.class);
 
     public PaginatedList<Match> getAllActiveMatch(int pageNumber, int pageSize) throws ServiceException {
         return getAllMatch(Dao.ACTIVE,pageNumber, pageSize);
@@ -30,7 +29,15 @@ public class MatchService {
         return getAllMatch(Dao.INACTIVE,pageNumber, pageSize);
     }
 
-    //Method return matches in range for pagination, and pick all nested entities
+    /**
+     * Method return matches in range for pagination, and pick all nested entities
+     *
+     * @param status status of match activities
+     * @param pageNumber count of current page
+     * @param pageSize   quantity of match on one page
+     * @return paginated list of match
+     * @throws ServiceException
+     */
     private PaginatedList<Match> getAllMatch(boolean status, int pageNumber, int pageSize) throws ServiceException {//как доставать соответствующие кондишены
         PaginatedList<Match> matches;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -69,7 +76,13 @@ public class MatchService {
         return pageCount;
     }
 
-    //Method create match without conditions
+    /**
+     * Method create match without conditions
+     *
+     * @param match match without conditions
+     * @return new match
+     * @throws ServiceException
+     */
     public Match createEmptyMatch(Match match) throws ServiceException {
         Match registeredMatch;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -81,7 +94,12 @@ public class MatchService {
         return registeredMatch;
     }
 
-    //Method add conditions to match and make it active
+    /**
+     * Method add conditions to match and make it active
+     *
+     * @param match match with conditions
+     * @throws ServiceException
+     */
     public void completeMatchsCreation(Match match) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -135,7 +153,13 @@ public class MatchService {
         return match;
     }
 
-    //Method write result of current condition to data base
+    /**
+     * Method write result of current condition to data base
+     *
+     * @param condition not finished condition
+     * @param result result of condition
+     * @throws ServiceException
+     */
     public void sumUpConditionsResult(Condition condition, Boolean result) throws ServiceException {
         condition.setResult(result);
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -146,7 +170,12 @@ public class MatchService {
         }
     }
 
-    //Method make match inactive
+    /**
+     * Method make match inactive
+     *
+     * @param match active match
+     * @throws ServiceException
+     */
     public void deactivateMatch(Match match) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             MatchDao matchDao = daoFactory.getDao(MatchDao.class);
@@ -156,7 +185,12 @@ public class MatchService {
         }
     }
 
-    //Method make emergency deleting empty match without condition
+    /**
+     * Method make emergency deleting empty match without condition
+     *
+     * @param match not finished match
+     * @throws ServiceException
+     */
     public void cancelMatchCreation(Match match) throws ServiceException {
         try(DaoFactory daoFactory = new DaoFactory()) {
             MatchDao matchDao = daoFactory.getDao(MatchDao.class);

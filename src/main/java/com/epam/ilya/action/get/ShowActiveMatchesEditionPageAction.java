@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowActiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowActiveMatchesEditionPageAction.class));
+    static final Logger log = LoggerFactory.getLogger(ShowActiveMatchesEditionPageAction.class);
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();

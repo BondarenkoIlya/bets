@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 public class SessionListner implements HttpSessionListener {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(SessionListner.class));
+    static final Logger log = LoggerFactory.getLogger(SessionListner.class);
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {

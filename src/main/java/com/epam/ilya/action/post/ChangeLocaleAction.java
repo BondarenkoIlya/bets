@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ChangeLocaleAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ChangeLocaleAction.class));
+    static final Logger log = LoggerFactory.getLogger(ChangeLocaleAction.class);
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         String language = req.getParameter("locale");

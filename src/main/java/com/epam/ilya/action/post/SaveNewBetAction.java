@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SaveNewBetAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(SaveNewBetAction.class));
+    static final Logger log = LoggerFactory.getLogger(SaveNewBetAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

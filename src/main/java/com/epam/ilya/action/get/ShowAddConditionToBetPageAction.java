@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowAddConditionToBetPageAction.class));
+    static final Logger log = LoggerFactory.getLogger(ShowAddConditionToBetPageAction.class);
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();

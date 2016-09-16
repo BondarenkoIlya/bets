@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class SaveConditionsResultAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(SaveConditionsResultAction.class));
+    static final Logger log = LoggerFactory.getLogger(SaveConditionsResultAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -14,6 +14,6 @@
             <input type="file" name="avatar"/>
             <input type="submit" class="btn btn-link" value="${upload_button}"/>
         </form>
-        <a href="<c:url value="/do/home"/>" role="button" class="btn btn-default"><fmt:message key="skip"/></a>
+        <a href="<c:url value="/do/home?successRegister=true"/>" role="button" class="btn btn-default"><fmt:message key="skip"/></a>
     </div>
 </my:page-pattern>

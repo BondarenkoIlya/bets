@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(RegisterAction.class));
+    static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
     private boolean invalid = false;
 
     @Override

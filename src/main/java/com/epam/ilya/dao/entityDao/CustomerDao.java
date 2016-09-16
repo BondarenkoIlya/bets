@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomerDao extends Dao implements EntityDao<Customer> {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(CustomerDao.class));
+    static final Logger log = LoggerFactory.getLogger(CustomerDao.class);
     private String FIND_BY_ID = "SELECT * FROM customers WHERE id = ?";
     private String UPDATE_CUSTOMER = "UPDATE customers SET first_name = ? , last_name = ? ,password=?, email = ? WHERE id = ?";
     private String UPDATE_CUSTOMERS_AVATAR = "UPDATE customers SET avatar_id=?  WHERE id = ?";

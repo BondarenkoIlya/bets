@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowBookmakerHomePageAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowBookmakerHomePageAction.class));
+    static final Logger log = LoggerFactory.getLogger(ShowBookmakerHomePageAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

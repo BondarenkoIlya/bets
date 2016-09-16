@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateEmptyMatchAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(CreateEmptyMatchAction.class));
+    static final Logger log = LoggerFactory.getLogger(CreateEmptyMatchAction.class);
     boolean invalid = false;
 
     @Override

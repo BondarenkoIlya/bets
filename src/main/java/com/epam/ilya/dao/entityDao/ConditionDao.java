@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConditionDao extends Dao implements EntityDao<Condition> {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ConditionDao.class));
+    static final Logger log = LoggerFactory.getLogger(ConditionDao.class);
     private static String INSERT_CONDITION = "INSERT INTO conditions VALUES (id,?,?,NULL)";
     private static String UPDATE_CONDITION = "UPDATE conditions set result = ? WHERE id=?";
     private static String SET_CONDITION_TO_MATCH = "INSERT INTO matches_conditions VALUES (?,?)";

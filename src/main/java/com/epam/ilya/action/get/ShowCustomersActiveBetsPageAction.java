@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowCustomersActiveBetsPageAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowCustomersActiveBetsPageAction.class));
+    static final Logger log = LoggerFactory.getLogger(ShowCustomersActiveBetsPageAction.class);
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");

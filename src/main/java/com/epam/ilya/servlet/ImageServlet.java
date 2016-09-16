@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 @WebServlet(name = "ImageServlet", urlPatterns = "/image/*")
 public class ImageServlet extends HttpServlet {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ImageServlet.class));
+    static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
     private static final int DEFAULT_BUFFER_SIZE = 10240;
 
     @Override

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowCustomerEditionPageAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(ShowCustomerEditionPageAction.class));
+    static final Logger log = LoggerFactory.getLogger(ShowCustomerEditionPageAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

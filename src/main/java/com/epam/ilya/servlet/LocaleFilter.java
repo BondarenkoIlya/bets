@@ -14,7 +14,7 @@ import java.util.Locale;
 
 @WebFilter(filterName = "LocaleFilter", urlPatterns = "/do/*")
 public class LocaleFilter implements Filter {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(LocaleFilter.class));
+    static final Logger log = LoggerFactory.getLogger(LocaleFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

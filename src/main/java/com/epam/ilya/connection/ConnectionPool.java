@@ -14,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
-    private static final Logger log = LoggerFactory.getLogger(String.valueOf(ConnectionPool.class));
+    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private String url;
     private String username;
     private String password;

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BetDao extends Dao implements EntityDao<Bet> {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(BetDao.class));
+    static final Logger log = LoggerFactory.getLogger(BetDao.class);
     private String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
     private String DELETE_BET = "DELETE FROM bets WHERE id = ?";
     private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";

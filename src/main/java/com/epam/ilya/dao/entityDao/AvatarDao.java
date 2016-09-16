@@ -14,9 +14,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class AvatarDao extends Dao implements EntityDao<Avatar> {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(AvatarDao.class));
+    static final Logger log = LoggerFactory.getLogger(AvatarDao.class);
     private String INSERT_AVATAR = "Insert INTO avatars VALUES (id,?,?)";
     private String UPDATE_AVATAR = "UPDATE avatars SET picture=? , avatars.date = ? WHERE id=?";
+    private String DELETE_AVATAR = "DELETE FROM avatars WHERE id=?";
     private String FIND_BY_CUSTOMER = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE customers.id=?";
     private String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
 
@@ -55,7 +56,12 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
 
     @Override
     public void delete(Avatar avatar) throws DaoException {
-
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_AVATAR)) {
+            statement.setInt(1, avatar.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for deleting avatar", e);
+        }
     }
 
     public Avatar findByPerson(Customer customer) throws DaoException {

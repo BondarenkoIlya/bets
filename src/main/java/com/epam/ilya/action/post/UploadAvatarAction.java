@@ -19,26 +19,32 @@ import java.io.IOException;
 
 
 public class UploadAvatarAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(UploadAvatarAction.class));
+    static final Logger log = LoggerFactory.getLogger(UploadAvatarAction.class);
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer customer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         PersonService service = new PersonService();
         try {
             Part avatar = req.getPart("avatar");
-            if (avatar!=null){
+            if (avatar != null) {
                 Avatar avatarPic = new Avatar();
                 avatarPic.setPicture(avatar.getInputStream());
                 avatarPic.setCreationDate(DateTime.now());
-                service.setAvatarToCustomer(avatarPic,customer);
+                service.setAvatarToCustomer(avatarPic, customer);
+                req.getSession(false).setAttribute("loggedCustomer", customer);
             }
         } catch (IOException | ServletException e) {
-            throw new ActionException("Cannot get part with avatar",e);
+            throw new ActionException("Cannot get part with avatar", e);
         } catch (ServiceException e) {
-            throw new ActionException("Cannot set Avatar to customer",e);
+            throw new ActionException("Cannot set Avatar to customer", e);
         }
 
-        req.setAttribute("flash.registerMessage", "success");
-        return new ActionResult("home",true);
+        if (req.getHeader("Referer").endsWith("cabinet")) {
+            return new ActionResult("cabinet", true);
+        }else {
+            req.setAttribute("flash.registerMessage", "success");
+            return new ActionResult("home", true);
+        }
     }
 }

@@ -22,15 +22,30 @@ import java.util.Map;
  */
 
 public class PersonService {
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(PersonService.class));
-    DaoFactory daoFactory;
+    static final Logger log = LoggerFactory.getLogger(PersonService.class);
+    private DaoFactory daoFactory;
 
-    //Method make money transfer to person from outside (not in system)
+    /**
+     * Method make money transfer to person from outside (not in system)
+     *
+     * @param kzt       transfer's value
+     * @param recipient person who get money
+     * @return transfer result
+     * @throws ServiceException
+     */
     public boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
         return transferMoney(null, kzt, recipient);
     }
 
-    //Method make transfer from one person to another
+    /**
+     * Method make transfer from one person to another
+     *
+     * @param sender    person who give money
+     * @param kzt       transfer's value
+     * @param recipient person who get money
+     * @return transfer result
+     * @throws ServiceException
+     */
     public boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
         boolean result = false;
         try {
@@ -68,7 +83,13 @@ public class PersonService {
         return result;
     }
 
-    //Method register new customer in data base
+    /**
+     * Method register new customer in data base
+     *
+     * @param customer not created in data base customer
+     * @return registered customer
+     * @throws ServiceException
+     */
     public Customer registerCustomer(Customer customer) throws ServiceException {
         log.info("Try to register person {}", customer);
         Customer registeredCustomer;
@@ -94,7 +115,14 @@ public class PersonService {
         return registeredCustomer;
     }
 
-    //Method find current person, bookmakers or customer, bu login and password
+    /**
+     * Method find current person, bookmakers or customer, bu login and password
+     *
+     * @param email     customer's email
+     * @param password  customer's password
+     * @return found person
+     * @throws ServiceException
+     */
     public Person performUserLogin(String email, String password) throws ServiceException {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
@@ -141,7 +169,14 @@ public class PersonService {
         }
     }
 
-    //Method give customers from data base in range for creation pagination list
+    /**
+     * Method give customers from data base in range for creation pagination list
+     *
+     * @param pageNumber count of current page
+     * @param pageSize   quantity of customers on one page
+     * @return paginated list of customers
+     * @throws ServiceException
+     */
     public PaginatedList<Customer> getAllCustomers(int pageNumber, int pageSize) throws ServiceException {
         PaginatedList<Customer> customers;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -180,7 +215,12 @@ public class PersonService {
         return pageCount;
     }
 
-    //Method find and set purse to list of customers
+    /**
+     * Method find and set purse to list of customers
+     *
+     * @param customers list of customers without purse
+     * @throws DaoException
+     */
     private void setPurseToAllCustomers(List<Customer> customers) throws DaoException {
         CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
         for (Customer customer : customers) {
@@ -189,7 +229,13 @@ public class PersonService {
         }
     }
 
-    //Method try to find usage of current email and return true if email free
+    /**
+     * Method try to find usage of current email and return true if email free
+     *
+     * @param email that must to be check
+     * @return result of checking
+     * @throws ServiceException
+     */
     public boolean checkEmailAvailable(String email) throws ServiceException {
         boolean result = true;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -221,7 +267,13 @@ public class PersonService {
         return result;
     }
 
-    //Method find and return customer by id
+    /**
+     * Method find and return customer by id
+     *
+     * @param id of some customers
+     * @return found customer
+     * @throws ServiceException
+     */
     public Customer findById(String id) throws ServiceException {
         Customer customer;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -246,7 +298,14 @@ public class PersonService {
         return customer;
     }
 
-    //Write transfer in data base
+    /**
+     * Write transfer in data base
+     *
+     * @param sender    person who give money
+     * @param amount      transfer's value
+     * @param recipient person who get money
+     * @throws ServiceException
+     */
     private void createTransfer(Person sender, Money amount, Person recipient) throws ServiceException {
 
         Transfer transfer = new Transfer(sender, recipient, amount);
@@ -263,7 +322,13 @@ public class PersonService {
         }
     }
 
-    //Method do work by making transfer by bets result
+    /**
+     * Method do work by making transfer by bets result
+     *
+     * @param bet       finished bet
+     * @param bookmaker transfer participant
+     * @throws ServiceException
+     */
     public void summarizeBet(Bet bet, Bookmaker bookmaker) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             this.daoFactory = daoFactory;
@@ -283,7 +348,13 @@ public class PersonService {
 
     }
 
-    //Method create new or update customer's avatar
+    /**
+     * Method create new or update customer's avatar
+     *
+     * @param avatar   image of customer
+     * @param customer usage of image
+     * @throws ServiceException
+     */
     public void setAvatarToCustomer(Avatar avatar, Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -291,14 +362,13 @@ public class PersonService {
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
                 Avatar byPerson = avatarDao.findByPerson(customer);
+                avatar = avatarDao.create(avatar);
+                customer.setAvatar(avatar);
+                customerDao.updateAvatar(customer);
                 if (byPerson == null) {
-                    avatar = avatarDao.create(avatar);
                     log.debug("Have no old avatar, create new one - {}", avatar);
-                    customer.setAvatar(avatar);
-                    customerDao.updateAvatar(customer);
                 } else {
-                    avatar.setId(byPerson.getId());
-                    avatarDao.update(avatar);
+                    avatarDao.delete(byPerson);
                     log.debug("Have old avatar, take it from base - {}", avatar);
                 }
                 daoFactory.commitTransaction();
@@ -312,7 +382,14 @@ public class PersonService {
 
     }
 
-    //Method return customer's avatar if avatar's date of creation later then modify date
+    /**
+     * Method return customer's avatar if avatar's date of creation later then modify date
+     *
+     * @param loggedCustomer image user
+     * @param modifyDate     last avatar creation date
+     * @return new avatar
+     * @throws ServiceException
+     */
     public Avatar getCustomersAvatar(Customer loggedCustomer, long modifyDate) throws ServiceException {
         Avatar avatar;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -334,7 +411,13 @@ public class PersonService {
         return avatar;
     }
 
-    //Method add money to bookmaker's or customer's purse and do transaction work
+    /**
+     * Method add money to bookmaker's or customer's purse and do transaction work
+     *
+     * @param kzt    amount
+     * @param person recipient of money
+     * @throws ServiceException
+     */
     public void replenishPersonsBalance(Money kzt, Person person) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             this.daoFactory = daoFactory;
@@ -351,7 +434,14 @@ public class PersonService {
         }
     }
 
-    //Method do work by replacing money from customer, whom make bet, to bookmaker
+    /**
+     * Method do work by replacing money from customer, whom make bet, to bookmaker
+     *
+     * @param loggedCustomer customer whom make bet
+     * @param value          value of bet
+     * @param bookmaker      recipient of money
+     * @throws ServiceException
+     */
     public void replaceBatsValueToBookmaker(Customer loggedCustomer, Money value, Bookmaker bookmaker) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             this.daoFactory = daoFactory;
