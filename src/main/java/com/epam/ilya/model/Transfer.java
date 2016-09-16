@@ -3,6 +3,13 @@ package com.epam.ilya.model;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
+/**
+ * Class transfer wrap information about replace money: how much money(amount) was been
+ * sent from sender to recipient
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class Transfer extends BaseEntity {
     private Person sender;
     private Person recipient;
@@ -70,5 +77,18 @@ public class Transfer extends BaseEntity {
         hash = hash*37 + time.hashCode();
         hash = hash*37 + amount.hashCode();
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==null){
+            return false;
+        }
+        if (!(obj instanceof Transfer)){
+            return false;
+        }else {
+            Transfer transfer = (Transfer) obj;
+            return this.hashCode()==transfer.hashCode();
+        }
     }
 }

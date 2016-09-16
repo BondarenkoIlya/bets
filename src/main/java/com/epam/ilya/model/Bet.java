@@ -7,6 +7,13 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bet class describe  an agreement between two parties that a money
+ * will be paid by the loser to the winner (the winner being the one who correctly
+ * forecast the outcome of an event).
+ * @author Bondarenko Ilya
+ */
+
 public class Bet extends BaseEntity {
     private DateTime date;
     private Money value;
@@ -134,5 +141,18 @@ public class Bet extends BaseEntity {
             hash = hash*37;
         }
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==null){
+            return false;
+        }
+        if (!(obj instanceof Bet)){
+            return false;
+        }else {
+            Bet bet = (Bet) obj;
+            return this.hashCode()==bet.hashCode();
+        }
     }
 }

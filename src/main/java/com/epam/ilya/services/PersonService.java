@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * This class do all works with bookmaker and customers
+ *
  * @author Bondarenko Ilya
  */
 
@@ -312,12 +313,12 @@ public class PersonService {
     }
 
     //Method return customer's avatar if avatar's date of creation later then modify date
-    public Avatar getCustomersAvatar(Customer loggedCustomer, String modifyDate) throws ServiceException {
+    public Avatar getCustomersAvatar(Customer loggedCustomer, long modifyDate) throws ServiceException {
         Avatar avatar;
         try (DaoFactory daoFactory = new DaoFactory()) {
             AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
-            if (modifyDate != null) {
-                DateTime date = DateTime.parse(modifyDate);
+            if (modifyDate != -1) {
+                DateTime date = new DateTime(modifyDate);
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
                 String formattedDate = formatter.print(date);
                 log.debug("Try to find avatar by modified date - {}", formattedDate);

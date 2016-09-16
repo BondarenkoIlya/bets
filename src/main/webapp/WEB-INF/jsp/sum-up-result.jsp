@@ -11,7 +11,7 @@
     <fmt:message key="bookmaker.match.add.condition.coefficient" var="coefficient"/>
     <fmt:message key="bookmaker.match.add.condition.name" var="conditions_name"/>
     <fmt:message key="bookmaker.match.result.error.message" var="result_error_message"/>
-    <div>
+    <div class="container">
         <table class="table table-striped">
             <thead>
             <tr>

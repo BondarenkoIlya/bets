@@ -45,14 +45,20 @@ public class CreateEmptyMatchAction implements Action {
         checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("notEmptyText.regex"), req);
         checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("notEmptyText.regex"), req);
 
-
+        DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+        DateTime dateTime = pattern.parseDateTime(eventsDate);
+        if (dateTime==null){
+            invalid = true;
+            req.setAttribute("eventsDateError","true");
+        }else if (dateTime.isBeforeNow()){
+            invalid=true;
+            req.setAttribute("eventsDateError","beforeNow");
+        }
         if (invalid) {
             invalid = false;
             return new ActionResult("create-match");
         } else {
             log.info("All parameters is correct");
-            DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
-            DateTime dateTime = pattern.parseDateTime(eventsDate);
             match.setSportsName(sportsName);
             match.setLeaguesName(leaguesName);
             match.setDate(dateTime);

@@ -23,8 +23,8 @@ public class BetDao extends Dao implements EntityDao<Bet> {
     private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
     private String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
     private String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
-    private String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? limit ?,?";
-    private String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? limit ?,?";
+    private String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? order by betsDate desc limit ?,?";
+    private String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? order by betsDate desc limit ?,?";
     private String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
     private String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
     private String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";

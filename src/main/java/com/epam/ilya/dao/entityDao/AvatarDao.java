@@ -18,7 +18,7 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
     private String INSERT_AVATAR = "Insert INTO avatars VALUES (id,?,?)";
     private String UPDATE_AVATAR = "UPDATE avatars SET picture=? , avatars.date = ? WHERE id=?";
     private String FIND_BY_CUSTOMER = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE customers.id=?";
-    private String FIND_BY_CUSTOMER_AND_DATE = "SELECT * FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers_id=?";
+    private String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
 
     @Override
     public Avatar create(Avatar avatar) throws DaoException {

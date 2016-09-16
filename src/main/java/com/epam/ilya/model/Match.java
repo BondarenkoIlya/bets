@@ -5,6 +5,11 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class Match describe the event, to which can be bet
+ * @author Bondarenko Ilya
+ */
+
 public class Match extends BaseEntity {
 
     private String sportsName;
@@ -108,6 +113,19 @@ public class Match extends BaseEntity {
         hash = hash * 37 + secondSidesName.hashCode();
         hash = hash * 37 + conditionList.hashCode();
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==null){
+            return false;
+        }
+        if (!(obj instanceof Match)){
+            return false;
+        }else {
+            Match match = (Match) obj;
+            return this.hashCode()==match.hashCode();
+        }
     }
 }
 

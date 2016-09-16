@@ -24,7 +24,7 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
     private String DELETE_CUSTOMER = "DELETE FROM customers WHERE id = ?";
     private String INSERT_CUSTOMER = "Insert INTO customers VALUES (id,?,?,?,?,?,?,NULL)";
     private String FIND_ALL = "SELECT * FROM customers WHERE active = ?";
-    private String FIND_ALL_IN_RANGE = "SELECT * FROM customers WHERE active = ? LIMIT ?,?";
+    private String FIND_ALL_IN_RANGE = "SELECT * FROM customers JOIN cash_accounts ON customers.purse_id=cash_accounts.id  WHERE active = ? order by cash_accounts.balance desc LIMIT ?,?";
     private String GET_BETS_CUSTOMER = "SELECT id, firstName, lastName, password, email FROM customers JOIN customers_bets ON customers.id=customers_bets.customer_id WHERE customers_bets.bets_id=?";
     private String CUSTOMERS_COUNT = "SELECT count(*) FROM bets.customers where active =1";
 

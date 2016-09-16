@@ -10,10 +10,9 @@
     <fmt:message key="bookmaker.match.add.condition.delete.button" var="delete_condition_button"/>
     <fmt:message key="bookmaker.match.add.condition.new.button" var="create_new_condition_button"/>
     <fmt:message key="bookmaker.match.submit.button" var="submit_button"/>
-    <div>
+    <div class="container">
         <h3>${add_conditions}</h3>
-
-        <div class="container">
+        <div>
             <div class="row">
                 <table class="table table-striped">
                     <thead>

@@ -45,6 +45,7 @@ public class Servlet extends HttpServlet {
         }
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
+        resp.setDateHeader("Expires", 0);
         doForwardOrRedirect(result, req, resp);
 
     }

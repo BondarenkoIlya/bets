@@ -25,11 +25,13 @@ public class LocaleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("locale")) {
-                Locale locale = new Locale(cookie.getValue());
-                log.debug("Create new locale - {} and change on current language",locale);
-                Config.set(req.getSession(),Config.FMT_LOCALE,locale);
+        if (cookies!=null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("locale")) {
+                    Locale locale = new Locale(cookie.getValue());
+                    log.debug("Create new locale - {} and change on current language",locale);
+                    Config.set(req.getSession(),Config.FMT_LOCALE,locale);
+                }
             }
         }
         filterChain.doFilter(req,resp);

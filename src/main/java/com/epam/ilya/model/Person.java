@@ -1,5 +1,11 @@
 package com.epam.ilya.model;
 
+/**
+ * Abstract class that describe any person in application
+ *
+ * @author Bondarenko Ilya
+ */
+
 public abstract class Person extends BaseEntity {
     private String firstName;
     private String lastName;

@@ -1,5 +1,11 @@
 package com.epam.ilya.model;
 
+/**
+ * Bookmaker - person who create new match (event) for which bets may be accepted,
+ * sum up result of this match and mare money transfer to customers
+ * @author Bondarenko Ilya
+ */
+
 public class Bookmaker extends Person {
 
     public Bookmaker() {
@@ -14,15 +20,4 @@ public class Bookmaker extends Person {
         setEmail(email);
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        hash = hash*37 + getId();
-        hash = hash*37 + getEmail().hashCode();
-        hash = hash*37 + getFirstName().hashCode();
-        hash = hash*37 + getLastName().hashCode();
-        hash = hash*37 + getPersonsPurse().hashCode();
-        hash = hash*37 + getPassword().hashCode();
-        return hash;
-    }
 }

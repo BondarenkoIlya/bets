@@ -23,36 +23,47 @@
                 <input type="text" name="sportsName" value=""/><br/>
                 <c:if test="${not empty sportsNameError}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto">${sportsNameErrorAlert}</p>
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.sportsName"/></p>
                 </c:if>
                     ${leaguesName}<br/>
                 <input type="text" name="leaguesName" value=""/><br/>
                 <c:if test="${not empty leaguesNameError}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto">${leaguesNameErrorAlert}</p>
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.leagueName"/></p>
                 </c:if>
                     ${eventsDate}<br/>
                 <input type="datetime" name="eventsDate" value=""/><br/>
-                <c:if test="${not empty eventsDateError}">
+                <c:if test="${eventsDateError.equals('true')}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto">${eventsDateErrorAlert}</p>
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.eventsDate"/></p>
+                </c:if>
+                <c:if test="${eventsDateError.equals('beforeNow')}">
+                    <p class="alert alert-danger"
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.eventsDate.before"/></p>
                 </c:if>
                 <p class="alert alert-info" style="width: auto;height: auto">${example}</p>
                     ${firstSidesName}<br/>
                 <input type="text" name="firstSidesName" value=""/><br/>
                 <c:if test="${not empty firstSidesNameError}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto">${firstSidesNameErrorAlert}</p>
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.firstSideName"/></p>
                 </c:if>
                     ${secondSidesName}<br/>
                 <input type="text" name="secondSidesName" value=""/><br/>
                 <c:if test="${not empty secondSidesNameError}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto">${secondSidesNameErrorAlert}</p>
+                       style="width: auto;height: auto"><fmt:message
+                            key="bookmaker.match.new.error.alert.secondSideName"/></p>
                 </c:if>
             </div>
             <input type="submit" class="btn btn-default" value=${next_step_button}><br/>
         </form>
-    <a class="btn btn-default" role="button" href="<c:url value="/do/matches/edit/active"/>"><fmt:message key="back"/></a>
+        <a class="btn btn-default" role="button" href="<c:url value="/do/matches/edit/active"/>"><fmt:message
+                key="back"/></a>
     </div>
 </my:page-pattern>

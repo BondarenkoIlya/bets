@@ -43,4 +43,17 @@ public class Customer extends Person {
         hash = hash*37 + getAvatar().hashCode();
         return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==null){
+            return false;
+        }
+        if (!(obj instanceof Customer)){
+            return false;
+        }else {
+            Customer customer = (Customer) obj;
+            return this.hashCode()==customer.hashCode();
+        }
+    }
 }
