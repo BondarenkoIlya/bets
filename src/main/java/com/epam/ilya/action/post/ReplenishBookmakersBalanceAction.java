@@ -35,7 +35,7 @@ public class ReplenishBookmakersBalanceAction implements Action {
             req.getSession(false).setAttribute("bookmaker", bookmaker);
             req.setAttribute("flash.message", "success");
         } else {
-            req.setAttribute("flash.massage", "error");
+            req.setAttribute("flash.message", "error");
         }
         return new ActionResult("bookmaker/home", true);
     }

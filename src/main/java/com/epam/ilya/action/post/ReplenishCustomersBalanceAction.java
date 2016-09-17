@@ -46,7 +46,8 @@ public class ReplenishCustomersBalanceAction implements Action {
             }
             req.setAttribute("flash.add_message", "success");
         } else {
-            req.setAttribute("flash.add_massage", "error");
+            req.setAttribute("flash.add_message", "error");
+            return new ActionResult("customer/edit?id="+id,true);
         }
         return new ActionResult("bookmaker/home", true);
     }

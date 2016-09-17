@@ -60,5 +60,6 @@
             </div>
             <input type="submit" class="btn btn-default" value=${button}><br/>
         </form>
+        <a href="<c:url value="/do/welcome"/>" role="button" class="btn btn-default"><fmt:message key="back"/></a>
     </div>
 </my:page-pattern>

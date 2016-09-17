@@ -14,7 +14,10 @@ public class SaveNewMatchAction implements com.epam.ilya.action.Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Match match = (Match) req.getSession(false).getAttribute("match");
         MatchService service = new MatchService();
-
+        if (match.getConditionList().isEmpty()){
+            req.setAttribute("flash.emptyError","true");
+            return new ActionResult("match/new/edit", true);
+        }
         try {
             service.completeMatchsCreation(match);
         } catch (ServiceException e) {
@@ -22,6 +25,6 @@ public class SaveNewMatchAction implements com.epam.ilya.action.Action {
         }
         req.getSession(false).removeAttribute("match");
         req.getSession(false).setAttribute("flash.successAddMatch", true);
-        return new ActionResult("/matches/edit/active", true);
+        return new ActionResult("matches/edit/active", true);
     }
 }

@@ -7,6 +7,7 @@ import com.epam.ilya.model.Match;
 import com.epam.ilya.services.MatchService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
@@ -41,18 +42,26 @@ public class CreateEmptyMatchAction implements Action {
         }
         checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("notEmptyText.regex"), req);
         checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("notEmptyText.regex"), req);
-        checkParameterBeRegex(eventsDate, "eventsDate", properties.getProperty("dateTime.regex"), req);
         checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("notEmptyText.regex"), req);
         checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("notEmptyText.regex"), req);
-
-        DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
-        DateTime dateTime = pattern.parseDateTime(eventsDate);
-        if (dateTime==null){
+        DateTime dateTime= null;
+        if (eventsDate.matches(properties.getProperty("dateTime.regex"))) {
+            try {
+                DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+                dateTime = pattern.parseDateTime(eventsDate);
+            }catch(IllegalFieldValueException e){
+                invalid = true;
+                req.setAttribute("eventsDateError", "true");
+            }
+            if (dateTime !=null){
+                if (dateTime.isBeforeNow()) {
+                    invalid = true;
+                    req.setAttribute("eventsDateError", "beforeNow");
+                }
+            }
+        }else {
             invalid = true;
-            req.setAttribute("eventsDateError","true");
-        }else if (dateTime.isBeforeNow()){
-            invalid=true;
-            req.setAttribute("eventsDateError","beforeNow");
+            req.setAttribute("eventsDateError", "true");
         }
         if (invalid) {
             invalid = false;

@@ -24,7 +24,7 @@
                    style="width: auto;height: auto">${conditionsNameErrorAlert}</p>
             </c:if>
                 ${coefficient}<br/>
-            <input type="te" name="coefficient" value=""/><br/>
+            <input type="text" name="coefficient" value=""/><br/>
             <c:if test="${not empty coefficientError}">
                 <p class="alert alert-danger"
                    style="width: auto;height: auto">${coefficientErrorAlert}</p>

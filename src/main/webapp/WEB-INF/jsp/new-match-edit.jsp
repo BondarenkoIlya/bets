@@ -37,6 +37,10 @@
                 <form role="form" method="post" action="<c:url value="/do/match/submit"/>">
                     <input type="submit" class="button btn-link" value="${submit_button}"/>
                 </form>
+                <c:if test="${not empty emptyError}">
+                    <p class="alert alert-danger"
+                       style="width: auto;height: auto"><fmt:message key="bookmaker.match.add.condition.error"/> </p>
+                </c:if>
                 <form role="form" method="post" action="<c:url value="/do/match/create/cancel"/>">
                     <input type="submit" class="button btn-danger" value="<fmt:message key="cancel"/> "/>
                 </form>
