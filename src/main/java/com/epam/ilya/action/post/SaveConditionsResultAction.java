@@ -29,7 +29,7 @@ public class SaveConditionsResultAction implements com.epam.ilya.action.Action {
         String matchId = req.getParameter("match_id");
 
         try {
-            Match match = matchService.getMatchById(matchId);//TODO how remake in one method
+            Match match = matchService.getMatchById(matchId);
             for (Condition condition : match.getConditionList()) {
                 String parameter = req.getParameter(String.valueOf(condition.getId()));
                 Boolean result = Boolean.parseBoolean(parameter);

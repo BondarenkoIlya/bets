@@ -49,7 +49,7 @@ public class MatchService {
                 int matchesCount = matchDao.getMatchCount(status);
                 log.debug("{} matches at all", matchesCount);
                 int pageCount = countUpPages(pageSize, matchesCount);
-                log.debug("{} pages by {} matches on one page", pageCount, pageSize);//TODO мысль: логировать только сервисы
+                log.debug("{} pages by {} matches on one page", pageCount, pageSize);
                 matches.setPageCount(pageCount);
                 for (Match match : matches) {
                     List<Condition> conditions = conditionDao.getMatchsConditions(match);
