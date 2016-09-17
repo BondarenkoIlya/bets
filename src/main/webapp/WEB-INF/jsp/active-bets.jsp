@@ -40,8 +40,8 @@
                 <tbody>
                 <c:forEach items="${activeBets}" var="bet">
                     <tr>
-                        <td>${bet.value.getAmount().doubleValue()}</td>
-                        <td>${bet.possibleGain.getAmount().doubleValue()}</td>
+                        <td>${bet.value.getAmount().doubleValue()}Тг</td>
+                        <td>${bet.possibleGain.getAmount().doubleValue()}Тг</td>
                         <td>
                             <c:forEach items="${bet.conditions}" var="condition">
                                 ${condition.conditionsName} ${condition.coefficient} <c:if test="${condition.result!=null}">${condition.result}</c:if><br/>

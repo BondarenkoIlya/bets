@@ -35,13 +35,21 @@
             </c:forEach>
             </tbody>
         </table>
+        <c:if test="${not empty equalsError}">
+            <p class="alert alert-success" style="width: 250px;height: auto"><fmt:message
+                    key="customer.bet.edit.error.equals"/></p>
+        </c:if>
         <h3>${bet_final_coefficient} - ${bet.finalCoefficient}<br/></h3>
-        <h3>${bet_possible_gain} - ${bet.possibleGain.getAmount().doubleValue()}<br/></h3>
+        <h3>${bet_possible_gain} - ${bet.possibleGain.getAmount().doubleValue()}Тг<br/></h3>
         <button type="button" class="button btn-link"><a
                 href="<c:url value="/do/bet/add/condition"/>">${add_condition_button}</a></button>
         <form action="<c:url value="/do/bet/submit"/>" method="post" role="form">
             <input type="submit" class="button btn-link" value="${submit_button}"/>
         </form>
+        <c:if test="${not empty emptyError}">
+            <p class="alert alert-success" style="width: 250px;height: auto"><fmt:message
+                    key="customer.bet.edit.error.submit"/></p>
+        </c:if>
         <form role="form" method="post" action="<c:url value="/do/bet/create/cancel"/>">
             <input type="submit" class="button btn-danger" value="<fmt:message key="cancel"/> "/>
         </form>

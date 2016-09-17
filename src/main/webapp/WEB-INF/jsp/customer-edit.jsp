@@ -35,11 +35,17 @@
         <form role="form" action="${add_to_customer_balance_url}" method="post">
             <p>${add_to_customer}</p>
             <input type="number" id="addToCustomer" required name="addToCustomerBalance" value=""
-                   placeholder="${sum}">
+                   placeholder="${sum}">Тг
             <input type="hidden" name="customersId" value="${customer.id}">
             <input type="submit" class="btn btn-default" value=${add_button}><br/>
         </form>
-
+        <c:if test="${add_message.equals('success')}">
+            <p class="alert alert-success"
+               style="width: 250px;height: 30px;padding: 5px">${replenish_success_masage}</p>
+        </c:if>
+        <c:if test="${add_message.equals('error')}">
+            <p class="alert alert-warning" style="width: 250px;height: 30px;padding: 5px">${replenish_error_masage}</p>
+        </c:if>
         <button type="button" class="btn btn-default"><a
                 href="${back_url}">${back_button}</a></button>
     </div>

@@ -18,7 +18,7 @@
         <form role="form" action="${create_bet_url}" method="POST">
             <div class="form-group">
                 <label for="bets_value" class="control-label">${input_value}</label><br/>
-                <input type="text" id="bets_value" name="value" value=""><br/>
+                <input type="text" id="bets_value" name="value" value=""><br/>Тг
                 <c:if test="${valueError.equals('notAvailable')}">
                     <p class="alert alert-danger" style="width: auto;height: auto">${available_error}</p>
                 </c:if>

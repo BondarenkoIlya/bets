@@ -60,11 +60,6 @@ public class Condition extends BaseEntity {
         hash = hash*37 + getId();
         hash = hash*37 + conditionsName.hashCode();
         hash = (int) (hash*37 + coefficient);
-        if (result){
-            hash = hash*37 + 1;
-        }else {
-            hash = hash*37;
-        }
         return hash;
     }
 

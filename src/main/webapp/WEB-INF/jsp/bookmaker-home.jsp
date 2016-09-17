@@ -8,8 +8,6 @@
     <fmt:message key="bookmaker.home.customers.name.last" var="customer_last_name"/>
     <fmt:message key="bookmaker.home.customers.email" var="customer_email"/>
     <fmt:message key="bookmaker.home.customers.balance" var="customer_balance"/>
-    <fmt:message key="bookmaker.home.customers.search" var="search"/>
-    <fmt:message key="bookmaker.home.customers.search.button" var="search_button"/>
     <fmt:message key="bookmaker.home.customers.search.error.message" var="search_error_massage"/>
     <fmt:message key="bookmaker.home.customers.replenish.success.message" var="replenish_success_masage"/>
     <fmt:message key="bookmaker.home.customers.replenish.error.message" var="replenish_error_masage"/>
@@ -19,11 +17,11 @@
     <fmt:message key="bookmaker.home.customers.edit.button" var="edit_button"/>
 
 
-<c:url var="search_url" value="/do/customer/find"/>
-<c:url var="add_to_bookmaker_balance_url" value="/do/bookmaker/replenish"/>
-<c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
+    <c:url var="search_url" value="/do/customer/find"/>
+    <c:url var="add_to_bookmaker_balance_url" value="/do/bookmaker/replenish"/>
+    <c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
 
-<%--@elvariable id="customers" type="com.epam.ilya.model.PaginatedList"--%>
+    <%--@elvariable id="customers" type="com.epam.ilya.model.PaginatedList"--%>
 
 
     <div class="container">
@@ -38,37 +36,39 @@
         <div>
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6">
-                        <table class="table table-striped">
-                            <thead>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>${customer_first_name}</th>
+                            <th>${customer_last_name}</th>
+                            <th>${customer_email}</th>
+                            <th>${customer_balance}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${customers}" var="customer">
                             <tr>
-                                <th>${customer_first_name}</th>
-                                <th>${customer_last_name}</th>
-                                <th>${customer_email}</th>
-                                <th>${customer_balance}</th>
-                                <th></th>
+                                <td>${customer.getFirstName()}</td>
+                                <td>${customer.getLastName()}</td>
+                                <td>${customer.getEmail()}</td>
+                                <td>${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}Тг</td>
+                                <td><a href="<c:url value="/do/customer/edit?id=${customer.id}"/> ">${edit_button}
+                                </a></td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${customers}" var="customer">
-                                <tr>
-                                    <td>${customer.getFirstName()}</td>
-                                    <td>${customer.getLastName()}</td>
-                                    <td>${customer.getEmail()}</td>
-                                    <td>${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}</td>
-                                    <td><a href="<c:url value="/do/customer/edit?id=${customer.id}"/> ">${edit_button}
-                                    </a></td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                        <my:pagination pageCount="${customers.getPageCount()}" pageNumber="${customers.getPageNumber()}" url="/do/bookmaker/home"/>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <my:pagination pageCount="${customers.getPageCount()}" pageNumber="${customers.getPageNumber()}"
+                                   url="/do/bookmaker/home"/>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <form role="form" action="${add_to_bookmaker_balance_url}" method="post">
                         <p>${add_to_bookmaker}</p>
                         <input type="number" id="addToBookmaker" required name="addToBookmakerBalance" value=""
-                               placeholder="${sum}">
+                               placeholder="${sum}">Тг
                         <input type="submit" class="btn btn-default" value=${add_button}><br/>
+                        </ul>
                     </form>
                     <c:if test="${message.equals('success')}">
                         <p class="alert alert-success"

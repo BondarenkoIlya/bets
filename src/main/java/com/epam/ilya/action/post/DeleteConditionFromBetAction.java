@@ -21,6 +21,6 @@ public class DeleteConditionFromBetAction implements com.epam.ilya.action.Action
         }
         bet.getConditions().remove(deletedCondition);
         req.getSession(false).setAttribute("bet",bet);
-        return new ActionResult("bet/edit/delete/condition",true);
+        return new ActionResult("bet/edit",true);
     }
 }

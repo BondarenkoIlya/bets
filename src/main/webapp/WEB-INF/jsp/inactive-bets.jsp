@@ -36,7 +36,7 @@
                 <tbody>
                 <c:forEach items="${inactiveBets}" var="bet">
                     <tr>
-                        <td>${bet.value.getAmount().doubleValue()}</td>
+                        <td>${bet.value.getAmount().doubleValue()}Тг</td>
                         <td>
                             <c:forEach items="${bet.conditions}" var="condition">
                                 ${condition.conditionsName} ${condition.coefficient} ${condition.result}<br/>
