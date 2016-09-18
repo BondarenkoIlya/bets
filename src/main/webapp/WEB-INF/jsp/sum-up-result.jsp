@@ -37,6 +37,7 @@
             <p class="alert alert-danger"
                style="width: auto;height: auto">${result_error_message}</p>
         </c:if>
-        <a href="<c:url value="/do/match/edit?id=${match.id}"/>" role="button" class="btn btn-default"><fmt:message key="back"/></a>
+        <a href="<c:url value="/do/match/edit?id=${match.id}"/>" role="button" class="btn btn-default"><fmt:message
+                key="back"/></a>
     </div>
 </my:page-pattern>

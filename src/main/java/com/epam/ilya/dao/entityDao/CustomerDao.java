@@ -97,9 +97,9 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
     public List<Customer> getAllActiveCustomers(int pageNumber, int pageSize) throws DaoException {
         List<Customer> customers = new PaginatedList<>(pageNumber, pageSize);
         try (PreparedStatement statement = getConnection().prepareStatement(FIND_ALL_IN_RANGE)) {
-            statement.setBoolean(1,Dao.ACTIVE);
-            statement.setInt(2,((pageNumber-1)*pageSize));
-            statement.setInt(3,pageSize);
+            statement.setBoolean(1, Dao.ACTIVE);
+            statement.setInt(2, ((pageNumber - 1) * pageSize));
+            statement.setInt(3, pageSize);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 customers.add(pickCustomerFromResultSet(resultSet));
@@ -179,14 +179,14 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
 
     public int getCustomersCount() throws DaoException {
         int count = 0;
-        try(Statement statement= getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(CUSTOMERS_COUNT);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 count = resultSet.getInt(1);
             }
             resultSet.close();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for counting customers",e);
+            throw new DaoException("Cannot create statement for counting customers", e);
         }
         return count;
     }

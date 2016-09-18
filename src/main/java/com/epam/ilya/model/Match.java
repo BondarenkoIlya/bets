@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Class Match describe the event, to which can be bet
+ *
  * @author Bondarenko Ilya
  */
 
@@ -117,14 +118,14 @@ public class Match extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj==null){
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Match)){
+        if (!(obj instanceof Match)) {
             return false;
-        }else {
+        } else {
             Match match = (Match) obj;
-            return this.hashCode()==match.hashCode();
+            return this.hashCode() == match.hashCode();
         }
     }
 }

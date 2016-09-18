@@ -11,14 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChangeLocaleAction implements com.epam.ilya.action.Action {
     static final Logger log = LoggerFactory.getLogger(ChangeLocaleAction.class);
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         String language = req.getParameter("locale");
-        if (language.equals("ru")||language.equals("en")){
-            Cookie locale = new Cookie("locale",language);
-            log.debug("Create cookie with language for locale - {}",language);
+        if (language.equals("ru") || language.equals("en")) {
+            Cookie locale = new Cookie("locale", language);
+            log.debug("Create cookie with language for locale - {}", language);
             resp.addCookie(locale);
         }
-        return new ActionResult(req.getHeader("Referer"),true);
+        return new ActionResult(req.getHeader("Referer"), true);
     }
 }

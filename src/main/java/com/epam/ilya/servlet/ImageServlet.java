@@ -36,19 +36,19 @@ public class ImageServlet extends HttpServlet {
             log.debug("Get customer - {} from session to show avatar", loggedCustomer);
             try {
                 long modifyDate = req.getDateHeader("If-Modified-Since");
-                log.debug("Header 'if-modified-since' contain - {} date",modifyDate);
-                Avatar avatar = service.getCustomersAvatar(loggedCustomer,modifyDate);
-                if (avatar==null){
+                log.debug("Header 'if-modified-since' contain - {} date", modifyDate);
+                Avatar avatar = service.getCustomersAvatar(loggedCustomer, modifyDate);
+                if (avatar == null) {
                     resp.sendError(HttpServletResponse.SC_NOT_MODIFIED);
                     return;
-                }else {
+                } else {
                     avatarStream = avatar.getPicture();
                     long lastModified = avatar.getCreationDate().getMillis();
-                    log.debug("Set - {} date to Last-Modified header",lastModified);
+                    log.debug("Set - {} date to Last-Modified header", lastModified);
                     resp.setDateHeader("Last-Modified", lastModified);
                 }
             } catch (ServiceException e) {
-                throw new ServletException("Cannot get customers avatar",e);
+                throw new ServletException("Cannot get customers avatar", e);
             }
 
         } else {
@@ -63,7 +63,7 @@ public class ImageServlet extends HttpServlet {
             avatarStream = customer.getAvatar().getPicture();
         }
         resp.setContentType("image/jpeg");
-        if (avatarStream!=null){
+        if (avatarStream != null) {
             try (BufferedInputStream bufferedInputStream = new BufferedInputStream(avatarStream, DEFAULT_BUFFER_SIZE);
                  BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(resp.getOutputStream(), DEFAULT_BUFFER_SIZE)) {
 

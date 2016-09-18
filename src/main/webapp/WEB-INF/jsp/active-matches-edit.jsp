@@ -43,7 +43,8 @@
                            url="/do/matches/edit/active"/>
             <a class="btn btn-default" role="button" href="<c:url value="/do/match/create"/>">${create_new_match}</a>
             <c:if test="${not empty cancelMatch}">
-                <p class="alert alert-info" style="width: 250px;height: auto"><fmt:message key="bookmaker.matches.new.cancel"/></p>
+                <p class="alert alert-info" style="width: 250px;height: auto"><fmt:message
+                        key="bookmaker.matches.new.cancel"/></p>
             </c:if>
         </div>
     </div>

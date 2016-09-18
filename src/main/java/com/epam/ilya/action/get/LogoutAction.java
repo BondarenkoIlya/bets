@@ -20,7 +20,7 @@ public class LogoutAction implements Action {
         if (role != null) {
             if (role.equals("customer")) {
                 req.setAttribute("flash.authorizationError", "customer");
-            }else {
+            } else {
                 req.setAttribute("flash.authorizationError", "bookmaker");
             }
         }

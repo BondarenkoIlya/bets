@@ -9,6 +9,7 @@ import java.io.InputStream;
  * about the picture.
  * Class contain two fields except BaseEntity field: input stream that contain
  * contend of avatar and creation date.
+ *
  * @author Bondarenko Ilya
  */
 
@@ -38,7 +39,7 @@ public class Avatar extends BaseEntity {
     @Override
     public String toString() {
         return "Avatar{" +
-                "id="+ getId()+
+                "id=" + getId() +
                 "creationDate=" + creationDate +
                 '}';
     }
@@ -46,22 +47,22 @@ public class Avatar extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 17;
-        hash = hash*37 + getId();
-        hash = hash*37 + picture.hashCode();
-        hash = hash*37 + creationDate.hashCode();
+        hash = hash * 37 + getId();
+        hash = hash * 37 + picture.hashCode();
+        hash = hash * 37 + creationDate.hashCode();
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj==null){
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Avatar)){
+        if (!(obj instanceof Avatar)) {
             return false;
-        }else {
+        } else {
             Avatar avatar = (Avatar) obj;
-         return this.hashCode()==avatar.hashCode();
+            return this.hashCode() == avatar.hashCode();
         }
     }
 }

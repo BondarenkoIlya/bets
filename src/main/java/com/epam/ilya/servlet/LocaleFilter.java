@@ -15,6 +15,7 @@ import java.util.Locale;
 @WebFilter(filterName = "LocaleFilter", urlPatterns = "/do/*")
 public class LocaleFilter implements Filter {
     static final Logger log = LoggerFactory.getLogger(LocaleFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -25,18 +26,17 @@ public class LocaleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
-        if (cookies!=null){
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("locale")) {
                     Locale locale = new Locale(cookie.getValue());
-                    log.debug("Create new locale - {} and change on current language",locale);
-                    Config.set(req.getSession(),Config.FMT_LOCALE,locale);
+                    log.debug("Create new locale - {} and change on current language", locale);
+                    Config.set(req.getSession(), Config.FMT_LOCALE, locale);
                 }
             }
         }
-        filterChain.doFilter(req,resp);
+        filterChain.doFilter(req, resp);
     }
-
 
 
     @Override

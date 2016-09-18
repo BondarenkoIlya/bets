@@ -19,19 +19,19 @@ public class ShowBookmakerHomePageAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         PersonService service = new PersonService();
-        String pageNumberParam =req.getParameter("pageNumber");
+        String pageNumberParam = req.getParameter("pageNumber");
         PaginatedList<Customer> customers;
-        int pageSize=5;
+        int pageSize = 5;
         int pageNumber;
-        if (pageNumberParam==null){
+        if (pageNumberParam == null) {
             log.debug("Do not get page number parameter. Set page number 1");
             pageNumber = 1;
-        }else {
+        } else {
             pageNumber = Integer.parseInt(pageNumberParam);
         }
         try {
-            customers = service.getAllCustomers(pageNumber,pageSize);
-            log.debug("Get customers paginated list with {} page numbers of {} pages at all and {} page size ",customers.getPageNumber(),customers.getPageCount(),customers.getPageSize());
+            customers = service.getAllCustomers(pageNumber, pageSize);
+            log.debug("Get customers paginated list with {} page numbers of {} pages at all and {} page size ", customers.getPageNumber(), customers.getPageCount(), customers.getPageSize());
         } catch (ServiceException e) {
             throw new ActionException("Cannot get customers list in action", e);
         }

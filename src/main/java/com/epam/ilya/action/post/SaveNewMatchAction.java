@@ -14,8 +14,8 @@ public class SaveNewMatchAction implements com.epam.ilya.action.Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Match match = (Match) req.getSession(false).getAttribute("match");
         MatchService service = new MatchService();
-        if (match.getConditionList().isEmpty()){
-            req.setAttribute("flash.emptyError","true");
+        if (match.getConditionList().isEmpty()) {
+            req.setAttribute("flash.emptyError", "true");
             return new ActionResult("match/new/edit", true);
         }
         try {

@@ -20,30 +20,30 @@ public class AddConditionToBetAction implements com.epam.ilya.action.Action {
         MatchService service = new MatchService();
         Bet bet = (Bet) req.getSession(false).getAttribute("bet");
         String id = req.getParameter("conditionId");
-        log.debug("Condition's id - {}",id);
+        log.debug("Condition's id - {}", id);
         Condition condition;
         try {
             condition = service.getConditionById(id);
-            log.debug("Get condition - {} by id",condition);
+            log.debug("Get condition - {} by id", condition);
         } catch (ServiceException e) {
             throw new ActionException("Cannot get condition by id", e);
         }
         boolean result = true;
         log.debug("Take all bet's condition and compare it with just added");
-        if (!bet.getConditions().isEmpty()){
-            for (Condition betCondition: bet.getConditions()) {
-                if (condition.equals(betCondition)){
-                    log.debug("{} equals - {}",condition,betCondition);
+        if (!bet.getConditions().isEmpty()) {
+            for (Condition betCondition : bet.getConditions()) {
+                if (condition.equals(betCondition)) {
+                    log.debug("{} equals - {}", condition, betCondition);
                     result = false;
                 }
 
             }
         }
-        if (result){
+        if (result) {
             bet.addCondition(condition);
-            log.debug("Have no one same condition. Add condition to bet - {}",bet);
-        }else {
-            req.setAttribute("flash.equalsError","true");
+            log.debug("Have no one same condition. Add condition to bet - {}", bet);
+        } else {
+            req.setAttribute("flash.equalsError", "true");
         }
         req.getSession(false).setAttribute("bet", bet);
         return new ActionResult("bet/edit", true);

@@ -11,7 +11,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th><fmt:message key="bookmaker.match.new.eventsDate"/> </th>
+                <th><fmt:message key="bookmaker.match.new.eventsDate"/></th>
                 <th><fmt:message key="bookmaker.match.new.sportsName"/></th>
                 <th><fmt:message key="bookmaker.match.new.leaguesName"/></th>
                 <th><fmt:message key="bookmaker.match.new.firstSidesName"/></th>

@@ -48,8 +48,8 @@ public class RegisterAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Cannot check email available", e);
         }
-        checkParameterBeRegex(firstName, "firstName", properties.getProperty("notEmptyText.regex"), req);
-        checkParameterBeRegex(lastName, "lastName", properties.getProperty("notEmptyText.regex"), req);
+        checkParameterBeRegex(firstName, "firstName", properties.getProperty("word.regex"), req);
+        checkParameterBeRegex(lastName, "lastName", properties.getProperty("word.regex"), req);
         if (!password.equals(repeatPassword)) {
             req.setAttribute("passwordError", "wrong repeat");
         } else {

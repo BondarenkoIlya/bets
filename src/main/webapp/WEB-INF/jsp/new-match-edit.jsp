@@ -27,7 +27,8 @@
                         <tr>
                             <td>${condition.conditionsName}</td>
                             <td>${condition.coefficient}</td>
-                            <td><a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> "><span class="glyphicon glyphicon-remove"></span></a></td>
+                            <td><a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> "><span
+                                    class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -39,7 +40,7 @@
                 </form>
                 <c:if test="${not empty emptyError}">
                     <p class="alert alert-danger"
-                       style="width: auto;height: auto"><fmt:message key="bookmaker.match.add.condition.error"/> </p>
+                       style="width: auto;height: auto"><fmt:message key="bookmaker.match.add.condition.error"/></p>
                 </c:if>
                 <form role="form" method="post" action="<c:url value="/do/match/create/cancel"/>">
                     <input type="submit" class="button btn-danger" value="<fmt:message key="cancel"/> "/>

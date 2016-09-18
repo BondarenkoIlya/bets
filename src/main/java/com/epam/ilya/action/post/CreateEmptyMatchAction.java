@@ -40,26 +40,25 @@ public class CreateEmptyMatchAction implements Action {
         } catch (IOException e) {
             throw new ActionException("Cannot load validation properties", e);
         }
-        checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("notEmptyText.regex"), req);
-        checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("notEmptyText.regex"), req);
-        checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("notEmptyText.regex"), req);
-        checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("notEmptyText.regex"), req);
-        DateTime dateTime= null;
+        checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("word.regex"), req);
+        checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("word.regex"), req);
+        checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("word.regex"), req);
+        checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("word.regex"), req);
+        DateTime dateTime = null;
         if (eventsDate.matches(properties.getProperty("dateTime.regex"))) {
             try {
                 DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
                 dateTime = pattern.parseDateTime(eventsDate);
-            }catch(IllegalFieldValueException e){
+            } catch (IllegalFieldValueException e) {
+                log.warn("{} -  Incorrect date value", eventsDate);
                 invalid = true;
                 req.setAttribute("eventsDateError", "true");
             }
-            if (dateTime !=null){
-                if (dateTime.isBeforeNow()) {
-                    invalid = true;
-                    req.setAttribute("eventsDateError", "beforeNow");
-                }
+            if (dateTime.isBeforeNow()) {
+                invalid = true;
+                req.setAttribute("eventsDateError", "beforeNow");
             }
-        }else {
+        } else {
             invalid = true;
             req.setAttribute("eventsDateError", "true");
         }

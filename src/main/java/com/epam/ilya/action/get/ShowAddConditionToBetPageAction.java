@@ -14,22 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Action {
     static final Logger log = LoggerFactory.getLogger(ShowAddConditionToBetPageAction.class);
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();
         PaginatedList<Match> matches;
-        String pageNumberParam =req.getParameter("pageNumber");
-        int pageSize=5;
+        String pageNumberParam = req.getParameter("pageNumber");
+        int pageSize = 5;
         int pageNumber;
-        if (pageNumberParam==null){
+        if (pageNumberParam == null) {
             log.debug("Do not get page number parameter. Set page number 1");
             pageNumber = 1;
-        }else {
+        } else {
             pageNumber = Integer.parseInt(pageNumberParam);
         }
 
         try {
-            matches = service.getAllActiveMatch(pageNumber,pageSize);
+            matches = service.getAllActiveMatch(pageNumber, pageSize);
         } catch (ServiceException e) {
             throw new ActionException("Cannot get all matches", e);
         }

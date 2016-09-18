@@ -75,11 +75,11 @@ public class BetDao extends Dao implements EntityDao<Bet> {
 
     @Override
     public void delete(Bet bet) throws DaoException {
-        try(PreparedStatement statement = getConnection().prepareStatement(DELETE_BET)) {
-            statement.setInt(1,bet.getId());
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BET)) {
+            statement.setInt(1, bet.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for deleting bet",e);
+            throw new DaoException("Cannot create statement for deleting bet", e);
         }
 
     }
@@ -174,9 +174,9 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             query = INACTIVE_BET_COUNT;
         }
         try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-            statement.setInt(1,customer.getId());
+            statement.setInt(1, customer.getId());
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 count = resultSet.getInt(1);
             }
             resultSet.close();
@@ -187,11 +187,11 @@ public class BetDao extends Dao implements EntityDao<Bet> {
     }
 
     public void deleteCommunication(Bet bet) throws DaoException {
-        try(PreparedStatement statement = getConnection().prepareStatement(DELETE_COMMUNICATION)) {
-            statement.setInt(1,bet.getId());
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_COMMUNICATION)) {
+            statement.setInt(1, bet.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for geleting communication",e);
+            throw new DaoException("Cannot create statement for geleting communication", e);
         }
     }
 }

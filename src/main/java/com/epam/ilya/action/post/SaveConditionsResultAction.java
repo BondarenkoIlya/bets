@@ -49,12 +49,12 @@ public class SaveConditionsResultAction implements com.epam.ilya.action.Action {
             List<Bet> playedBets = betService.sumUpBetsResultByFinishedMatch(match);
             for (Bet bet : playedBets) {
                 log.debug("Bet's customer - {}", bet.getCustomer());
-                personService.summarizeBet(bet,bookmaker);
+                personService.summarizeBet(bet, bookmaker);
             }
         } catch (ServiceException e) {
             throw new ActionException("Cannot get match by id", e);
         }
-        req.getSession(false).setAttribute("bookmaker",bookmaker);
+        req.getSession(false).setAttribute("bookmaker", bookmaker);
         return new ActionResult("matches/edit/active", true);
     }
 }

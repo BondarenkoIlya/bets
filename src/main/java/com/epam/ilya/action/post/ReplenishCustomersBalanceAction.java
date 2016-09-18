@@ -38,7 +38,7 @@ public class ReplenishCustomersBalanceAction implements Action {
             throw new ActionException("Cannot find customer by id", e);
         }
 
-        if (money.matches(properties.getProperty("notEmptyNumber.regex"))) {
+        if (money.matches(properties.getProperty("number.regex"))) {
             try {
                 service.replenishPersonsBalance(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)), customer);
             } catch (ServiceException e) {
@@ -48,6 +48,6 @@ public class ReplenishCustomersBalanceAction implements Action {
         } else {
             req.setAttribute("flash.add_message", "error");
         }
-        return new ActionResult("customer/edit?id="+id,true);
+        return new ActionResult("customer/edit?id=" + id, true);
     }
 }

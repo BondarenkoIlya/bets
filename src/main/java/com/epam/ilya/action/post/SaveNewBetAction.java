@@ -23,8 +23,8 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
         PersonService personService = new PersonService();
         Bet bet = (Bet) req.getSession(false).getAttribute("bet");
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
-        if (bet.getConditions().isEmpty()){
-            req.setAttribute("flash.emptyError","true");
+        if (bet.getConditions().isEmpty()) {
+            req.setAttribute("flash.emptyError", "true");
             return new ActionResult("bet/edit", true);
         }
 

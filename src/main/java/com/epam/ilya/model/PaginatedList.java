@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * PaginatedList ia class-wrapper around ArrayList for contain additional information
  * for more convenient display on view current group of objects <T> in range.
+ *
  * @param <T>
  * @author Bondarenco Ilya
  */

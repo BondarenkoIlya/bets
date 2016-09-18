@@ -14,13 +14,13 @@ public class DeleteConditionFromBetAction implements com.epam.ilya.action.Action
         Bet bet = (Bet) req.getSession(false).getAttribute("bet");
         String current_id = req.getParameter("id");
         Condition deletedCondition = null;
-        for (Condition condition :bet.getConditions()) {
-            if (condition.getId()==Integer.parseInt(current_id)){
+        for (Condition condition : bet.getConditions()) {
+            if (condition.getId() == Integer.parseInt(current_id)) {
                 deletedCondition = condition;
             }
         }
         bet.getConditions().remove(deletedCondition);
-        req.getSession(false).setAttribute("bet",bet);
-        return new ActionResult("bet/edit",true);
+        req.getSession(false).setAttribute("bet", bet);
+        return new ActionResult("bet/edit", true);
     }
 }

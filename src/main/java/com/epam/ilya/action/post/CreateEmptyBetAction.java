@@ -29,7 +29,7 @@ public class CreateEmptyBetAction implements Action {
             throw new ActionException("Cannot load properties for validation money", e);
         }
 
-        if (parameter.matches(properties.getProperty("notEmptyNumber.regex"))) {
+        if (parameter.matches(properties.getProperty("number.regex"))) {
             Money value = Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter));
             if (loggedCustomer.getPersonsPurse().balanceAvailabilityFor(value)) {
                 Bet bet = new Bet();

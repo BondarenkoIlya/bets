@@ -14,7 +14,7 @@ public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
 
     @Override
     public Transfer create(Transfer transfer) throws DaoException {
-        try(PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             log.debug("Write transfer to database - {}", transfer);
             if (transfer.getSender() == null) {
                 statement.setNull(1, Types.INTEGER);

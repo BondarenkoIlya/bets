@@ -17,11 +17,11 @@
     <fmt:message key="customer.bets.message.win" var="win_message"/>
     <fmt:message key="customer.bets.message.lose" var="lose_message"/>
     <div class="container">
-    <c:if test="${create_bet_successfully.equals('true')}">
-        <p class="alert alert-info"
-           style="width: auto;height: auto">${new_bet_message}</p>
-    </c:if>
-    <h3>${bets_edit}</h3>
+        <c:if test="${create_bet_successfully.equals('true')}">
+            <p class="alert alert-info"
+               style="width: auto;height: auto">${new_bet_message}</p>
+        </c:if>
+        <h3>${bets_edit}</h3>
         <h2>${active_bets}</h2>
         <div class="row">
             <table class="table table-striped">

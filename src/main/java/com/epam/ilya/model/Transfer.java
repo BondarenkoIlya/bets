@@ -71,24 +71,24 @@ public class Transfer extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 17;
-        hash = hash*37 + getId();
-        hash = hash*37 + sender.hashCode();
-        hash = hash*37 + recipient.hashCode();
-        hash = hash*37 + time.hashCode();
-        hash = hash*37 + amount.hashCode();
+        hash = hash * 37 + getId();
+        hash = hash * 37 + sender.hashCode();
+        hash = hash * 37 + recipient.hashCode();
+        hash = hash * 37 + time.hashCode();
+        hash = hash * 37 + amount.hashCode();
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj==null){
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Transfer)){
+        if (!(obj instanceof Transfer)) {
             return false;
-        }else {
+        } else {
             Transfer transfer = (Transfer) obj;
-            return this.hashCode()==transfer.hashCode();
+            return this.hashCode() == transfer.hashCode();
         }
     }
 }

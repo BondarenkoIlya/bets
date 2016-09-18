@@ -6,18 +6,18 @@
 <%@attribute name="footer" fragment="true" %>
 
 <fmt:setBundle basename="i18n" scope="request"/>
-    <fmt:message key="pattern.welcome" var="welcome"/>
-    <fmt:message key="pattern.step.one" var="step_one"/>
-    <fmt:message key="pattern.step.two" var="step_two"/>
-    <fmt:message key="pattern.inset.home" var="home_inset"/>
-    <fmt:message key="pattern.inset.bets" var="bets_inset"/>
-    <fmt:message key="pattern.inset.cabinet" var="cabinet_inset"/>
-    <fmt:message key="pattern.logout" var="logout"/>
-    <fmt:message key="pattern.customer.balance" var="balance"/>
-    <fmt:message key="pattern.customer.name" var="name"/>
-    <fmt:message key="pattern.bookmaker.name" var="bookmaker_name"/>
-    <fmt:message key="pattern.bookmaker.inset.match" var="match_editor_inset"/>
-    <fmt:message key="pattern.bookmaker.inset.home" var="bookmaker_home_inset"/>
+<fmt:message key="pattern.welcome" var="welcome"/>
+<fmt:message key="pattern.step.one" var="step_one"/>
+<fmt:message key="pattern.step.two" var="step_two"/>
+<fmt:message key="pattern.inset.home" var="home_inset"/>
+<fmt:message key="pattern.inset.bets" var="bets_inset"/>
+<fmt:message key="pattern.inset.cabinet" var="cabinet_inset"/>
+<fmt:message key="pattern.logout" var="logout"/>
+<fmt:message key="pattern.customer.balance" var="balance"/>
+<fmt:message key="pattern.customer.name" var="name"/>
+<fmt:message key="pattern.bookmaker.name" var="bookmaker_name"/>
+<fmt:message key="pattern.bookmaker.inset.match" var="match_editor_inset"/>
+<fmt:message key="pattern.bookmaker.inset.home" var="bookmaker_home_inset"/>
 
 
 <c:url value="/do/home" var="home"/>
@@ -27,7 +27,7 @@
 <c:url value="/do/bets/active" var="bets"/>
 <c:url value="/do/locale?locale=en" var="en_locale_url"/>
 <c:url value="/do/locale?locale=ru" var="ru_locale_url"/>
-<c:url value="/images/noavatar.png" var="no_avatar" />
+<c:url value="/images/noavatar.png" var="no_avatar"/>
 
 <html>
 <head>
@@ -59,7 +59,8 @@
                                 </div>
                                 <div class="col-md-2 col-lg-2">
                                     <c:if test="${not empty loggedCustomer.avatar}">
-                                        <img src="<c:url value="/image/avatar/${loggedCustomer.avatar.id}"/>" style="width: auto;height: 80px"
+                                        <img src="<c:url value="/image/avatar/${loggedCustomer.avatar.id}"/>"
+                                             style="width: auto;height: 80px"
                                              class="img-responsive">
                                     </c:if>
                                     <c:if test="${empty loggedCustomer.avatar}">

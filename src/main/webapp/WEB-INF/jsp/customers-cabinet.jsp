@@ -7,7 +7,7 @@
     <div class="container">
         <fmt:message key="castomer.cabinet.change.avatar"/>
         <form role="form" action="<c:url value="/do/avatar/upload"/>" method="post" enctype="multipart/form-data">
-            <input type="file" name="avatar" />
+            <input type="file" name="avatar"/>
             <input type="submit" class="btn btn-link" value="<fmt:message key="avatar.upload.button"/> "/>
         </form>
     </div>

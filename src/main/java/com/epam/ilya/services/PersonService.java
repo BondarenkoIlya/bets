@@ -118,8 +118,8 @@ public class PersonService {
     /**
      * Method find current person, bookmakers or customer, bu login and password
      *
-     * @param email     customer's email
-     * @param password  customer's password
+     * @param email    customer's email
+     * @param password customer's password
      * @return found person
      * @throws ServiceException
      */
@@ -302,7 +302,7 @@ public class PersonService {
      * Write transfer in data base
      *
      * @param sender    person who give money
-     * @param amount      transfer's value
+     * @param amount    transfer's value
      * @param recipient person who get money
      * @throws ServiceException
      */

@@ -65,7 +65,7 @@ public class DaoFactory implements AutoCloseable {
         try {
             connectionPool.closeConnection(connection);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Cannot close connection",e);
+            throw new DaoException("Cannot close connection", e);
         }
     }
 }

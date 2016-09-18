@@ -21,22 +21,22 @@ public class ShowCustomersHomePageAction implements Action {
         MatchService service = new MatchService();
         PaginatedList<Match> matches;
         String successRegister = req.getParameter("successRegister");
-        String pageNumberParam =req.getParameter("pageNumber");
-        int pageSize=5;
+        String pageNumberParam = req.getParameter("pageNumber");
+        int pageSize = 5;
         int pageNumber;
-        if (pageNumberParam==null){
+        if (pageNumberParam == null) {
             log.debug("Do not get page number parameter. Set page number 1");
             pageNumber = 1;
-        }else {
+        } else {
             pageNumber = Integer.parseInt(pageNumberParam);
         }
         try {
             matches = service.getAllActiveMatch(pageNumber, pageSize);
-            log.debug("Get paginated list of matches with {} pageNumber, {} pageCount, {} page size and size - {}",matches.getPageNumber(),matches.getPageCount(),matches.getPageSize(),matches.size());
+            log.debug("Get paginated list of matches with {} pageNumber, {} pageCount, {} page size and size - {}", matches.getPageNumber(), matches.getPageCount(), matches.getPageSize(), matches.size());
         } catch (ServiceException e) {
             throw new ActionException("Cannot get matches list in action", e);
         }
-        if (successRegister!=null){
+        if (successRegister != null) {
             req.setAttribute("registerMessage", "success");
         }
         req.setAttribute("matches", matches);

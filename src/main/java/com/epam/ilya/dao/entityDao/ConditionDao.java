@@ -61,9 +61,9 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
     @Override
     public void update(Condition condition) throws DaoException {
         try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_CONDITION)) {
-            if( condition.getResult()!=null){
+            if (condition.getResult() != null) {
                 statement.setBoolean(1, condition.getResult());
-            }else {
+            } else {
                 statement.setNull(1, Types.BOOLEAN);
             }
             statement.setInt(2, condition.getId());
@@ -80,7 +80,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
     }
 
     public void addConditionToMatch(Condition condition, Match match) throws DaoException {
-        try (PreparedStatement statement = getConnection().prepareStatement(SET_CONDITION_TO_MATCH)){
+        try (PreparedStatement statement = getConnection().prepareStatement(SET_CONDITION_TO_MATCH)) {
             statement.setInt(1, match.getId());
             statement.setInt(2, condition.getId());
             statement.execute();
@@ -92,7 +92,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
 
     public List<Condition> getMatchsConditions(Match match) throws DaoException {
         List<Condition> conditions = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(GET_MATCHS_CONDITIONS)){
+        try (PreparedStatement statement = getConnection().prepareStatement(GET_MATCHS_CONDITIONS)) {
             statement.setInt(1, match.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -108,12 +108,12 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
 
     public List<Condition> getBetsConditions(Bet bet) throws DaoException {
         List<Condition> conditions = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(GET_BETS_CONDITIONS)){
+        try (PreparedStatement statement = getConnection().prepareStatement(GET_BETS_CONDITIONS)) {
             statement.setInt(1, bet.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Condition condition = pickConditionFromResultSet(resultSet);
-                log.debug("Get condition - {} for bet - {}",condition,bet);
+                log.debug("Get condition - {} for bet - {}", condition, bet);
                 conditions.add(condition);
             }
             resultSet.close();
@@ -130,7 +130,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
             condition.setConditionsName(resultSet.getString(2));
             condition.setCoefficient(resultSet.getDouble(3));
             condition.setResult(resultSet.getBoolean(4));
-            if (resultSet.wasNull()){
+            if (resultSet.wasNull()) {
                 condition.setResult(null);
             }
         } catch (SQLException e) {

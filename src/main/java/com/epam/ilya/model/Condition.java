@@ -5,6 +5,7 @@ package com.epam.ilya.model;
  * Contain 3 field: condition name(aspect of the match), result - say condition name become
  * true or false and coefficient that show how much more money you will get in case of
  * ges result
+ *
  * @author Bondarenko Ilya
  */
 
@@ -57,22 +58,22 @@ public class Condition extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 17;
-        hash = hash*37 + getId();
-        hash = hash*37 + conditionsName.hashCode();
-        hash = (int) (hash*37 + coefficient);
+        hash = hash * 37 + getId();
+        hash = hash * 37 + conditionsName.hashCode();
+        hash = (int) (hash * 37 + coefficient);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj==null){
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Condition)){
+        if (!(obj instanceof Condition)) {
             return false;
-        }else {
+        } else {
             Condition condition = (Condition) obj;
-            return this.hashCode()==condition.hashCode();
+            return this.hashCode() == condition.hashCode();
         }
     }
 }

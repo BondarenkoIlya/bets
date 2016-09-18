@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * This class do all works with matches
+ *
  * @author Bondarenko Ilya
  */
 
@@ -22,17 +23,17 @@ public class MatchService {
     static final Logger log = LoggerFactory.getLogger(MatchService.class);
 
     public PaginatedList<Match> getAllActiveMatch(int pageNumber, int pageSize) throws ServiceException {
-        return getAllMatch(Dao.ACTIVE,pageNumber, pageSize);
+        return getAllMatch(Dao.ACTIVE, pageNumber, pageSize);
     }
 
     public PaginatedList<Match> getAllInactiveMatch(int pageNumber, int pageSize) throws ServiceException {
-        return getAllMatch(Dao.INACTIVE,pageNumber, pageSize);
+        return getAllMatch(Dao.INACTIVE, pageNumber, pageSize);
     }
 
     /**
      * Method return matches in range for pagination, and pick all nested entities
      *
-     * @param status status of match activities
+     * @param status     status of match activities
      * @param pageNumber count of current page
      * @param pageSize   quantity of match on one page
      * @return paginated list of match
@@ -45,7 +46,7 @@ public class MatchService {
                 MatchDao matchDao = daoFactory.getDao(MatchDao.class);
                 ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
                 daoFactory.startTransaction();
-                matches = matchDao.getAllMatches(status,pageNumber, pageSize);
+                matches = matchDao.getAllMatches(status, pageNumber, pageSize);
                 int matchesCount = matchDao.getMatchCount(status);
                 log.debug("{} matches at all", matchesCount);
                 int pageCount = countUpPages(pageSize, matchesCount);
@@ -58,7 +59,7 @@ public class MatchService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot get all match",e);
+                throw new ServiceException("Cannot get all match", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao for matches", e);
@@ -144,7 +145,7 @@ public class MatchService {
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
-                throw new ServiceException("Cannot get match by id",e);
+                throw new ServiceException("Cannot get match by id", e);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot get dao for finding match by id", e);
@@ -157,7 +158,7 @@ public class MatchService {
      * Method write result of current condition to data base
      *
      * @param condition not finished condition
-     * @param result result of condition
+     * @param result    result of condition
      * @throws ServiceException
      */
     public void sumUpConditionsResult(Condition condition, Boolean result) throws ServiceException {
@@ -192,11 +193,11 @@ public class MatchService {
      * @throws ServiceException
      */
     public void cancelMatchCreation(Match match) throws ServiceException {
-        try(DaoFactory daoFactory = new DaoFactory()) {
+        try (DaoFactory daoFactory = new DaoFactory()) {
             MatchDao matchDao = daoFactory.getDao(MatchDao.class);
             matchDao.delete(match);
         } catch (DaoException e) {
-            throw new ServiceException("Cannot create dao factory for cancel match creation",e);
+            throw new ServiceException("Cannot create dao factory for cancel match creation", e);
         }
     }
 }

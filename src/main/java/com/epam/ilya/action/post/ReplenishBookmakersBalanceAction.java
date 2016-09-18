@@ -25,7 +25,7 @@ public class ReplenishBookmakersBalanceAction implements Action {
         } catch (IOException e) {
             throw new ActionException("Cannot load properties", e);
         }
-        if (parameter.matches(properties.getProperty("notEmptyNumber.regex"))) {
+        if (parameter.matches(properties.getProperty("number.regex"))) {
             Bookmaker bookmaker = (Bookmaker) req.getSession().getAttribute("bookmaker");
             try {
                 service.replenishPersonsBalance(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter)), bookmaker);

@@ -3,6 +3,7 @@ package com.epam.ilya.model;
 /**
  * Bookmaker - person who create new match (event) for which bets may be accepted,
  * sum up result of this match and mare money transfer to customers
+ *
  * @author Bondarenko Ilya
  */
 

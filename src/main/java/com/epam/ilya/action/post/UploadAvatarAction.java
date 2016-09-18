@@ -42,7 +42,7 @@ public class UploadAvatarAction implements Action {
 
         if (req.getHeader("Referer").endsWith("cabinet")) {
             return new ActionResult("cabinet", true);
-        }else {
+        } else {
             req.setAttribute("flash.registerMessage", "success");
             return new ActionResult("home", true);
         }

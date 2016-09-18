@@ -40,10 +40,10 @@
                 <input type="text" name="email" value=""/><br/>
                 <c:if test="${emailError.equals('busy')}">
                     <p class="alert alert-danger"
-                       style="width: 250px;height: 30px;padding: 5px">${emailBusyErrorAlert}</p>
+                       style="width: 250px;height: auto;padding: 5px">${emailBusyErrorAlert}</p>
                 </c:if>
                 <c:if test="${emailError.equals('true')}">
-                    <p class="alert alert-danger" style="width: 250px;height: 30px;padding: 5px">${emailErrorAlert}</p>
+                    <p class="alert alert-danger" style="width: 250px;height: auto;padding: 5px">${emailErrorAlert}</p>
                 </c:if>
                     ${pasword}<br/>
                 <input type="text" name="password" value=""/><br/>
@@ -51,11 +51,11 @@
                 <input type="text" name="repeatPassword" value=""/><br/>
                 <c:if test="${passwordError.equals('wrong repeat')}">
                     <p class="alert alert-danger"
-                       style="width: 250px;height: 30px;padding: 5px">${wrongRepeatPasswordErrorAlert}</p>
+                       style="width: 250px;height: auto;padding: 5px">${wrongRepeatPasswordErrorAlert}</p>
                 </c:if>
                 <c:if test="${passwordError.equals('true')}">
                     <p class="alert alert-danger"
-                       style="width: 250px;height: 30px;padding: 5px">${passwordErrorAlert}</p>
+                       style="width: 250px;height: auto;padding: 5px">${passwordErrorAlert}</p>
                 </c:if>
             </div>
             <input type="submit" class="btn btn-default" value=${button}><br/>
