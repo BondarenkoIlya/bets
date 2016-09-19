@@ -103,30 +103,6 @@ public class Match extends BaseEntity {
                 '}';
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        hash = hash * 37 + getId();
-        hash = hash * 37 + sportsName.hashCode();
-        hash = hash * 37 + leaguesName.hashCode();
-        hash = hash * 37 + date.hashCode();
-        hash = hash * 37 + firstSidesName.hashCode();
-        hash = hash * 37 + secondSidesName.hashCode();
-        hash = hash * 37 + conditionList.hashCode();
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Match)) {
-            return false;
-        } else {
-            Match match = (Match) obj;
-            return this.hashCode() == match.hashCode();
-        }
-    }
 }
 

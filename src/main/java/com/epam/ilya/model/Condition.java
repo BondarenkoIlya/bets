@@ -66,14 +66,22 @@ public class Condition extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
+        if (this==obj){
+            return true;
+        }
         if (obj == null) {
             return false;
         }
         if (!(obj instanceof Condition)) {
             return false;
-        } else {
-            Condition condition = (Condition) obj;
-            return this.hashCode() == condition.hashCode();
         }
+        Condition condition = (Condition) obj;
+        if (this.conditionsName != condition.conditionsName){
+            return false;
+        }
+        if (this.coefficient!= condition.coefficient){
+            return false;
+        }
+        return true;
     }
 }

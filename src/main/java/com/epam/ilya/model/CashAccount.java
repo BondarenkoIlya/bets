@@ -62,26 +62,4 @@ public class CashAccount extends BaseEntity {
                 ", person=" + person +
                 '}';
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        hash = hash * 37 + getId();
-        hash = hash * 37 + balance.hashCode();
-        hash = hash * 37 + person.hashCode();
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof CashAccount)) {
-            return false;
-        } else {
-            CashAccount purse = (CashAccount) obj;
-            return this.hashCode() == purse.hashCode();
-        }
-    }
 }

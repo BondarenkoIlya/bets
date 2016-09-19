@@ -44,25 +44,4 @@ public class Avatar extends BaseEntity {
                 '}';
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        hash = hash * 37 + getId();
-        hash = hash * 37 + picture.hashCode();
-        hash = hash * 37 + creationDate.hashCode();
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Avatar)) {
-            return false;
-        } else {
-            Avatar avatar = (Avatar) obj;
-            return this.hashCode() == avatar.hashCode();
-        }
-    }
 }

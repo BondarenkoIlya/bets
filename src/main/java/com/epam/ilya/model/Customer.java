@@ -31,29 +31,4 @@ public class Customer extends Person {
                 '}';
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        hash = hash * 37 + getId();
-        hash = hash * 37 + getEmail().hashCode();
-        hash = hash * 37 + getFirstName().hashCode();
-        hash = hash * 37 + getLastName().hashCode();
-        hash = hash * 37 + getPersonsPurse().hashCode();
-        hash = hash * 37 + getPassword().hashCode();
-        hash = hash * 37 + getAvatar().hashCode();
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Customer)) {
-            return false;
-        } else {
-            Customer customer = (Customer) obj;
-            return this.hashCode() == customer.hashCode();
-        }
-    }
 }

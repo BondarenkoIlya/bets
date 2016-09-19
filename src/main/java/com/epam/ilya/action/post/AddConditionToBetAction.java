@@ -32,7 +32,7 @@ public class AddConditionToBetAction implements com.epam.ilya.action.Action {
         log.debug("Take all bet's condition and compare it with just added");
         if (!bet.getConditions().isEmpty()) {
             for (Condition betCondition : bet.getConditions()) {
-                if (condition.equals(betCondition)) {
+                if (betCondition.getId()==condition.getId()) {
                     log.debug("{} equals - {}", condition, betCondition);
                     result = false;
                 }
