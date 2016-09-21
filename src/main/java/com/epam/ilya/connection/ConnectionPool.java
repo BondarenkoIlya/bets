@@ -19,7 +19,6 @@ public class ConnectionPool {
     private String username;
     private String password;
     private int connectionsLimit;
-    private int getConnectionTimeout;
     private BlockingQueue<Connection> freeConnections = null;
     private BlockingQueue<Connection> usedConnections = null;
 
@@ -53,7 +52,6 @@ public class ConnectionPool {
             setUsername(properties.getProperty("username"));
             setPassword(properties.getProperty("password"));
             setConnectionsLimit(Integer.parseInt(properties.getProperty("connections.limit")));
-            setGetConnectionTimeout(Integer.parseInt(properties.getProperty("get.connection.timeout")));
         } else {
             log.error("Property have not any parameters");
         }
