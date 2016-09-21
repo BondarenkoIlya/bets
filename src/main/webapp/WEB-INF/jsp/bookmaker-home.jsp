@@ -65,7 +65,7 @@
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <form role="form" action="${add_to_bookmaker_balance_url}" method="post">
                         <p>${add_to_bookmaker}</p>
-                        <input type="number" id="addToBookmaker" required name="addToBookmakerBalance" value=""
+                        <input type="text" id="addToBookmaker" required name="addToBookmakerBalance" value=""
                                placeholder="${sum}">Тг
                         <input type="submit" class="btn btn-default" value=${add_button}><br/>
                         </ul>

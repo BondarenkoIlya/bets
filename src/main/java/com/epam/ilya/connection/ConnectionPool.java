@@ -132,14 +132,6 @@ public class ConnectionPool {
         this.connectionsLimit = connectionsLimit;
     }
 
-    public int getGetConnectionTimeout() {
-        return getConnectionTimeout;
-    }
-
-    public void setGetConnectionTimeout(int getConnectionTimeout) {
-        this.getConnectionTimeout = getConnectionTimeout;
-    }
-
     public String getUsername() {
         return username;
     }

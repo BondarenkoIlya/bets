@@ -25,7 +25,7 @@
         <form role="form" action="${register_url}" method="POST">
             <div class="form-group">
                     ${firstName}<br/>
-                <input type="text" name="firstName" value=""/><br/>
+                <input type="text" name="firstName" value="${param.firstName}"/><br/>
                 <c:if test="${not empty firstNameError}">
                     <p class="alert alert-danger"
                        style="width: 250px;height: 30px;padding: 5px">${firstNameErrorAlert}</p>
@@ -46,9 +46,9 @@
                     <p class="alert alert-danger" style="width: 250px;height: auto;padding: 5px">${emailErrorAlert}</p>
                 </c:if>
                     ${pasword}<br/>
-                <input type="text" name="password" value=""/><br/>
+                <input type="password" name="password" value=""/><br/>
                     ${repeatPassword}<br/>
-                <input type="text" name="repeatPassword" value=""/><br/>
+                <input type="password" name="repeatPassword" value=""/><br/>
                 <c:if test="${passwordError.equals('wrong repeat')}">
                     <p class="alert alert-danger"
                        style="width: 250px;height: auto;padding: 5px">${wrongRepeatPasswordErrorAlert}</p>
