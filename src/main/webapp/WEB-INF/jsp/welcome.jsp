@@ -30,8 +30,8 @@
                     <input type="submit" class="btn btn-default" value=${loginButton}><br/>
                 </div>
             </form>
-            <button type="button" class="btn btn-default"><a
-                    href="${register_url}">${register}</a></button>
+            <a class="btn btn-default" role="button"
+               href="${register_url}">${register}</a>
         </div>
         <c:if test="${authorizationError.equals('customer')}">
             <p class="alert alert-danger" style="width: 250px;height: auto">${reloggin_customer_error_message}</p>

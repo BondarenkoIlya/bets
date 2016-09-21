@@ -13,8 +13,7 @@
     <div class="container">
             ${edit_match}<br/>
             ${match.firstSidesName} ${against} ${match.secondSidesName}<br/>
-        <button type="button" class="btn btn-default"><a
-                href="${sum_up_result_of_match_url}">${sum_up_button}</a>
-        </button>
+        <a class="btn btn-default" role="button"
+           href="${sum_up_result_of_match_url}">${sum_up_button}</a>
     </div>
 </my:page-pattern>

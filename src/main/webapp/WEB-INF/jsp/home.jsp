@@ -47,8 +47,9 @@
                     <my:pagination pageNumber="${matches.getPageNumber()}" pageCount="${matches.getPageCount()}"
                                    url="/do/home"/>
                 </div>
-                <button type="button" class="btn btn-default"><a
-                        href="${create_bet_url}">${create_bet_button}</a></button>
+                <a class="btn btn-default" role="button"
+                   href="${create_bet_url}">${create_bet_button}</a>
+
                 <c:if test="${not empty cancelBet}">
                     <p class="alert alert-info" style="width: 250px;height: auto"><fmt:message
                             key="customer.home.create.bet.cancel"/></p>
