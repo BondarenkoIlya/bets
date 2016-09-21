@@ -1,5 +1,11 @@
 package com.epam.ilya.model;
 
+/**
+ * Class describe registered user
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class Customer extends Person {
     private Avatar avatar;
 

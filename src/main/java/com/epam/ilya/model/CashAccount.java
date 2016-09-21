@@ -3,6 +3,13 @@ package com.epam.ilya.model;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
+/**
+ * Class CashAccount describe person's purse: balance - how mush money available to person and
+ * person who own the CashAccount.
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class CashAccount extends BaseEntity {
     private Money balance;
     private Person person;
