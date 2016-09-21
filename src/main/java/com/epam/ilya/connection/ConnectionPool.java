@@ -18,6 +18,7 @@ public class ConnectionPool {
     private String url;
     private String username;
     private String password;
+    private String driver;
     private int connectionsLimit;
     private BlockingQueue<Connection> freeConnections = null;
     private BlockingQueue<Connection> usedConnections = null;
@@ -38,10 +39,9 @@ public class ConnectionPool {
     }
 
     private void loadDBProperties() throws ConnectionPoolException {
-        Properties properties = null;
+        Properties properties = new Properties();
         try {
-            properties = new Properties();
-            properties.load(ConnectionPool.class.getClassLoader().getResourceAsStream("database.properties"));
+            properties.load(ConnectionPool.class.getClassLoader().getResourceAsStream("database/database.properties"));
             log.info("Load property file with information about DB");
         } catch (IOException e) {
             throw new ConnectionPoolException("Cannot load properties", e);
@@ -51,6 +51,7 @@ public class ConnectionPool {
             setUrl(properties.getProperty("url"));
             setUsername(properties.getProperty("username"));
             setPassword(properties.getProperty("password"));
+            setDriver(properties.getProperty("driver"));
             setConnectionsLimit(Integer.parseInt(properties.getProperty("connections.limit")));
         } else {
             log.error("Property have not any parameters");
@@ -69,12 +70,12 @@ public class ConnectionPool {
 
     private void init() throws ConnectionPoolException {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             throw new ConnectionPoolException("Cannot found class", e);
         }
-        freeConnections = new ArrayBlockingQueue<Connection>(connectionsLimit);
-        usedConnections = new ArrayBlockingQueue<Connection>(connectionsLimit);
+        freeConnections = new ArrayBlockingQueue<>(connectionsLimit);
+        usedConnections = new ArrayBlockingQueue<>(connectionsLimit);
         while (freeConnections.size() != connectionsLimit) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -86,7 +87,7 @@ public class ConnectionPool {
     }
 
     public synchronized Connection getConnection() throws ConnectionPoolException {
-        Connection currentConnection = null;
+        Connection currentConnection;
         log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
         try {
             currentConnection = freeConnections.take();
@@ -108,6 +109,10 @@ public class ConnectionPool {
         log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
     }
 
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -124,16 +129,8 @@ public class ConnectionPool {
         this.password = password;
     }
 
-    public int getConnectionsLimit() {
-        return connectionsLimit;
-    }
-
     public void setConnectionsLimit(int connectionsLimit) {
         this.connectionsLimit = connectionsLimit;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setUsername(String username) {

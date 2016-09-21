@@ -66,7 +66,7 @@ public class Condition extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this==obj){
+        if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -76,10 +76,10 @@ public class Condition extends BaseEntity {
             return false;
         }
         Condition condition = (Condition) obj;
-        if (this.conditionsName != condition.conditionsName){
+        if (this.conditionsName != condition.conditionsName) {
             return false;
         }
-        if (this.coefficient!= condition.coefficient){
+        if (this.coefficient != condition.coefficient) {
             return false;
         }
         return true;

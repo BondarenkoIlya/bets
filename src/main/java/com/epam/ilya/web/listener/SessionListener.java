@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.listener;
 
 import com.epam.ilya.model.Bet;
 import com.epam.ilya.model.Match;
@@ -8,11 +8,13 @@ import com.epam.ilya.services.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-public class SessionListner implements HttpSessionListener {
-    static final Logger log = LoggerFactory.getLogger(SessionListner.class);
+@WebListener
+public class SessionListener implements HttpSessionListener {
+    static final Logger log = LoggerFactory.getLogger(SessionListener.class);
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
@@ -41,3 +43,4 @@ public class SessionListner implements HttpSessionListener {
         }
     }
 }
+

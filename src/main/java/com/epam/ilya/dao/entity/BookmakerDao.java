@@ -1,4 +1,4 @@
-package com.epam.ilya.dao.entityDao;
+package com.epam.ilya.dao.entity;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;

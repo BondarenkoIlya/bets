@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.servlet;
 
 import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Servlet", urlPatterns = "/do/*")
-@MultipartConfig(maxFileSize = 16177215)// 16 mb
-public class Servlet extends HttpServlet {
-    private Logger log = LoggerFactory.getLogger(Servlet.class);
+@WebServlet(name = "BetsServlet", urlPatterns = "/do/*")
+@MultipartConfig(maxFileSize = 16_177_215)// 16 mb
+public class BetsServlet extends HttpServlet {
+    private Logger log = LoggerFactory.getLogger(BetsServlet.class);
     private ActionFactory actionFactory;
 
     @Override
@@ -36,7 +36,7 @@ public class Servlet extends HttpServlet {
             return;
         }
         log.debug("{} init by key: '{}'", action.getClass().getSimpleName(), actionName);
-        ActionResult result = null;
+        ActionResult result;
         try {
             result = action.execute(req, resp);
             log.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
@@ -65,3 +65,4 @@ public class Servlet extends HttpServlet {
         }
     }
 }
+

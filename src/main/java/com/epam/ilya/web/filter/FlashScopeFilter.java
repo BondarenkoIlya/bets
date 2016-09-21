@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

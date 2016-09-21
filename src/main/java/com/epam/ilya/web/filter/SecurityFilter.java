@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

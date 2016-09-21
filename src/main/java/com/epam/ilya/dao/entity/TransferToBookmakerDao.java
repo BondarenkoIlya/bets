@@ -1,4 +1,4 @@
-package com.epam.ilya.dao.entityDao;
+package com.epam.ilya.dao.entity;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
-public class TransferToCustomerDao extends Dao implements EntityDao<Transfer> {
+public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
     static final Logger log = LoggerFactory.getLogger(TransferToBookmakerDao.class);
-    private String INSERT_TRANSFER = "INSERT INTO transfers_to_customers VALUES (id,?,?,?,?)";
+    private String INSERT_TRANSFER = "INSERT INTO transfers_to_bookmaker VALUES (id,?,?,?,?)";
 
     @Override
     public Transfer create(Transfer transfer) throws DaoException {
@@ -32,7 +32,6 @@ public class TransferToCustomerDao extends Dao implements EntityDao<Transfer> {
                 log.debug("Set id - {} to transfer", id);
             }
             resultSet.close();
-            statement.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for insert transfer", e);
         }

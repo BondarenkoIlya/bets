@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.listener;
 
 import com.epam.ilya.connection.ConnectionPool;
 import com.epam.ilya.connection.ConnectionPoolException;

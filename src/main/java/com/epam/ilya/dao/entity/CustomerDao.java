@@ -1,4 +1,4 @@
-package com.epam.ilya.dao.entityDao;
+package com.epam.ilya.dao.entity;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
@@ -128,11 +128,9 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
         for (Map.Entry<String, String> parameter : parameters.entrySet()) {
             if (parameters.size() == 1) {
                 query = query + parameter.getKey() + "='" + parameter.getValue() + "'";
-                log.debug("Create query - '{}' for finding by parameter", query);
                 return query;
             } else {
                 query = query + parameter.getKey() + "='" + parameter.getValue() + "' AND ";
-                log.debug("Create query - '{}' for finding by parameters", query.substring(0, query.length() - 5));
             }
         }
         return query.substring(0, query.length() - 5);

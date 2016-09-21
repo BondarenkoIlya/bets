@@ -1,4 +1,4 @@
-package com.epam.ilya.servlet;
+package com.epam.ilya.web.servlet;
 
 import com.epam.ilya.model.Avatar;
 import com.epam.ilya.model.Customer;

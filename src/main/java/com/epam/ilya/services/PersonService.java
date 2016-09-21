@@ -2,7 +2,7 @@ package com.epam.ilya.services;
 
 import com.epam.ilya.dao.DaoException;
 import com.epam.ilya.dao.DaoFactory;
-import com.epam.ilya.dao.entityDao.*;
+import com.epam.ilya.dao.entity.*;
 import com.epam.ilya.model.*;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -140,7 +140,7 @@ public class PersonService {
                 } else {
                     CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                     AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
-                    log.debug("Try to find customer by email - {} and password - {}", email, password);
+                    log.debug("Try to find customer by email - {} and password", email);
                     List<Customer> customers = customerDao.findByParameters(parameters);
                     if (customers.size() == 1) {
                         Customer customer = customers.get(0);
