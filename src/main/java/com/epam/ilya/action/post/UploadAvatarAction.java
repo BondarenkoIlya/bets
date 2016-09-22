@@ -28,20 +28,20 @@ public class UploadAvatarAction implements Action {
         boolean invalid = false;
         try {
             Part avatar = req.getPart("avatar");
-                if (avatar.getSize() <= 0) {
-                    invalid = true;
-                    req.setAttribute("flash.avatarError", "empty");
+            if (avatar.getSize() <= 0) {
+                invalid = true;
+                req.setAttribute("flash.avatarError", "empty");
+            } else {
+                if (avatar.getContentType().equals("image/jpeg")) {
+                    Avatar avatarPic = new Avatar();
+                    avatarPic.setPicture(avatar.getInputStream());
+                    avatarPic.setCreationDate(DateTime.now());
+                    service.setAvatarToCustomer(avatarPic, customer);
+                    req.getSession(false).setAttribute("loggedCustomer", customer);
                 } else {
-                    if (avatar.getContentType().equals("image/jpeg")) {
-                        Avatar avatarPic = new Avatar();
-                        avatarPic.setPicture(avatar.getInputStream());
-                        avatarPic.setCreationDate(DateTime.now());
-                        service.setAvatarToCustomer(avatarPic, customer);
-                        req.getSession(false).setAttribute("loggedCustomer", customer);
-                    }else {
-                        req.setAttribute("flash.avatarError", "notImage");
-                    }
+                    req.setAttribute("flash.avatarError", "notImage");
                 }
+            }
         } catch (IOException | ServletException e) {
             throw new ActionException("Cannot get part with avatar", e);
         } catch (ServiceException e) {

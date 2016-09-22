@@ -25,7 +25,7 @@
         <form role="form" action="${register_url}" method="POST">
             <div class="form-group">
                     ${firstName}<br/>
-                <input type="text" name="firstName" value="<c:out value="${param.firstName}"/>" /><br/>
+                <input type="text" name="firstName" value="<c:out value="${param.firstName}"/>"/><br/>
                 <c:if test="${not empty firstNameError}">
                     <p class="alert alert-danger"
                        style="width: 250px;height: 30px;padding: 5px">${firstNameErrorAlert}</p>
@@ -38,7 +38,8 @@
                 </c:if>
                     ${email}<br/>
                 <input type="text" name="email" value="<c:out value="${param.email}"/>"/><br/>
-                        <p class="alert alert-info" style="width: auto;height: auto"><fmt:message key="register.email.login"/> </p>
+                <p class="alert alert-info" style="width: auto;height: auto"><fmt:message
+                        key="register.email.login"/></p>
                 <c:if test="${emailError.equals('busy')}">
                     <p class="alert alert-danger"
                        style="width: 250px;height: auto;padding: 5px">${emailBusyErrorAlert}</p>

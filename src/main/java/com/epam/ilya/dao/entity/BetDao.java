@@ -106,12 +106,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
 
     public PaginatedList<Bet> getAllCustomersBets(boolean status, Customer customer, int pageNumber, int pageSize) throws DaoException {
         PaginatedList<Bet> bets = new PaginatedList<>(pageNumber, pageSize);
-        String query;
-        if (status) {
-            query = GET_CUSTOMERS_ACTIVE_BETS;
-        } else {
-            query = GET_CUSTOMERS_INACTIVE_BETS;
-        }
+        String query = status ? GET_CUSTOMERS_ACTIVE_BETS : GET_CUSTOMERS_INACTIVE_BETS;
         try (PreparedStatement statement = getConnection().prepareStatement(query)) {
             statement.setInt(1, customer.getId());
             statement.setInt(2, ((pageNumber - 1) * pageSize));
@@ -167,12 +162,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
 
     public int getBetsCount(boolean status, Customer customer) throws DaoException {
         int count = 0;
-        String query;
-        if (status) {
-            query = ACTIVE_BET_COUNT;
-        } else {
-            query = INACTIVE_BET_COUNT;
-        }
+        String query = status ? ACTIVE_BET_COUNT : INACTIVE_BET_COUNT;
         try (PreparedStatement statement = getConnection().prepareStatement(query)) {
             statement.setInt(1, customer.getId());
             ResultSet resultSet = statement.executeQuery();
