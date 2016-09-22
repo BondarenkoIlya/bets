@@ -19,32 +19,45 @@ import java.io.IOException;
 
 
 public class UploadAvatarAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(UploadAvatarAction.class);
+    private static final Logger log = LoggerFactory.getLogger(UploadAvatarAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer customer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         PersonService service = new PersonService();
+        boolean invalid = false;
         try {
             Part avatar = req.getPart("avatar");
-            if (avatar != null) {
-                Avatar avatarPic = new Avatar();
-                avatarPic.setPicture(avatar.getInputStream());
-                avatarPic.setCreationDate(DateTime.now());
-                service.setAvatarToCustomer(avatarPic, customer);
-                req.getSession(false).setAttribute("loggedCustomer", customer);
-            }
+                if (avatar.getSize() <= 0) {
+                    invalid = true;
+                    req.setAttribute("flash.avatarError", "empty");
+                } else {
+                    if (avatar.getContentType().equals("image/jpeg")) {
+                        Avatar avatarPic = new Avatar();
+                        avatarPic.setPicture(avatar.getInputStream());
+                        avatarPic.setCreationDate(DateTime.now());
+                        service.setAvatarToCustomer(avatarPic, customer);
+                        req.getSession(false).setAttribute("loggedCustomer", customer);
+                    }else {
+                        req.setAttribute("flash.avatarError", "notImage");
+                    }
+                }
         } catch (IOException | ServletException e) {
             throw new ActionException("Cannot get part with avatar", e);
         } catch (ServiceException e) {
             throw new ActionException("Cannot set Avatar to customer", e);
         }
-
         if (req.getHeader("Referer").endsWith("cabinet")) {
+            invalid = false;
             return new ActionResult("cabinet", true);
         } else {
-            req.setAttribute("flash.registerMessage", "success");
-            return new ActionResult("home", true);
+            if (!invalid) {
+                req.setAttribute("flash.registerMessage", "success");
+                return new ActionResult("home", true);
+            } else {
+                invalid = false;
+                return new ActionResult("upload/avatar", true);
+            }
         }
     }
 }

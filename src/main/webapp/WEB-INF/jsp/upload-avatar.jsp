@@ -12,6 +12,7 @@
             ${upload}
         <form role="form" action="${avatar_upload_url}" method="post" enctype="multipart/form-data">
             <input type="file" name="avatar"/>
+            <fmt:message key="customer.cabinet.weight"/>
             <input type="submit" class="btn btn-link" value="${upload_button}"/>
         </form>
         <a href="<c:url value="/do/home?successRegister=true"/>" role="button" class="btn btn-default"><fmt:message
