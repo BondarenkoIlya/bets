@@ -38,6 +38,7 @@
                 </c:if>
                     ${email}<br/>
                 <input type="text" name="email" value=""/><br/>
+                        <p class="alert alert-info" style="width: auto;height: auto"><fmt:message key="register.email.login"/> </p>
                 <c:if test="${emailError.equals('busy')}">
                     <p class="alert alert-danger"
                        style="width: 250px;height: auto;padding: 5px">${emailBusyErrorAlert}</p>

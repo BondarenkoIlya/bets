@@ -77,7 +77,6 @@ CREATE TABLE bets
   finalCoefficient DOUBLE,
   finalResult      TINYINT(1),
   betsDate         DATETIME,
-  active           TINYINT(1),
   CONSTRAINT bets_customers_id_fk FOREIGN KEY (customer_id) REFERENCES customers (id)
 );
 CREATE INDEX bets_customers_id_fk ON bets (customer_id);
