@@ -21,8 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateEmptyMatchAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(CreateEmptyMatchAction.class);
-    boolean invalid = false;
+    private static final Logger LOG = LoggerFactory.getLogger(CreateEmptyMatchAction.class);
+    private boolean invalid = false;
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -34,7 +34,7 @@ public class CreateEmptyMatchAction implements Action {
         String eventsDate = req.getParameter("eventsDate");
         String firstSidesName = req.getParameter("firstSidesName");
         String secondSidesName = req.getParameter("secondSidesName");
-        log.debug("Parameters for creating new match {}, {}, {}, {}, {}", sportsName, leaguesName, eventsDate, firstSidesName, secondSidesName);
+        LOG.debug("Parameters for creating new match {}, {}, {}, {}, {}", sportsName, leaguesName, eventsDate, firstSidesName, secondSidesName);
         try {
             properties.load(CreateEmptyMatchAction.class.getClassLoader().getResourceAsStream("validation.properties"));
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class CreateEmptyMatchAction implements Action {
                 DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
                 dateTime = pattern.parseDateTime(eventsDate);
             } catch (IllegalFieldValueException e) {
-                log.warn("{} -  Incorrect date value", eventsDate);
+                LOG.warn("{} -  Incorrect date value", eventsDate);
                 invalid = true;
                 req.setAttribute("eventsDateError", "true");
             }
@@ -66,7 +66,7 @@ public class CreateEmptyMatchAction implements Action {
             invalid = false;
             return new ActionResult("create-match");
         } else {
-            log.info("All parameters is correct");
+            LOG.info("All parameters is correct");
             match.setSportsName(sportsName);
             match.setLeaguesName(leaguesName);
             match.setDate(dateTime);
@@ -75,7 +75,7 @@ public class CreateEmptyMatchAction implements Action {
 
             Match registeredMatch;
             try {
-                log.debug("Try to register match - {}");
+                LOG.debug("Try to register match - {}");
                 registeredMatch = service.createEmptyMatch(match);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot create empty match", e);
@@ -86,11 +86,11 @@ public class CreateEmptyMatchAction implements Action {
     }
 
     private void checkParameterBeRegex(String parameter, String parameterName, String regex, HttpServletRequest req) {
-        log.debug("Check parameter '{}' with value '{}' by regex '{}'", parameterName, parameter, regex);
+        LOG.debug("Check parameter '{}' with value '{}' by regex '{}'", parameterName, parameter, regex);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(parameter);
         if (!matcher.matches()) {
-            log.debug("Parameter '{}' with value '{}' is unsuitable.", parameterName, parameter);
+            LOG.debug("Parameter '{}' with value '{}' is unsuitable.", parameterName, parameter);
             req.setAttribute(parameterName + "Error", "true");
             invalid = true;
         }

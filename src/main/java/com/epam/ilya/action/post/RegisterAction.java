@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegisterAction.class);
     private boolean invalid = false;
 
     @Override
@@ -59,7 +59,7 @@ public class RegisterAction implements Action {
         customer.setLastName(lastName);
         customer.setEmail(email);
         customer.setPassword(password);
-        log.info("Get customer {} from view", customer);
+        LOG.info("Get customer {} from view", customer);
         if (invalid) {
             invalid = false;
             return new ActionResult("register");
@@ -75,11 +75,11 @@ public class RegisterAction implements Action {
     }
 
     private void checkParameterBeRegex(String parameter, String parameterName, String regex, HttpServletRequest req) {
-        log.debug("Check parameter '{}' with value '{}' by regex '{}'", parameterName, parameter, regex);
+        LOG.debug("Check parameter '{}' with value '{}' by regex '{}'", parameterName, parameter, regex);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(parameter);
         if (!matcher.matches()) {
-            log.debug("Parameter '{}' with value '{}' is unsuitable.", parameterName, parameter);
+            LOG.debug("Parameter '{}' with value '{}' is unsuitable.", parameterName, parameter);
             req.setAttribute(parameterName + "Error", "true");
             invalid = true;
         }

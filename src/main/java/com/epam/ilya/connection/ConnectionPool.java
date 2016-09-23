@@ -14,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
-    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPool.class);
     private String url;
     private String username;
     private String password;
@@ -30,7 +30,7 @@ public class ConnectionPool {
             loadDriver();
             init();
         } catch (ConnectionPoolException e) {
-            log.error("Cannot create new instance of connection pool. ", e);
+            LOG.error("Cannot create new instance of connection pool. ", e);
         }
     }
 
@@ -42,25 +42,25 @@ public class ConnectionPool {
         Properties properties = new Properties();
         try {
             properties.load(ConnectionPool.class.getClassLoader().getResourceAsStream("database/database.properties"));
-            log.info("Load property file with information about DB");
+            LOG.info("Load property file with information about DB");
         } catch (IOException e) {
             throw new ConnectionPoolException("Cannot load properties", e);
         }
         if (!properties.isEmpty()) {
-            log.info("Set information about DB to instance");
+            LOG.info("Set information about DB to instance");
             setUrl(properties.getProperty("url"));
             setUsername(properties.getProperty("username"));
             setPassword(properties.getProperty("password"));
             setDriver(properties.getProperty("driver"));
             setConnectionsLimit(Integer.parseInt(properties.getProperty("connections.limit")));
         } else {
-            log.error("Property have not any parameters");
+            LOG.error("Property have not any parameters");
         }
     }
 
     private void loadDriver() throws ConnectionPoolException {
         try {
-            log.info("Create new driver and register it");
+            LOG.info("Create new driver and register it");
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
@@ -88,14 +88,14 @@ public class ConnectionPool {
 
     public synchronized Connection getConnection() throws ConnectionPoolException {
         Connection currentConnection;
-        log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
+        LOG.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
         try {
             currentConnection = freeConnections.take();
             usedConnections.put(currentConnection);
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Cannot replace connection", e);
         }
-        log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
+        LOG.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
         return currentConnection;
     }
 
@@ -106,7 +106,7 @@ public class ConnectionPool {
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Cannot replace connection back", e);
         }
-        log.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
+        LOG.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
     }
 
     public void setDriver(String driver) {

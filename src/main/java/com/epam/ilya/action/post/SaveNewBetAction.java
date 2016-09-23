@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SaveNewBetAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(SaveNewBetAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SaveNewBetAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -31,7 +31,7 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
         try {
             Bookmaker bookmaker = (Bookmaker) personService.performUserLogin("qwe@mail.ru", "1234567");
             betService.completeBetsCreation(bet);
-            log.debug("Logged customer's balance is - {}", loggedCustomer.getPersonsPurse().getBalance());
+            LOG.debug("Logged customer's balance is - {}", loggedCustomer.getPersonsPurse().getBalance());
             personService.replaceBatsValueToBookmaker(loggedCustomer, bet.getValue(), bookmaker);
         } catch (ServiceException e) {
             throw new ActionException("Cannot complete bets creation", e);

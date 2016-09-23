@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowCustomerEditionPageAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(ShowCustomerEditionPageAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShowCustomerEditionPageAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -22,7 +22,7 @@ public class ShowCustomerEditionPageAction implements Action {
         Customer customer;
         try {
             customer = service.findById(id);
-            log.info("Get current customer - {} with purse - {}", customer, customer.getPersonsPurse());
+            LOG.info("Get current customer - {} with purse - {}", customer, customer.getPersonsPurse());
         } catch (ServiceException e) {
             throw new ActionException("Cannot find by id", e);
         }

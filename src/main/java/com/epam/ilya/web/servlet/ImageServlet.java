@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 @WebServlet(name = "ImageServlet", urlPatterns = "/image/*")
 public class ImageServlet extends HttpServlet {
-    static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImageServlet.class);
     private static final int DEFAULT_BUFFER_SIZE = 10240;
 
     @Override
@@ -31,12 +31,12 @@ public class ImageServlet extends HttpServlet {
         PersonService service = new PersonService();
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         InputStream avatarStream;
-        log.info("Work with avatar images");
+        LOG.info("Work with avatar images");
         if (loggedCustomer != null) {
-            log.debug("Get customer - {} from session to show avatar", loggedCustomer);
+            LOG.debug("Get customer - {} from session to show avatar", loggedCustomer);
             try {
                 long modifyDate = req.getDateHeader("If-Modified-Since");
-                log.debug("Header 'if-modified-since' contain - {} date", modifyDate);
+                LOG.debug("Header 'if-modified-since' contain - {} date", modifyDate);
                 Avatar avatar = service.getCustomersAvatar(loggedCustomer, modifyDate);
                 if (avatar == null) {
                     resp.sendError(HttpServletResponse.SC_NOT_MODIFIED);
@@ -44,7 +44,7 @@ public class ImageServlet extends HttpServlet {
                 } else {
                     avatarStream = avatar.getPicture();
                     long lastModified = avatar.getCreationDate().getMillis();
-                    log.debug("Set - {} date to Last-Modified header", lastModified);
+                    LOG.debug("Set - {} date to Last-Modified header", lastModified);
                     resp.setDateHeader("Last-Modified", lastModified);
                 }
             } catch (ServiceException e) {
@@ -59,7 +59,7 @@ public class ImageServlet extends HttpServlet {
             } catch (ServiceException e) {
                 throw new ServletException("Cannot find customer by id", e);
             }
-            log.debug("Get customer - {} from dao to show avatar", customer);
+            LOG.debug("Get customer - {} from dao to show avatar", customer);
             avatarStream = customer.getAvatar().getPicture();
         }
         resp.setContentType("image/jpeg");

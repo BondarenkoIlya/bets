@@ -14,8 +14,8 @@ import java.io.InputStream;
  */
 
 public class Avatar extends BaseEntity {
-    InputStream picture;
-    DateTime creationDate;
+    private InputStream picture;
+    private DateTime creationDate;
 
     public Avatar() {
     }

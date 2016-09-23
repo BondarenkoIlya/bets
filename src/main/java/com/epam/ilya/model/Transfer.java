@@ -16,9 +16,6 @@ public class Transfer extends BaseEntity {
     private Money amount;
     private DateTime time;
 
-    public Transfer() {
-    }
-
     public Transfer(Person sender, Person recipient, Money amount) {
         this.sender = sender;
         this.recipient = recipient;

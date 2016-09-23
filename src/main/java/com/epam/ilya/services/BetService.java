@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class BetService {
-    static final Logger log = LoggerFactory.getLogger(BetService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BetService.class);
 
     /**
      * Method create bet for current customer and set communication
@@ -90,13 +90,13 @@ public class BetService {
             daoFactory.startTransaction();
             bets = betDao.getAllCustomersBets(status, customer, pageNumber, pageSize);
             int betsCount = betDao.getBetsCount(status, customer);
-            log.debug("{} bets at all", betsCount);
+            LOG.debug("{} bets at all", betsCount);
             int pageCount = countUpPages(pageSize, betsCount);
-            log.debug("{} pages by {} bets on one page", pageCount, pageSize);
+            LOG.debug("{} pages by {} bets on one page", pageCount, pageSize);
             bets.setPageCount(pageCount);
             if (!bets.isEmpty()) {
                 for (Bet bet : bets) {
-                    log.debug("Found bet - {}", bet);
+                    LOG.debug("Found bet - {}", bet);
                     List<Condition> conditions = conditionDao.getBetsConditions(bet);
                     bet.setCustomer(customer);
                     bet.setConditions(conditions);
@@ -135,7 +135,7 @@ public class BetService {
                 for (Condition condition : match.getConditionList()) {
                     List<Bet> bets = getBetsWithCondition(condition);
                     for (Bet bet : bets) {
-                        log.debug("Sum up bet's result - {}", bet);
+                        LOG.debug("Sum up bet's result - {}", bet);
                         if (bet.getConditions().size() == 1) {
                             playedBets.add(bet);
                             bet.setFinalResult(condition.getResult());
@@ -186,17 +186,17 @@ public class BetService {
             CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
             betsWithCondition = betDao.getBetsByCondition(condition);
             for (Bet bet : betsWithCondition) {
-                log.debug("Pick bet - {}", bet);
+                LOG.debug("Pick bet - {}", bet);
                 List<Condition> conditions = conditionDao.getBetsConditions(bet);
-                log.debug("Set conditions");
+                LOG.debug("Set conditions");
                 bet.setConditions(conditions);
                 Customer customer = customerDao.getBetsCustomer(bet);
-                log.debug("Get bet's customer - {}", customer);
+                LOG.debug("Get bet's customer - {}", customer);
                 CashAccount cashAccount = cashAccountDao.findByPerson(customer);
-                log.debug("Get customer's purse - {}", cashAccount);
+                LOG.debug("Get customer's purse - {}", cashAccount);
                 customer.setPersonsPurse(cashAccount);
                 bet.setCustomer(customer);
-                log.debug("Set customer and purse to bet");
+                LOG.debug("Set customer and purse to bet");
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot get bet dao", e);

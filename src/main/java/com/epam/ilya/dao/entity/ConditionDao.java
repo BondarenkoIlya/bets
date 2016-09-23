@@ -16,13 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConditionDao extends Dao implements EntityDao<Condition> {
-    static final Logger log = LoggerFactory.getLogger(ConditionDao.class);
-    private static String INSERT_CONDITION = "INSERT INTO conditions VALUES (id,?,?,NULL)";
-    private static String UPDATE_CONDITION = "UPDATE conditions set result = ? WHERE id=?";
-    private static String SET_CONDITION_TO_MATCH = "INSERT INTO matches_conditions VALUES (?,?)";
-    private static String FIND_BY_ID = "SELECT * FROM conditions WHERE id=?";
-    private static String GET_MATCHS_CONDITIONS = "SELECT id , conditionsName, coefficient , result FROM conditions JOIN matches_conditions on conditions.id = matches_conditions.condition_id WHERE matches_conditions.match_id=?";
-    private static String GET_BETS_CONDITIONS = "SELECT id , conditionsName, coefficient, result FROM conditions JOIN bets_conditions on conditions.id = bets_conditions.conditions_id WHERE bets_conditions.bets_id=?";
+    private static final Logger LOG = LoggerFactory.getLogger(ConditionDao.class);
+    private static final String INSERT_CONDITION = "INSERT INTO conditions VALUES (id,?,?,NULL)";
+    private static final String DELETE_CONDITION = "DELETE FROM conditions WHERE id = ?";
+    private static final String UPDATE_CONDITION = "UPDATE conditions set result = ? WHERE id=?";
+    private static final String SET_CONDITION_TO_MATCH = "INSERT INTO matches_conditions VALUES (?,?)";
+    private static final String FIND_BY_ID = "SELECT * FROM conditions WHERE id=?";
+    private static final String GET_MATCHS_CONDITIONS = "SELECT id , conditionsName, coefficient , result FROM conditions JOIN matches_conditions on conditions.id = matches_conditions.condition_id WHERE matches_conditions.match_id=?";
+    private static final String GET_BETS_CONDITIONS = "SELECT id , conditionsName, coefficient, result FROM conditions JOIN bets_conditions on conditions.id = bets_conditions.conditions_id WHERE bets_conditions.bets_id=?";
 
     @Override
     public Condition create(Condition condition) throws DaoException {
@@ -33,7 +34,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             int id = resultSet.getInt(1);
-            log.debug("Set id = {} to condition - {}", id, condition);
+            LOG.debug("Set id = {} to condition - {}", id, condition);
             condition.setId(id);
             resultSet.close();
         } catch (SQLException e) {
@@ -76,7 +77,12 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
 
     @Override
     public void delete(Condition condition) throws DaoException {
-
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_CONDITION)) {
+            statement.setInt(1, condition.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for deleting condition", e);
+        }
     }
 
     public void addConditionToMatch(Condition condition, Match match) throws DaoException {
@@ -113,7 +119,7 @@ public class ConditionDao extends Dao implements EntityDao<Condition> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Condition condition = pickConditionFromResultSet(resultSet);
-                log.debug("Get condition - {} for bet - {}", condition, bet);
+                LOG.debug("Get condition - {} for bet - {}", condition, bet);
                 conditions.add(condition);
             }
             resultSet.close();

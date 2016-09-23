@@ -17,18 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BetDao extends Dao implements EntityDao<Bet> {
-    static final Logger log = LoggerFactory.getLogger(BetDao.class);
-    private String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
-    private String DELETE_BET = "DELETE FROM bets WHERE id = ?";
-    private String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
-    private String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
-    private String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
-    private String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? order by betsDate desc limit ?,?";
-    private String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? order by betsDate desc limit ?,?";
-    private String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
-    private String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
-    private String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";
-    private String DELETE_COMMUNICATION = "DELETE  FROM customers_bets WHERE bets_id=?";
+    private static final Logger LOG = LoggerFactory.getLogger(BetDao.class);
+    private static final String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
+    private static final String DELETE_BET = "DELETE FROM bets WHERE id = ?";
+    private static final String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
+    private static final String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
+    private static final String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
+    private static final String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? order by betsDate desc limit ?,?";
+    private static final String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? order by betsDate desc limit ?,?";
+    private static final String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
+    private static final String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
+    private static final String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";
+    private static final String DELETE_COMMUNICATION = "DELETE  FROM customers_bets WHERE bets_id=?";
 
     @Override
     public Bet create(Bet bet) throws DaoException {
@@ -42,7 +42,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             int id = resultSet.getInt(1);
-            log.info("Set generated id = {} to bet", id);
+            LOG.info("Set generated id = {} to bet", id);
             bet.setId(id);
             resultSet.close();
         } catch (SQLException e) {
@@ -120,7 +120,7 @@ public class BetDao extends Dao implements EntityDao<Bet> {
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for getting customer's bets", e);
         }
-        log.debug("Bets size", bets.size());
+        LOG.debug("Bets size", bets.size());
         return bets;
     }
 
@@ -131,9 +131,9 @@ public class BetDao extends Dao implements EntityDao<Bet> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Bet bet = pickBetFromResultSet(resultSet);
-                log.debug("Pick bet from result set - {}", bet);
+                LOG.debug("Pick bet from result set - {}", bet);
                 bets.add(bet);
-                log.debug("Add to bets");
+                LOG.debug("Add to bets");
             }
             resultSet.close();
         } catch (SQLException e) {

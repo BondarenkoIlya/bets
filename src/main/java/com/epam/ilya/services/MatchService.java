@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class MatchService {
-    static final Logger log = LoggerFactory.getLogger(MatchService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MatchService.class);
 
     public PaginatedList<Match> getAllActiveMatch(int pageNumber, int pageSize) throws ServiceException {
         return getAllMatch(Dao.ACTIVE, pageNumber, pageSize);
@@ -48,9 +48,9 @@ public class MatchService {
                 daoFactory.startTransaction();
                 matches = matchDao.getAllMatches(status, pageNumber, pageSize);
                 int matchesCount = matchDao.getMatchCount(status);
-                log.debug("{} matches at all", matchesCount);
+                LOG.debug("{} matches at all", matchesCount);
                 int pageCount = countUpPages(pageSize, matchesCount);
-                log.debug("{} pages by {} matches on one page", pageCount, pageSize);
+                LOG.debug("{} pages by {} matches on one page", pageCount, pageSize);
                 matches.setPageCount(pageCount);
                 for (Match match : matches) {
                     List<Condition> conditions = conditionDao.getMatchsConditions(match);

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ReplenishCustomersBalanceAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(ReplenishCustomersBalanceAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReplenishCustomersBalanceAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

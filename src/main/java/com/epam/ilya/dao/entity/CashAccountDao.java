@@ -13,11 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CashAccountDao extends Dao implements EntityDao<CashAccount> {
-    private static String INSERT_PURSE = "Insert INTO cash_accounts VALUES (id,?)";
-    private static String FIND_BY_ID = "SELECT * FROM cash_accounts WHERE id = ?";
-    private static String FIND_BY_CUSTOMER = "SELECT * FROM cash_accounts WHERE owner_id = ?";
-    private static String UPDATE_PURSE = "UPDATE cash_accounts SET balance = ? WHERE id = ?";
-    private static String DELETE_PURSE = "DELETE FROM cash_accounts WHERE id = ?";
+    private static final String INSERT_PURSE = "Insert INTO cash_accounts VALUES (id,?)";
+    private static final String FIND_BY_ID = "SELECT * FROM cash_accounts WHERE id = ?";
+    private static final String UPDATE_PURSE = "UPDATE cash_accounts SET balance = ? WHERE id = ?";
+    private static final String DELETE_PURSE = "DELETE FROM cash_accounts WHERE id = ?";
 
     @Override
     public CashAccount create(CashAccount cashAccount) throws DaoException {

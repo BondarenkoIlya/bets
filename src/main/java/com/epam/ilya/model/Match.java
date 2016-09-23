@@ -12,13 +12,12 @@ import java.util.List;
  */
 
 public class Match extends BaseEntity {
-
     private String sportsName;
     private String leaguesName;
     private DateTime date;
     private String firstSidesName;
     private String secondSidesName;
-    private List<Condition> conditionList = new ArrayList<Condition>();
+    private List<Condition> conditionList = new ArrayList<>();
 
     public Match() {
     }
@@ -29,12 +28,6 @@ public class Match extends BaseEntity {
         this.setDate(date);
         this.setFirstSidesName(nameOfSide1);
         this.setSecondSidesName(nameOfSide2);
-    }
-
-    public void setResults(String nameOfWinSide, int differenceInScore) {
-    }
-
-    public void setRandomResults() {
     }
 
     public String getLeaguesName() {
@@ -87,10 +80,6 @@ public class Match extends BaseEntity {
 
     public void addCondition(Condition condition) {
         conditionList.add(condition);
-    }
-
-    public void removeCondition(Condition condition) {
-        conditionList.remove(condition);
     }
 
     @Override

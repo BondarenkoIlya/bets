@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(ShowCustomersInactiveBetsPageAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShowCustomersInactiveBetsPageAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -26,7 +26,7 @@ public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action
         int pageSize = 3;
         int pageNumber;
         if (pageNumberParam == null) {
-            log.debug("Do not get page number parameter. Set page number 1");
+            LOG.debug("Do not get page number parameter. Set page number 1");
             pageNumber = 1;
         } else {
             pageNumber = Integer.parseInt(pageNumberParam);
@@ -34,7 +34,7 @@ public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action
         try {
             inactiveBets = service.getAllInactiveCustomersBets(loggedCustomer, pageNumber, pageSize);
             for (Bet bet : inactiveBets) {
-                log.debug("Active bet contain - {}", bet);
+                LOG.debug("Active bet contain - {}", bet);
             }
         } catch (ServiceException e) {
             throw new ActionException("Cannot get all active and inactive customer's bets", e);

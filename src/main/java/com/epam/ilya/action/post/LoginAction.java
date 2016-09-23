@@ -17,16 +17,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class LoginAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(LoginAction.class);
-
-    public LoginAction() {
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(LoginAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         String email = req.getParameter("login");
         String password = req.getParameter("password");
-        log.info("Get email- {} and password- {}", email, password);
+        LOG.info("Get email- {} and password- {}", email, password);
         Person person;
         PersonService service = new PersonService();
         Properties properties = new Properties();
@@ -37,13 +34,13 @@ public class LoginAction implements Action {
         }
         if (!email.matches(properties.getProperty("email.regex")) || !password.matches(properties.getProperty("password.regex"))) {
             req.setAttribute("loginError", "Invalid Login or Password");
-            log.info("Wrong login ({}) or password ({})", email, password);
+            LOG.info("Wrong login ({}) or password ({})", email, password);
             return new ActionResult("welcome");
         }
 
         try {
             person = service.performUserLogin(email, password);
-            log.debug("Get customer - {} to Login action");
+            LOG.debug("Get customer - {} to Login action");
         } catch (ServiceException e) {
             throw new ActionException("Cannot get customer from dao", e);
         }
@@ -51,19 +48,19 @@ public class LoginAction implements Action {
         if (person instanceof Bookmaker) {
             Bookmaker bookmaker = (Bookmaker) person;
             req.getSession(false).setAttribute("bookmaker", bookmaker);
-            log.info("{} logged in", bookmaker);
-            log.info("Action result - bookmaker/home redirect");
+            LOG.info("{} logged in", bookmaker);
+            LOG.info("Action result - bookmaker/home redirect");
             return new ActionResult("bookmaker/home", true);
         } else if (person instanceof Customer) {
             Customer customer = (Customer) person;
             req.getSession(false).setAttribute("loggedCustomer", customer);
-            log.info("{} logged in", customer);
-            log.info("Action result - home redirect");
+            LOG.info("{} logged in", customer);
+            LOG.info("Action result - home redirect");
             return new ActionResult("home", true);
         } else {
             req.setAttribute("loginError", "Invalid Login or Password");
-            log.info("Wrong login ({}) or password ({})", email, password);
-            log.info("Action result - welcome forward");
+            LOG.info("Wrong login ({}) or password ({})", email, password);
+            LOG.info("Action result - welcome forward");
             return new ActionResult("welcome");
         }
     }

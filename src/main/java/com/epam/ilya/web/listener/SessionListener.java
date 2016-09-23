@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSessionListener;
 
 @WebListener
 public class SessionListener implements HttpSessionListener {
-    static final Logger log = LoggerFactory.getLogger(SessionListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SessionListener.class);
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
@@ -29,7 +29,7 @@ public class SessionListener implements HttpSessionListener {
             try {
                 betService.cancelBetCreation(bet);
             } catch (ServiceException e) {
-                log.error("Cannot cancel bet creation after sessions invalidating", e);
+                LOG.error("Cannot cancel bet creation after sessions invalidating", e);
             }
         }
         Match match = (Match) httpSessionEvent.getSession().getAttribute("match");
@@ -38,7 +38,7 @@ public class SessionListener implements HttpSessionListener {
             try {
                 matchService.cancelMatchCreation(match);
             } catch (ServiceException e) {
-                log.error("Cannot cancel match creation after session invalidating ", e);
+                LOG.error("Cannot cancel match creation after session invalidating ", e);
             }
         }
     }

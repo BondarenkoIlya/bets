@@ -14,7 +14,7 @@ import java.util.Locale;
 
 @WebFilter(filterName = "LocaleFilter", urlPatterns = "/do/*")
 public class LocaleFilter implements Filter {
-    static final Logger log = LoggerFactory.getLogger(LocaleFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LocaleFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -30,7 +30,7 @@ public class LocaleFilter implements Filter {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("locale")) {
                     Locale locale = new Locale(cookie.getValue());
-                    log.debug("Create new locale - {} and change on current language", locale);
+                    LOG.debug("Create new locale - {} and change on current language", locale);
                     Config.set(req.getSession(), Config.FMT_LOCALE, locale);
                 }
             }

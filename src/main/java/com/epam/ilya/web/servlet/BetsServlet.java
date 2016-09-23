@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(name = "BetsServlet", urlPatterns = "/do/*")
 @MultipartConfig(maxFileSize = 16_177_215)// 16 mb
 public class BetsServlet extends HttpServlet {
-    private Logger log = LoggerFactory.getLogger(BetsServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BetsServlet.class);
     private ActionFactory actionFactory;
 
     @Override
@@ -29,17 +29,17 @@ public class BetsServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String actionName = req.getMethod() + req.getPathInfo();
-        log.info("Action name - " + actionName);
+        LOG.info("Action name - " + actionName);
         Action action = actionFactory.getAction(actionName);
         if (action == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
             return;
         }
-        log.debug("{} init by key: '{}'", action.getClass().getSimpleName(), actionName);
+        LOG.debug("{} init by key: '{}'", action.getClass().getSimpleName(), actionName);
         ActionResult result;
         try {
             result = action.execute(req, resp);
-            log.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
+            LOG.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
         } catch (ActionException e) {
             throw new ServletException("Cannot execute action", e);
         }
@@ -56,11 +56,11 @@ public class BetsServlet extends HttpServlet {
             if (result.getView().startsWith("http://")) {
                 location = result.getView();
             }
-            log.info("Location for 'redirect' - " + location);
+            LOG.info("Location for 'redirect' - " + location);
             resp.sendRedirect(location);
         } else {
             String path = String.format("/WEB-INF/jsp/" + result.getView() + ".jsp");
-            log.info("Path for 'forward' - " + path);
+            LOG.info("Path for 'forward' - " + path);
             req.getRequestDispatcher(path).forward(req, resp);
         }
     }

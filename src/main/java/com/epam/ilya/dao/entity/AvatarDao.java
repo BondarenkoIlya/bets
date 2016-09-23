@@ -14,12 +14,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class AvatarDao extends Dao implements EntityDao<Avatar> {
-    static final Logger log = LoggerFactory.getLogger(AvatarDao.class);
-    private String INSERT_AVATAR = "Insert INTO avatars VALUES (id,?,?)";
-    private String UPDATE_AVATAR = "UPDATE avatars SET picture=? , avatars.date = ? WHERE id=?";
-    private String DELETE_AVATAR = "DELETE FROM avatars WHERE id=?";
-    private String FIND_BY_CUSTOMER = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE customers.id=?";
-    private String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
+    private static final Logger LOG = LoggerFactory.getLogger(AvatarDao.class);
+    private static final String INSERT_AVATAR = "Insert INTO avatars VALUES (id,?,?)";
+    private static final String FIND_BY_ID = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars WHERE id=?";
+    private static final String UPDATE_AVATAR = "UPDATE avatars SET picture=? , avatars.date = ? WHERE id=?";
+    private static final String DELETE_AVATAR = "DELETE FROM avatars WHERE id=?";
+    private static final String FIND_BY_CUSTOMER = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE customers.id=?";
+    private static final String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
 
     @Override
     public Avatar create(Avatar avatar) throws DaoException {
@@ -39,7 +40,17 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
 
     @Override
     public Avatar findById(int id) throws DaoException {
-        return null;
+        Avatar avatar = null;
+        try(PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                avatar=pickAvatarFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for finding by id",e);
+        }
+        return avatar;
     }
 
     @Override
@@ -67,11 +78,11 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
     public Avatar findByPerson(Customer customer) throws DaoException {
         Avatar avatar = null;
         try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_CUSTOMER)) {
-            log.debug("Find avatar by customer's id - {}", customer.getId());
+            LOG.debug("Find avatar by customer's id - {}", customer.getId());
             statement.setInt(1, customer.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                log.debug("Pick avatar from result set");
+                LOG.debug("Pick avatar from result set");
                 avatar = pickAvatarFromResultSet(resultSet);
             }
             resultSet.close();
@@ -90,7 +101,7 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
             while (resultSet.next()) {
                 avatar = pickAvatarFromResultSet(resultSet);
             }
-            log.debug("Pick avatar from result set", avatar);
+            LOG.debug("Pick avatar from result set", avatar);
             resultSet.close();
         } catch (SQLException e) {
             throw new DaoException("Cannot create statement for find by person and date", e);

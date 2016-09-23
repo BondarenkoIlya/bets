@@ -17,16 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomerDao extends Dao implements EntityDao<Customer> {
-    static final Logger log = LoggerFactory.getLogger(CustomerDao.class);
-    private String FIND_BY_ID = "SELECT * FROM customers WHERE id = ?";
-    private String UPDATE_CUSTOMER = "UPDATE customers SET first_name = ? , last_name = ? ,password=?, email = ? WHERE id = ?";
-    private String UPDATE_CUSTOMERS_AVATAR = "UPDATE customers SET avatar_id=?  WHERE id = ?";
-    private String DELETE_CUSTOMER = "DELETE FROM customers WHERE id = ?";
-    private String INSERT_CUSTOMER = "Insert INTO customers VALUES (id,?,?,?,?,?,?,NULL)";
-    private String FIND_ALL = "SELECT * FROM customers WHERE active = ?";
-    private String FIND_ALL_IN_RANGE = "SELECT * FROM customers JOIN cash_accounts ON customers.purse_id=cash_accounts.id  WHERE active = ? order by cash_accounts.balance desc LIMIT ?,?";
-    private String GET_BETS_CUSTOMER = "SELECT id, firstName, lastName, password, email FROM customers JOIN customers_bets ON customers.id=customers_bets.customer_id WHERE customers_bets.bets_id=?";
-    private String CUSTOMERS_COUNT = "SELECT count(*) FROM bets.customers where active =1";
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerDao.class);
+    private static final String FIND_BY_ID = "SELECT * FROM customers WHERE id = ?";
+    private static final String UPDATE_CUSTOMER = "UPDATE customers SET first_name = ? , last_name = ? ,password=?, email = ? WHERE id = ?";
+    private static final String UPDATE_CUSTOMERS_AVATAR = "UPDATE customers SET avatar_id=?  WHERE id = ?";
+    private static final String DELETE_CUSTOMER = "DELETE FROM customers WHERE id = ?";
+    private static final String INSERT_CUSTOMER = "Insert INTO customers VALUES (id,?,?,?,?,?,?,NULL)";
+    private static final String FIND_ALL_IN_RANGE = "SELECT * FROM customers JOIN cash_accounts ON customers.purse_id=cash_accounts.id  WHERE active = ? order by cash_accounts.balance desc LIMIT ?,?";
+    private static final String GET_BETS_CUSTOMER = "SELECT id, firstName, lastName, password, email FROM customers JOIN customers_bets ON customers.id=customers_bets.customer_id WHERE customers_bets.bets_id=?";
+    private static final String CUSTOMERS_COUNT = "SELECT count(*) FROM bets.customers where active =1";
 
 
     @Override
@@ -42,7 +41,7 @@ public class CustomerDao extends Dao implements EntityDao<Customer> {
             ResultSet resultSet = statement.getGeneratedKeys();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
-                log.info("Set generated id = {} to customer", id);
+                LOG.info("Set generated id = {} to customer", id);
                 customer.setId(id);
             }
             resultSet.close();

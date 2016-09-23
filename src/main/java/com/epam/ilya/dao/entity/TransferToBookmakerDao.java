@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 
 public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
-    static final Logger log = LoggerFactory.getLogger(TransferToBookmakerDao.class);
-    private String INSERT_TRANSFER = "INSERT INTO transfers_to_bookmaker VALUES (id,?,?,?,?)";
+    private static final Logger LOG = LoggerFactory.getLogger(TransferToBookmakerDao.class);
+    private static final String INSERT_TRANSFER = "INSERT INTO transfers_to_bookmaker VALUES (id,?,?,?,?)";
 
     @Override
     public Transfer create(Transfer transfer) throws DaoException {
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_TRANSFER, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            log.debug("Write transfer to database - {}", transfer);
+            LOG.debug("Write transfer to database - {}", transfer);
             if (transfer.getSender() == null) {
                 statement.setNull(1, Types.INTEGER);
             } else {
@@ -29,7 +29,7 @@ public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 transfer.setId(id);
-                log.debug("Set id - {} to transfer", id);
+                LOG.debug("Set id - {} to transfer", id);
             }
             resultSet.close();
         } catch (SQLException e) {

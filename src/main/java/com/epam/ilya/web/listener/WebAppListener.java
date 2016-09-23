@@ -12,13 +12,13 @@ import javax.servlet.annotation.WebListener;
 
 @WebListener
 public class WebAppListener implements ServletContextListener {
-    private static final Logger log = LoggerFactory.getLogger(WebAppListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebAppListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
         ConnectionPool pool = new ConnectionPool();
-        log.info("Create new singleton instance of connection pool");
+        LOG.info("Create new singleton instance of connection pool");
         ConnectionPool.InstanceHolder.setInstance(pool);
         servletContext.setAttribute("pool", pool);
     }
@@ -30,7 +30,7 @@ public class WebAppListener implements ServletContextListener {
         try {
             pool.close();
         } catch (ConnectionPoolException e) {
-            log.error("Cannot close all connection in pool", e);
+            LOG.error("Cannot close all connection in pool", e);
         }
 
     }

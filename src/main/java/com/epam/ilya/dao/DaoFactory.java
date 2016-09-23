@@ -26,7 +26,7 @@ public class DaoFactory implements AutoCloseable {
         T t;
         try {
             t = clazz.newInstance();
-            t.enterConnectionToDao(connection);
+            t.setConnection(connection);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new DaoException("Cannot make new instance of Dao", e);
         }

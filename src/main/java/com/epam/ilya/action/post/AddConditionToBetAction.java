@@ -13,27 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddConditionToBetAction implements com.epam.ilya.action.Action {
-    static final Logger log = LoggerFactory.getLogger(AddConditionToBetAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AddConditionToBetAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();
         Bet bet = (Bet) req.getSession(false).getAttribute("bet");
         String id = req.getParameter("conditionId");
-        log.debug("Condition's id - {}", id);
+        LOG.debug("Condition's id - {}", id);
         Condition condition;
         try {
             condition = service.getConditionById(id);
-            log.debug("Get condition - {} by id", condition);
+            LOG.debug("Get condition - {} by id", condition);
         } catch (ServiceException e) {
             throw new ActionException("Cannot get condition by id", e);
         }
         boolean result = true;
-        log.debug("Take all bet's condition and compare it with just added");
+        LOG.debug("Take all bet's condition and compare it with just added");
         if (!bet.getConditions().isEmpty()) {
             for (Condition betCondition : bet.getConditions()) {
                 if (betCondition.getId() == condition.getId()) {
-                    log.debug("{} equals - {}", condition, betCondition);
+                    LOG.debug("{} equals - {}", condition, betCondition);
                     result = false;
                 }
 
@@ -41,7 +41,7 @@ public class AddConditionToBetAction implements com.epam.ilya.action.Action {
         }
         if (result) {
             bet.addCondition(condition);
-            log.debug("Have no one same condition. Add condition to bet - {}", bet);
+            LOG.debug("Have no one same condition. Add condition to bet - {}", bet);
         } else {
             req.setAttribute("flash.equalsError", "true");
         }

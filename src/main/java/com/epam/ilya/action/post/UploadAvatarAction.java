@@ -8,8 +8,6 @@ import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.io.IOException;
 
 
 public class UploadAvatarAction implements Action {
-    private static final Logger log = LoggerFactory.getLogger(UploadAvatarAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

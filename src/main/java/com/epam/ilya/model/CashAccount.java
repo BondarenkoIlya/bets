@@ -19,11 +19,6 @@ public class CashAccount extends BaseEntity {
 
     }
 
-    public CashAccount(Money balance, Person person) {
-        this.setBalance(balance);
-        this.setPerson(person);
-    }
-
     public void addCash(Money amount) {
         this.setBalance(getBalance().plus(amount));
     }
@@ -38,11 +33,7 @@ public class CashAccount extends BaseEntity {
     }
 
     public boolean balanceAvailabilityFor(Money checkAmount) {
-        if (getBalance().isLessThan(checkAmount)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !getBalance().isLessThan(checkAmount);
     }
 
     public Money getBalance() {
@@ -51,10 +42,6 @@ public class CashAccount extends BaseEntity {
 
     public void setBalance(Money balance) {
         this.balance = balance;
-    }
-
-    public Person getPerson() {
-        return person;
     }
 
     public void setPerson(Person person) {

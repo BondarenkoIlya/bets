@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class MatchDao extends Dao implements EntityDao<Match> {
-    static final Logger log = LoggerFactory.getLogger(Match.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Match.class);
     private static final String FIND_ALL_IN_RANGE = "SELECT * FROM matches WHERE active=? order by eventsDate desc limit ?,?";
     private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?";
     private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)";
@@ -35,7 +35,7 @@ public class MatchDao extends Dao implements EntityDao<Match> {
             resultSet.next();
             int id;
             id = resultSet.getInt(1);
-            log.debug("Set id - {} to match - {}", id, match);
+            LOG.debug("Set id - {} to match - {}", id, match);
             match.setId(id);
             resultSet.close();
         } catch (SQLException e) {

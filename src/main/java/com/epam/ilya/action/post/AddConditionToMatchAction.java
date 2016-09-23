@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class AddConditionToMatchAction implements Action {
-    static final Logger log = LoggerFactory.getLogger(AddConditionToBetAction.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AddConditionToBetAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -32,7 +32,7 @@ public class AddConditionToMatchAction implements Action {
         if (conditionsName.matches(properties.getProperty("stringWithSpaces.regex"))) {
             condition.setConditionsName(conditionsName);
         } else {
-            log.debug("Cannot matches condition name - {}", conditionsName);
+            LOG.debug("Cannot matches condition name - {}", conditionsName);
             req.setAttribute("flash.conditionsNameError", "true");
             result = false;
         }

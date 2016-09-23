@@ -20,7 +20,7 @@ public class Bet extends BaseEntity {
     private Money value;
     private Customer customer;
     private Money possibleGain;
-    private List<Condition> conditions = new ArrayList<Condition>();
+    private List<Condition> conditions = new ArrayList<>();
     private double finalCoefficient;
     private Boolean finalResult;
 
@@ -53,10 +53,6 @@ public class Bet extends BaseEntity {
 
     public void addCondition(Condition condition) {
         conditions.add(condition);
-    }
-
-    public void removeCondition(Condition condition) {
-        conditions.remove(condition);
     }
 
     public DateTime getDate() {

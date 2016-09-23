@@ -13,10 +13,10 @@ import java.util.List;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "/do/*")
 public class SecurityFilter implements Filter {
-    static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
-    List<String> customersPages = new ArrayList<>();
-    List<String> bookmakersPages = new ArrayList<>();
-    List<String> guestsPages = new ArrayList<>();
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityFilter.class);
+    private List<String> customersPages = new ArrayList<>();
+    private List<String> bookmakersPages = new ArrayList<>();
+    private List<String> guestsPages = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -39,15 +39,15 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String path = req.getPathInfo();
-        log.debug("Servlet path - {}", path);
+        LOG.debug("Servlet path - {}", path);
         for (String customersPagePath : customersPages) {
             if (path.startsWith(customersPagePath)) {
                 if (req.getSession().getAttribute("loggedCustomer") != null) {
-                    log.debug("Logged in like customer. Have permission to access this page");
+                    LOG.debug("Logged in like customer. Have permission to access this page");
                     filterChain.doFilter(req, resp);
                     return;
                 } else {
-                    log.debug("Do not logged in like customer. Send redirect on logout page");
+                    LOG.debug("Do not logged in like customer. Send redirect on logout page");
                     resp.sendRedirect(req.getContextPath() + "/do/logout?role=customer");
                     return;
                 }
@@ -56,11 +56,11 @@ public class SecurityFilter implements Filter {
         for (String bookmakersPagePath : bookmakersPages) {
             if (path.startsWith(bookmakersPagePath)) {
                 if (req.getSession().getAttribute("bookmaker") != null) {
-                    log.debug("Logged in like bookmaker. Have permission to access this page");
+                    LOG.debug("Logged in like bookmaker. Have permission to access this page");
                     filterChain.doFilter(req, resp);
                     return;
                 } else {
-                    log.debug("Do not logged in like bookmaker. Send redirect on logout page");
+                    LOG.debug("Do not logged in like bookmaker. Send redirect on logout page");
                     resp.sendRedirect(req.getContextPath() + "/do/logout?role=bookmaker");
                     return;
                 }
@@ -68,13 +68,13 @@ public class SecurityFilter implements Filter {
         }
         for (String guestPagePath : guestsPages) {
             if (path.startsWith(guestPagePath)) {
-                log.debug("Try to access on guest page");
+                LOG.debug("Try to access on guest page");
                 if (req.getSession().getAttribute("bookmaker") == null && req.getSession().getAttribute("loggedCustomer") == null) {
-                    log.debug("Do not logged in like anyone");
+                    LOG.debug("Do not logged in like anyone");
                     filterChain.doFilter(req, resp);
                     return;
                 } else {
-                    log.debug("Logged in like customer or bookmaker. Log out for access.");
+                    LOG.debug("Logged in like customer or bookmaker. Log out for access.");
                     resp.sendRedirect(req.getContextPath() + "/do/logout");
                     return;
                 }
