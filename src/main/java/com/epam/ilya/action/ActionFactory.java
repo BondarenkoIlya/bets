@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory {
-    private Map<String, Action> actions;
-
-    public ActionFactory() {
+    private static Map<String, Action> actions;
+    static {
         actions = new HashMap<>();
 //Get request
         //Main operations
@@ -17,6 +16,7 @@ public class ActionFactory {
         actions.put("GET/register", new ShowPageAction("register"));
         //Bookmaker's operations with customers
         actions.put("GET/bookmaker/home", new ShowBookmakerHomePageAction());
+        actions.put("GET/bookmaker/balance/refresh", new RefreshPersonBalanceAction());
         actions.put("GET/customer/edit", new ShowCustomerEditionPageAction());
         //Bookmaker's operations with match
         actions.put("GET/matches/edit/active", new ShowActiveMatchesEditionPageAction());
@@ -30,6 +30,7 @@ public class ActionFactory {
         actions.put("GET/avatar/upload", new ShowPageAction("upload-avatar"));
         //Customer's operation with bet
         actions.put("GET/home", new ShowCustomersHomePageAction());
+        actions.put("GET/home/balance/refresh", new RefreshPersonBalanceAction());
         actions.put("GET/cabinet", new ShowPageAction("customers-cabinet"));
         actions.put("GET/bets/active", new ShowCustomersActiveBetsPageAction());
         actions.put("GET/bets/inactive", new ShowCustomersInactiveBetsPageAction());
@@ -61,7 +62,6 @@ public class ActionFactory {
         actions.put("GET/bet/edit/delete/condition", new DeleteConditionFromBetAction());
         actions.put("POST/bet/add/condition", new AddConditionToBetAction());
         actions.put("POST/bet/submit", new SaveNewBetAction());
-
     }
 
     public Action getAction(String actionName) {

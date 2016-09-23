@@ -22,7 +22,7 @@ import java.util.Map;
  */
 
 public class PersonService {
-    static final Logger log = LoggerFactory.getLogger(PersonService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
     private DaoFactory daoFactory;
 
     /**
@@ -53,25 +53,25 @@ public class PersonService {
             daoFactory.startTransaction();
             CashAccount recipientPurse = recipient.getPersonsPurse();
             if (sender != null) {
-                log.debug("Begin transfer amount - {} , from person - {} to person -{}", kzt, sender, recipient);
+                LOG.debug("Begin transfer amount - {} , from person - {} to person -{}", kzt, sender, recipient);
                 CashAccount senderPurse = sender.getPersonsPurse();
-                log.debug("Sender purse - {}", senderPurse);
+                LOG.debug("Sender purse - {}", senderPurse);
                 if (senderPurse.balanceAvailabilityFor(kzt)) {
-                    log.debug("Sender purse with balance - {} available for - {}", senderPurse.getBalance(), kzt);
+                    LOG.debug("Sender purse with balance - {} available for - {}", senderPurse.getBalance(), kzt);
                     senderPurse.removeCash(kzt);
-                    log.debug("Remove from {} value - {}", senderPurse, kzt);
+                    LOG.debug("Remove from {} value - {}", senderPurse, kzt);
                     recipientPurse.addCash(kzt);
-                    log.debug("Add to {} value - {}", recipientPurse, kzt);
+                    LOG.debug("Add to {} value - {}", recipientPurse, kzt);
                     cashAccountDao.update(senderPurse);
                     cashAccountDao.update(recipientPurse);
                     createTransfer(sender, kzt, recipient);
                     result = true;
                 } else {
-                    log.debug("Person - {} have not enough money to remove amount - {} to person - {}", sender, kzt, recipient);
+                    LOG.debug("Person - {} have not enough money to remove amount - {} to person - {}", sender, kzt, recipient);
                     result = false;
                 }
             } else {
-                log.debug("Person - {} get amount - {} from outside", recipient, kzt);
+                LOG.debug("Person - {} get amount - {} from outside", recipient, kzt);
                 recipientPurse.addCash(kzt);
                 cashAccountDao.update(recipientPurse);
                 createTransfer(sender, kzt, recipient);
@@ -91,7 +91,7 @@ public class PersonService {
      * @throws ServiceException
      */
     public Customer registerCustomer(Customer customer) throws ServiceException {
-        log.info("Try to register person {}", customer);
+        LOG.info("Try to register person {}", customer);
         Customer registeredCustomer;
         CashAccount cashAccount = new CashAccount();
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -102,8 +102,8 @@ public class PersonService {
                 CashAccount registeredCashAccount = cashAccountDao.create(cashAccount);
                 customer.setPersonsPurse(registeredCashAccount);
                 registeredCustomer = customerDao.create(customer);
-                log.info("Register customer {} with id = {}", registeredCustomer, registeredCustomer.getId());
-                log.info("Add to customer {} cash account {}", registeredCustomer, registeredCashAccount);
+                LOG.info("Register customer {} with id = {}", registeredCustomer, registeredCustomer.getId());
+                LOG.info("Add to customer {} cash account {}", registeredCustomer, registeredCashAccount);
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
                 daoFactory.rollbackTransaction();
@@ -140,14 +140,14 @@ public class PersonService {
                 } else {
                     CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                     AvatarDao avatarDao = daoFactory.getDao(AvatarDao.class);
-                    log.debug("Try to find customer by email - {} and password", email);
+                    LOG.debug("Try to find customer by email - {} and password", email);
                     List<Customer> customers = customerDao.findByParameters(parameters);
                     if (customers.size() == 1) {
                         Customer customer = customers.get(0);
                         CashAccount cashAccount = cashAccountDao.findByPerson(customer);
-                        log.debug("Try to find cash account for customer - {}", customer);
+                        LOG.debug("Try to find cash account for customer - {}", customer);
                         customer.setPersonsPurse(cashAccount);
-                        log.debug("Set purse - {} to customer - {}", cashAccount, customer);
+                        LOG.debug("Set purse - {} to customer - {}", cashAccount, customer);
                         Avatar avatar = avatarDao.findByPerson(customer);
                         if (avatar != null) {
                             customer.setAvatar(avatar);
@@ -155,7 +155,7 @@ public class PersonService {
                         daoFactory.commitTransaction();
                         return customer;
                     } else {
-                        log.warn("In database more then one customer with same email and password or no one");
+                        LOG.warn("In database more then one customer with same email and password or no one");
                         daoFactory.commitTransaction();
                         return null;
                     }
@@ -185,11 +185,11 @@ public class PersonService {
                 CustomerDao customerDao = daoFactory.getDao(CustomerDao.class);
                 daoFactory.startTransaction();
                 customers = (PaginatedList<Customer>) customerDao.getAllActiveCustomers(pageNumber, pageSize);
-                log.debug("Get customers paginated list list with {} customers", customers.size());
+                LOG.debug("Get customers paginated list list with {} customers", customers.size());
                 int customersCount = customerDao.getCustomersCount();
-                log.debug("{} customers at all", customersCount);
+                LOG.debug("{} customers at all", customersCount);
                 int pageCount = countUpPages(pageSize, customersCount);
-                log.debug("{} pages by {} customers on one page", pageCount, pageSize);
+                LOG.debug("{} pages by {} customers on one page", pageCount, pageSize);
                 customers.setPageCount(pageCount);
                 customers.setPageNumber(pageNumber);
                 customers.setPageSize(pageSize);
@@ -246,14 +246,14 @@ public class PersonService {
                 Map<String, String> parameters = new HashMap<>();
                 parameters.put("email", email);
                 List<Customer> customers = customerDao.findByParameters(parameters);
-                log.debug("Find {} customers with email = {}", customers.size(), email);
+                LOG.debug("Find {} customers with email = {}", customers.size(), email);
                 if (!customers.isEmpty()) {
-                    log.debug("Data base has customer with email - {}", email);
+                    LOG.debug("Data base has customer with email - {}", email);
                     result = false;
                 }
                 Bookmaker bookmaker = bookmakerDao.getBookmaker(email);
                 if (bookmaker != null) {
-                    log.debug("Email - {} is the same as bookmaker's email ", email);
+                    LOG.debug("Email - {} is the same as bookmaker's email ", email);
                     result = false;
                 }
                 daoFactory.commitTransaction();
@@ -366,10 +366,10 @@ public class PersonService {
                 customer.setAvatar(avatar);
                 customerDao.updateAvatar(customer);
                 if (byPerson == null) {
-                    log.debug("Have no old avatar, create new one - {}", avatar);
+                    LOG.debug("Have no old avatar, create new one - {}", avatar);
                 } else {
                     avatarDao.delete(byPerson);
-                    log.debug("Have old avatar, take it from base - {}", avatar);
+                    LOG.debug("Have old avatar, take it from base - {}", avatar);
                 }
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
@@ -398,12 +398,12 @@ public class PersonService {
                 DateTime date = new DateTime(modifyDate);
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
                 String formattedDate = formatter.print(date);
-                log.debug("Try to find avatar by modified date - {}", formattedDate);
+                LOG.debug("Try to find avatar by modified date - {}", formattedDate);
                 avatar = avatarDao.findByPersonAndDate(loggedCustomer, formattedDate);
-                log.debug("Find avatar - {} just by customer and modified date", avatar);
+                LOG.debug("Find avatar - {} just by customer and modified date", avatar);
             } else {
                 avatar = avatarDao.findByPerson(loggedCustomer);
-                log.debug("Find avatar - {} just by customer", avatar);
+                LOG.debug("Find avatar - {} just by customer", avatar);
             }
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao factory", e);
@@ -456,5 +456,16 @@ public class PersonService {
         } catch (DaoException e) {
             throw new ServiceException("Cannot create dao factory for replace money to bookmaker", e);
         }
+    }
+
+    public CashAccount refreshCashAccount(CashAccount purse) throws ServiceException {
+        CashAccount byId;
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+            byId = cashAccountDao.findById(purse.getId());
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao factory", e);
+        }
+        return byId;
     }
 }
