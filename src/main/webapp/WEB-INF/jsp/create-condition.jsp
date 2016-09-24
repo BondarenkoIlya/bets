@@ -18,7 +18,7 @@
             ${create_condition}
         <form class="form-group" method="post" action="${create_condition_url}">
                 ${conditions_name}<br/>
-            <input type="text" name="conditionsName" value=""/><br/>
+            <input type="text" name="conditionsName" value="<c:out value="${param.conditionsName}"/>"/><br/>
             <c:if test="${not empty conditionsNameError}">
                 <p class="alert alert-danger"
                    style="width: auto;height: auto">${conditionsNameErrorAlert}</p>

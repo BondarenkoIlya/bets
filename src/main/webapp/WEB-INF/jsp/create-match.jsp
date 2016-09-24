@@ -20,21 +20,21 @@
         <form role="form" action="${new_match_url}" method="POST">
             <div class="form-group">
                     ${sportsName}<br/>
-                <input type="text" name="sportsName" value=""/><br/>
+                <input type="text" name="sportsName" value="<c:out value="${param.sportsName}"/>"/><br/>
                 <c:if test="${not empty sportsNameError}">
                     <p class="alert alert-danger"
                        style="width: auto;height: auto"><fmt:message
                             key="bookmaker.match.new.error.alert.sportsName"/></p>
                 </c:if>
                     ${leaguesName}<br/>
-                <input type="text" name="leaguesName" value=""/><br/>
+                <input type="text" name="leaguesName" value="<c:out value="${param.leaguesName}"/>"/><br/>
                 <c:if test="${not empty leaguesNameError}">
                     <p class="alert alert-danger"
                        style="width: auto;height: auto"><fmt:message
                             key="bookmaker.match.new.error.alert.leagueName"/></p>
                 </c:if>
                     ${eventsDate}<br/>
-                <input type="datetime" name="eventsDate" value=""/><br/>
+                <input type="datetime" name="eventsDate" value="<c:out value="${param.eventsDate}"/>"/><br/>
                 <c:if test="${eventsDateError.equals('true')}">
                     <p class="alert alert-danger"
                        style="width: auto;height: auto"><fmt:message
@@ -47,14 +47,14 @@
                 </c:if>
                 <p class="alert alert-info" style="width: auto;height: auto">${example}</p>
                     ${firstSidesName}<br/>
-                <input type="text" name="firstSidesName" value=""/><br/>
+                <input type="text" name="firstSidesName" value="<c:out value="${param.firstSidesName}"/>"/><br/>
                 <c:if test="${not empty firstSidesNameError}">
                     <p class="alert alert-danger"
                        style="width: auto;height: auto"><fmt:message
                             key="bookmaker.match.new.error.alert.firstSideName"/></p>
                 </c:if>
                     ${secondSidesName}<br/>
-                <input type="text" name="secondSidesName" value=""/><br/>
+                <input type="text" name="secondSidesName" value="<c:out value="${param.secondSidesName}"/>"/><br/>
                 <c:if test="${not empty secondSidesNameError}">
                     <p class="alert alert-danger"
                        style="width: auto;height: auto"><fmt:message

@@ -1,5 +1,5 @@
 INSERT INTO bets.cash_accounts VALUES (1, 300000);
-INSERT INTO bets.bookmakers VALUES (1, 'Алексей', 'Пак', '1234567', 'qwe@mail.ru', 33);
+INSERT INTO bets.bookmakers VALUES (1, 'Алексей', 'Пак', '1234567', 'qwe@mail.ru', 1);
 
 INSERT INTO bets.matches VALUES (1, 'Football', 'Euro', '2016-09-30 19:00:00', 'England', 'Poland', 1);
 INSERT INTO bets.conditions VALUES (1, 'England win', 1.3, NULL);
