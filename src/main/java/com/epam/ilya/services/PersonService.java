@@ -47,7 +47,7 @@ public class PersonService {
      * @throws ServiceException
      */
     public boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
-        boolean result = false;
+        boolean result;
         try {
             CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
             daoFactory.startTransaction();
@@ -307,9 +307,8 @@ public class PersonService {
      * @throws ServiceException
      */
     private void createTransfer(Person sender, Money amount, Person recipient) throws ServiceException {
-
         Transfer transfer = new Transfer(sender, recipient, amount);
-        try (DaoFactory daoFactory = new DaoFactory()) {
+        try {
             if (recipient instanceof Bookmaker) {
                 TransferToBookmakerDao transferToBookmakerDao = daoFactory.getDao(TransferToBookmakerDao.class);
                 transferToBookmakerDao.create(transfer);

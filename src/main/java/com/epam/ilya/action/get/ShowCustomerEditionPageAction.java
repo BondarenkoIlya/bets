@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class ShowCustomerEditionPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomerEditionPageAction.class);
@@ -25,6 +26,13 @@ public class ShowCustomerEditionPageAction implements Action {
             LOG.info("Get current customer - {} with purse - {}", customer, customer.getPersonsPurse());
         } catch (ServiceException e) {
             throw new ActionException("Cannot find by id", e);
+        }
+        if (customer.getId() == 0) {
+            try {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            } catch (IOException e) {
+                throw new ActionException("Cannot send error",e);
+            }
         }
         req.setAttribute("customer", customer);
         return new ActionResult("customer-edit");
