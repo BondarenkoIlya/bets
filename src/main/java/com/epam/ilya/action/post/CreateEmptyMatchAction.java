@@ -40,10 +40,10 @@ public class CreateEmptyMatchAction implements Action {
         } catch (IOException e) {
             throw new ActionException("Cannot load validation properties", e);
         }
-        checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("word.regex"), req);
-        checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("word.regex"), req);
-        checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("word.regex"), req);
-        checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("word.regex"), req);
+        checkParameterBeRegex(sportsName, "sportsName", properties.getProperty("stringWithSpaces.regex"), req);
+        checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("stringWithSpaces.regex"), req);
+        checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("stringWithSpaces.regex"), req);
+        checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("stringWithSpaces.regex"), req);
         DateTime dateTime = null;
         if (eventsDate.matches(properties.getProperty("dateTime.regex"))) {
             try {
