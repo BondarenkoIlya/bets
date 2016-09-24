@@ -14,7 +14,7 @@
     <fmt:message key="customer.bet.edit.submit.button" var="submit_button"/>
     <div class="container">
             ${bets_constructor}<br/>
-        <h3>${bet_value} - ${bet.value.getAmount().doubleValue()}<br/></h3>
+        <h3>${bet_value} - <fmt:formatNumber value="${bet.value.getAmount().doubleValue()}"/><br/></h3>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -40,7 +40,7 @@
                     key="customer.bet.edit.error.equals"/></p>
         </c:if>
         <h3>${bet_final_coefficient} - ${bet.finalCoefficient}<br/></h3>
-        <h3>${bet_possible_gain} - ${bet.possibleGain.getAmount().doubleValue()}Тг<br/></h3>
+        <h3>${bet_possible_gain} - <fmt:formatNumber value="${bet.possibleGain.getAmount().doubleValue()}"/>Тг<br/></h3>
         <button type="button" class="button btn-link"><a
                 href="<c:url value="/do/bet/add/condition"/>">${add_condition_button}</a></button>
         <form action="<c:url value="/do/bet/submit"/>" method="post" role="form">

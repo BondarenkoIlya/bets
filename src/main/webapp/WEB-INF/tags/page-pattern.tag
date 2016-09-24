@@ -68,7 +68,7 @@
                                     </c:if>
                                 </div>
                                 <div class="col-md-1 col-lg-1">
-                                    <ruby>${loggedCustomer.personsPurse.balance.getAmount().doubleValue()}
+                                    <ruby><fmt:formatNumber value="${loggedCustomer.personsPurse.balance.getAmount().doubleValue()}"/>
                                         <rt>${balance}</rt>
                                         <a href="<c:url value="/do/home/balance/refresh"/>"><span
                                                 class="glyphicon glyphicon-refresh"></span></a>
@@ -102,7 +102,7 @@
                                     </ruby>
                                 </div>
                                 <div class="col-md-1 col-lg-1">
-                                    <ruby>${bookmaker.personsPurse.balance.amount.doubleValue()}
+                                    <ruby><fmt:formatNumber value="${bookmaker.personsPurse.balance.amount.doubleValue()}"/>
                                         <rt>${balance}</rt>
                                         <a href="<c:url value="/do/bookmaker/balance/refresh"/>"><span
                                                 class="glyphicon glyphicon-refresh"></span></a>
