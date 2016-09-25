@@ -1,7 +1,7 @@
 <%--@elvariable id="match" type="com.epam.ilya.model.Match"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <c:url var="sum_up_result_of_match_url" value="/do/match/edit/sum/up?id=${match.id}"/>

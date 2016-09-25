@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <my:page-pattern role="customer">
@@ -48,8 +48,8 @@
                                     test="${condition.result!=null}">${condition.result}</c:if><br/>
                             </c:forEach>
                         </td>
-                        <td>${bet.finalCoefficient}</td>
-                        <td>${bet.date}</td>
+                        <td><fmt:formatNumber value="${bet.finalCoefficient}"/></td>
+                        <td><fmt:formatDate type="both" pattern="dd-MM-yyyy HH:mm" value="${bet.date.toDate()}" /></td>
                     </tr>
                 </c:forEach>
                 </tbody>

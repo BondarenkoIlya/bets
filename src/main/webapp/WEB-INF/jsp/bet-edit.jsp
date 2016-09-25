@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <my:page-pattern role="stepTwo">
@@ -27,7 +27,7 @@
             <c:forEach items="${bet.conditions}" var="condition">
                 <tr>
                     <td>${condition.conditionsName}</td>
-                    <td>${condition.coefficient}</td>
+                    <td><fmt:formatNumber value="${condition.coefficient}"/></td>
                     <td><a href="<c:url value="/do/bet/edit/delete/condition?id=${condition.id}"/> "><span
                             class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
@@ -39,7 +39,7 @@
             <p class="alert alert-success" style="width: 250px;height: auto"><fmt:message
                     key="customer.bet.edit.error.equals"/></p>
         </c:if>
-        <h3>${bet_final_coefficient} - ${bet.finalCoefficient}<br/></h3>
+        <h3>${bet_final_coefficient} - <fmt:formatNumber value="${bet.finalCoefficient}"/><br/></h3>
         <h3>${bet_possible_gain} - <fmt:formatNumber value="${bet.possibleGain.getAmount().doubleValue()}"/>Тг<br/></h3>
         <button type="button" class="button btn-link"><a
                 href="<c:url value="/do/bet/add/condition"/>">${add_condition_button}</a></button>
@@ -53,6 +53,5 @@
         <form role="form" method="post" action="<c:url value="/do/bet/create/cancel"/>">
             <input type="submit" class="button btn-danger" value="<fmt:message key="cancel"/> "/>
         </form>
-
     </div>
 </my:page-pattern>

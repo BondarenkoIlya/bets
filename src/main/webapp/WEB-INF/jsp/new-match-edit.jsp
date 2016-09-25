@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <my:page-pattern role="stepTwo">
@@ -26,7 +26,7 @@
                     <c:forEach items="${match.conditionList}" var="condition">
                         <tr>
                             <td>${condition.conditionsName}</td>
-                            <td>${condition.coefficient}</td>
+                            <td><fmt:formatNumber value="${condition.coefficient}"/></td>
                             <td><a href="<c:url value="/do/match/create/condition/delete?id=${condition.id}"/> "><span
                                     class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <my:page-pattern role="bookmaker">
     <fmt:message key="bookmaker.matches.edit" var="match_edition"/>
@@ -30,7 +30,7 @@
                 <tbody>
                 <c:forEach items="${activeMatches}" var="match">
                     <tr>
-                        <td>${match.date}</td>
+                        <td><fmt:formatDate type="both" pattern="dd-MM-yyyy HH:mm" value="${match.date.toDate()}"/></td>
                         <td>${match.firstSidesName}</td>
                         <td>${match.secondSidesName}</td>
                         <td><a href="<c:url value="/do/match/edit?id=${match.id}"/> ">${edit_match_button}

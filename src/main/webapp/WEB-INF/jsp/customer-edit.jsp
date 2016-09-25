@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 
 <c:url var="add_to_customer_balance_url" value="/do/customer/replenish"/>
@@ -21,7 +21,7 @@
     <fmt:message key="bookmaker.home.customers.replenish.error.message" var="replenish_error_masage"/>
     <div class="container">
             ${customer_edition}<br/>
-            ${customer_edition_name}-${customer.firstName} ${customer.lastName}<br/>
+            ${customer_edition_name}: ${customer.firstName} ${customer.lastName}<br/>
 
         <c:if test="${ not empty customer.avatar}">
             <img src="<c:url value="/image/avatar?customer_id=${customer.id}"/>" style="width: auto;height: 250px"
@@ -30,7 +30,7 @@
         <c:if test="${empty customer.avatar}">
             <img src="${no_avatar}" class="img-responsive">
         </c:if>
-            ${customer_edition_balance} - <fmt:formatNumber value="${customer.personsPurse.balance.getAmount().doubleValue()}"/><br/>
+            ${customer_edition_balance} : <fmt:formatNumber value="${customer.personsPurse.balance.getAmount().doubleValue()}"/><br/>
 
         <form role="form" action="${add_to_customer_balance_url}" method="post">
             <p>${add_to_customer}</p>

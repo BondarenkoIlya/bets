@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%--@elvariable id="match" type="com.epam.ilya.model.Match"--%>
 
@@ -25,7 +25,7 @@
                 <c:forEach items="${match.conditionList}" var="condition">
                     <tr>
                         <td>${condition.conditionsName}</td>
-                        <td>${condition.coefficient}</td>
+                        <td><fmt:formatNumber value="${condition.coefficient}"/></td>
                         <td><input type="checkbox" name="${condition.id}" value="true"/></td>
                     </tr>
                 </c:forEach>
