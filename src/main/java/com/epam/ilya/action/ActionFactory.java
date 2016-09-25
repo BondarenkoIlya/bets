@@ -64,7 +64,7 @@ public class ActionFactory {
         actions.put("POST/bet/submit", new SaveNewBetAction());
     }
 
-    public Action getAction(String actionName) {
+    public static Action getAction(String actionName) {
         return actions.get(actionName);
     }
 }

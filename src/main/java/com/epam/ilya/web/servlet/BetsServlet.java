@@ -18,19 +18,18 @@ import java.io.IOException;
 @WebServlet(name = "BetsServlet", urlPatterns = "/do/*")
 @MultipartConfig(maxFileSize = 16_177_215)// 16 mb
 public class BetsServlet extends HttpServlet {
+
     private static final Logger LOG = LoggerFactory.getLogger(BetsServlet.class);
-    private ActionFactory actionFactory;
 
     @Override
     public void init() throws ServletException {
-        actionFactory = new ActionFactory();
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String actionName = req.getMethod() + req.getPathInfo();
         LOG.info("Action name - " + actionName);
-        Action action = actionFactory.getAction(actionName);
+        Action action = ActionFactory.getAction(actionName);
         if (action == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
             return;
