@@ -49,7 +49,7 @@
                             </c:forEach>
                         </td>
                         <td><fmt:formatNumber value="${bet.finalCoefficient}"/></td>
-                        <td><fmt:formatDate type="both" pattern="dd-MM-yyyy HH:mm" value="${bet.date.toDate()}" /></td>
+                        <td><fmt:formatDate type="both" value="${bet.date.toDate()}" /></td>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -22,7 +22,7 @@
             <tbody>
             <c:forEach items="${matches}" var="match">
                 <tr>
-                    <td>${match.date}</td>
+                    <td><fmt:formatDate value="${match.date}" type="both"/></td>
                     <td>${match.sportsName}</td>
                     <td>${match.leaguesName}</td>
                     <td>${match.firstSidesName}</td>

@@ -29,7 +29,7 @@
                 <tbody>
                 <c:forEach items="${inactiveMatches}" var="match">
                     <tr>
-                        <td><fmt:formatDate type="both" pattern="dd-MM-yyyy HH:mm" value="${match.date.toDate()}"/></td>
+                        <td><fmt:formatDate type="both" value="${match.date.toDate()}"/></td>
                         <td>${match.firstSidesName}</td>
                         <td>${match.secondSidesName}</td>
                     </tr>

@@ -30,7 +30,7 @@
                 <tbody>
                 <c:forEach items="${activeMatches}" var="match">
                     <tr>
-                        <td><fmt:formatDate type="both" pattern="dd-MM-yyyy HH:mm" value="${match.date.toDate()}"/></td>
+                        <td><fmt:formatDate type="both" value="${match.date.toDate()}"/></td>
                         <td>${match.firstSidesName}</td>
                         <td>${match.secondSidesName}</td>
                         <td><a href="<c:url value="/do/match/edit?id=${match.id}"/> ">${edit_match_button}
