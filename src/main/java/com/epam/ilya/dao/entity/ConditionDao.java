@@ -16,14 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConditionDao extends Dao implements EntityDao<Condition> {
+
     private static final Logger LOG = LoggerFactory.getLogger(ConditionDao.class);
+
     private static final String INSERT_CONDITION = "INSERT INTO conditions VALUES (id,?,?,NULL)";
     private static final String DELETE_CONDITION = "DELETE FROM conditions WHERE id = ?";
     private static final String UPDATE_CONDITION = "UPDATE conditions set result = ? WHERE id=?";
     private static final String SET_CONDITION_TO_MATCH = "INSERT INTO matches_conditions VALUES (?,?)";
     private static final String FIND_BY_ID = "SELECT * FROM conditions WHERE id=?";
-    private static final String GET_MATCHS_CONDITIONS = "SELECT id , conditionsName, coefficient , result FROM conditions JOIN matches_conditions on conditions.id = matches_conditions.condition_id WHERE matches_conditions.match_id=?";
-    private static final String GET_BETS_CONDITIONS = "SELECT id , conditionsName, coefficient, result FROM conditions JOIN bets_conditions on conditions.id = bets_conditions.conditions_id WHERE bets_conditions.bets_id=?";
+    private static final String GET_MATCHS_CONDITIONS = "SELECT conditions.id , conditions.conditionsName, conditions.coefficient , conditions.result FROM conditions JOIN matches_conditions ON conditions.id = matches_conditions.condition_id WHERE matches_conditions.match_id=?";
+    private static final String GET_BETS_CONDITIONS = "SELECT conditions.id , conditions.conditionsName, conditions.coefficient, conditions.result FROM conditions JOIN bets_conditions ON conditions.id = bets_conditions.conditions_id WHERE bets_conditions.bets_id=?";
 
     @Override
     public Condition create(Condition condition) throws DaoException {

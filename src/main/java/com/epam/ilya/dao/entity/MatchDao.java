@@ -14,13 +14,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class MatchDao extends Dao implements EntityDao<Match> {
+
     private static final Logger LOG = LoggerFactory.getLogger(Match.class);
-    private static final String FIND_ALL_IN_RANGE = "SELECT * FROM matches WHERE active=? order by eventsDate desc limit ?,?";
+
+    private static final String FIND_ALL_IN_RANGE = "SELECT * FROM matches WHERE active=? ORDER BY eventsDate limit ?,?";
     private static final String FIND_BY_ID = "SELECT * FROM matches WHERE id=?";
     private static final String INSERT_MATCH = "INSERT INTO matches VALUES (id,?,?,?,?,?,0)";
     private static final String DELETE_MATCH = "DELETE FROM matches WHERE id=?";
-    private static final String MATCHS_STATUS = "update matches set active = ?  where id=?";
-    private static final String MATCH_COUNT = "SELECT count(*) FROM bets.matches where active =?";
+    private static final String MATCHS_STATUS = "UPDATE matches SET active = ? WHERE id=?";
+    private static final String MATCH_COUNT = "SELECT count(*) FROM bets.matches WHERE active =?";
 
     @Override
     public Match create(Match match) throws DaoException {

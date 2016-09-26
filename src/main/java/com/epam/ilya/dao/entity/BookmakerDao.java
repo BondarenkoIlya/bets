@@ -9,12 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BookmakerDao extends Dao implements EntityDao<Bookmaker> {
+
     private static final String GET_BOOKMAKER_BY_EMAIL = "SELECT * FROM bookmakers WHERE email = ?";
     private static final String GET_BOOKMAKER_BY_EMAIL_PASSWORD = "SELECT * FROM bookmakers WHERE email=? AND  password=?";
     private static final String FIND_BY_ID = "SELECT * FROM bookmakers WHERE id = ?";
     private static final String UPDATE_BOOKMAKER = "UPDATE bookmakers SET first_name = ? , last_name = ? ,password=?, email = ? WHERE id = ?";
     private static final String DELETE_BOOKMAKER = "DELETE FROM bookmakers WHERE id = ?";
-    private static final String INSERT_BOOKMAKER = "Insert INTO bookmakers VALUES (id,?,?,?,?,?)";
+    private static final String INSERT_BOOKMAKER = "INSERT INTO bookmakers VALUES (id,?,?,?,?,?)";
 
     @Override
     public Bookmaker create(Bookmaker bookmaker) throws DaoException {

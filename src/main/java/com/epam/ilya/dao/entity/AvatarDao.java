@@ -14,13 +14,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class AvatarDao extends Dao implements EntityDao<Avatar> {
+
     private static final Logger LOG = LoggerFactory.getLogger(AvatarDao.class);
-    private static final String INSERT_AVATAR = "Insert INTO avatars VALUES (id,?,?)";
-    private static final String FIND_BY_ID = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars WHERE id=?";
+
+    private static final String INSERT_AVATAR = "INSERT INTO avatars VALUES (id,?,?)";
+    private static final String FIND_BY_ID = "SELECT id , picture , avatars.date FROM avatars WHERE id=?";
     private static final String UPDATE_AVATAR = "UPDATE avatars SET picture=? , avatars.date = ? WHERE id=?";
     private static final String DELETE_AVATAR = "DELETE FROM avatars WHERE id=?";
     private static final String FIND_BY_CUSTOMER = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE customers.id=?";
-    private static final String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id where date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
+    private static final String FIND_BY_CUSTOMER_AND_DATE = "SELECT avatars.id , avatars.picture , avatars.date FROM avatars JOIN customers ON customers.avatar_id=avatars.id WHERE date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND customers.id=?";
 
     @Override
     public Avatar create(Avatar avatar) throws DaoException {

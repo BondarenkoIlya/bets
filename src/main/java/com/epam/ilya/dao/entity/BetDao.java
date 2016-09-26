@@ -17,14 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BetDao extends Dao implements EntityDao<Bet> {
+
     private static final Logger LOG = LoggerFactory.getLogger(BetDao.class);
+
     private static final String UPDATE_BET = "UPDATE bets SET possibleGain = ? , finalCoefficient=? , finalResult = ? WHERE id = ?";
     private static final String DELETE_BET = "DELETE FROM bets WHERE id = ?";
-    private static final String INSERT_BET = "Insert INTO bets VALUES (id,?,?,?,?,NULL,?)";
+    private static final String INSERT_BET = "INSERT INTO bets VALUES (id,?,?,?,?,NULL,?)";
     private static final String ADD_CONDITION_TO_BET = "INSERT INTO bets_conditions VALUES (?,?)";
     private static final String ADD_BET_TO_CUSTOMER = "INSERT INTO customers_bets VALUES (?,?)";
-    private static final String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? order by betsDate desc limit ?,?";
-    private static final String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? order by betsDate desc limit ?,?";
+    private static final String GET_CUSTOMERS_ACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is null AND customer_id=? ORDER BY betsDate DESC limit ?,?";
+    private static final String GET_CUSTOMERS_INACTIVE_BETS = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets WHERE finalResult is not null AND customer_id=? ORDER BY betsDate DESC limit ?,?";
     private static final String GET_BETS_BY_CONDITION = "SELECT id ,bets.value ,possibleGain, finalCoefficient,finalResult,betsDate FROM bets JOIN bets_conditions ON bets.id=bets_conditions.bets_id WHERE conditions_id=?";
     private static final String ACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is null AND bets.customer_id=?";
     private static final String INACTIVE_BET_COUNT = "SELECT count(*) FROM bets.bets where bets.finalResult is not null AND bets.customer_id=?";
