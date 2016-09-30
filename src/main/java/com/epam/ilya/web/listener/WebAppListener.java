@@ -10,6 +10,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * Class-listener doing the necessary work at application startup
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebListener
 public class WebAppListener implements ServletContextListener {
     private static final Logger LOG = LoggerFactory.getLogger(WebAppListener.class);

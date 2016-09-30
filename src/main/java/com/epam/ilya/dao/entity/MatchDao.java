@@ -13,6 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+/**
+ * Class work with match's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class MatchDao extends Dao implements EntityDao<Match> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Match.class);

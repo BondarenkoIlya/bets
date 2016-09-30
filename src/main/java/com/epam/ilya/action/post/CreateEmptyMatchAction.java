@@ -20,6 +20,12 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Create match with out any conditions if all information about this match is correct
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class CreateEmptyMatchAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(CreateEmptyMatchAction.class);
     private boolean invalid = false;

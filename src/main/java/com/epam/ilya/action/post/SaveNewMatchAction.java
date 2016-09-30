@@ -10,6 +10,13 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class check match for completeness and in case everything right save new match and write message for bookmaker
+ * about success creation
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class SaveNewMatchAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

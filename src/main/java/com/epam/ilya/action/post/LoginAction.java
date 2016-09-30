@@ -16,6 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Class collect information about person whom try to authorize and validate it. If it correct entered information
+ * when try to find person with entered login and password. In case of finding person with this login and password
+ * write him in session for further work.
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class LoginAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(LoginAction.class);
 

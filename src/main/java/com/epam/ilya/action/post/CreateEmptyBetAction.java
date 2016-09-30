@@ -4,6 +4,7 @@ import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bet;
+import com.epam.ilya.model.CashAccount;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.BetService;
 import com.epam.ilya.services.ServiceException;
@@ -14,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
+
+/**
+ * Create bet with out any conditions on entered value if this value is correct.
+ *
+ * @author Bondarenko Ilya
+ */
 
 public class CreateEmptyBetAction implements Action {
     @Override
@@ -30,7 +37,7 @@ public class CreateEmptyBetAction implements Action {
         }
 
         if (parameter.matches(properties.getProperty("number.regex"))) {
-            Money value = Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(parameter));
+            Money value = Money.of(CurrencyUnit.of(CashAccount.CURRENCY), Double.parseDouble(parameter));
             if (loggedCustomer.getPersonsPurse().balanceAvailabilityFor(value)) {
                 Bet bet = new Bet();
                 bet.setCustomer(loggedCustomer);

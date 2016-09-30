@@ -12,6 +12,12 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * Class-filter for work with page locale
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebFilter(filterName = "LocaleFilter", urlPatterns = "/do/*")
 public class LocaleFilter implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(LocaleFilter.class);
@@ -21,6 +27,16 @@ public class LocaleFilter implements Filter {
 
     }
 
+
+    /**
+     * Write to session information about locale
+     *
+     * @param servletRequest  request that come from view
+     * @param servletResponse response that go to view
+     * @param filterChain     parameter for work with next filters
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;

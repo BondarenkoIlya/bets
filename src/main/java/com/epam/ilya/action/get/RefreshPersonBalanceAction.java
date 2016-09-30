@@ -11,6 +11,11 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class update state of person's balance
+ *
+ */
+
 public class RefreshPersonBalanceAction implements com.epam.ilya.action.Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

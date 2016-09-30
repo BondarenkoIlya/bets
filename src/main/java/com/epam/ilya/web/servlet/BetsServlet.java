@@ -15,6 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class handle and doing the necessary work with all application requests and responses except those connected
+ * with images
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebServlet(name = "BetsServlet", urlPatterns = "/do/*")
 @MultipartConfig(maxFileSize = 16_177_215)// 16 mb
 public class BetsServlet extends HttpServlet {

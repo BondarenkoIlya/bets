@@ -10,6 +10,12 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Remove not fully created match from database through service
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class CancelMatchCreationAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

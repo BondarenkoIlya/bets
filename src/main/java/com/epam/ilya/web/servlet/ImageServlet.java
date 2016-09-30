@@ -17,6 +17,12 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Class handle and doing the necessary work with all image's requests and responses
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebServlet(name = "ImageServlet", urlPatterns = "/image/*")
 public class ImageServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ImageServlet.class);

@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Add current by id condition to bet from session. If bet already had this condition then write message about it
+ * in attribute
+ */
+
 public class AddConditionToBetAction implements com.epam.ilya.action.Action {
     private static final Logger LOG = LoggerFactory.getLogger(AddConditionToBetAction.class);
 

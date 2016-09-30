@@ -15,6 +15,12 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class work with condition's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class ConditionDao extends Dao implements EntityDao<Condition> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConditionDao.class);

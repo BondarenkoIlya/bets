@@ -8,6 +8,12 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Class work with connections to database, get dao with open connection inside.
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class DaoFactory implements AutoCloseable {
     public static final Logger log = LoggerFactory.getLogger(DaoFactory.class);
     private ConnectionPool connectionPool;

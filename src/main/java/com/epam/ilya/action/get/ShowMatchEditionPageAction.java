@@ -10,6 +10,11 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Show current match's match-edit page for edition by bookmaker
+ *
+ */
+
 public class ShowMatchEditionPageAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

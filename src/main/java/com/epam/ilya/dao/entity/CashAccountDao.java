@@ -12,6 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class work with cash account's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class CashAccountDao extends Dao implements EntityDao<CashAccount> {
 
     private static final String INSERT_PURSE = "INSERT INTO cash_accounts VALUES (id,?)";
@@ -43,7 +49,7 @@ public class CashAccountDao extends Dao implements EntityDao<CashAccount> {
             ResultSet resultSet = statement.executeQuery();
             purse.setId(id);
             while (resultSet.next()) {
-                purse.setBalance(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble("balance")));
+                purse.setBalance(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), resultSet.getDouble("balance")));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -85,7 +91,7 @@ public class CashAccountDao extends Dao implements EntityDao<CashAccount> {
             statement.setInt(1, person.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                cashAccount.setBalance(Money.of(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble("balance"))));
+                cashAccount.setBalance(Money.of(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), resultSet.getDouble("balance"))));
                 cashAccount.setPerson(person);
                 cashAccount.setId(resultSet.getInt(1));
             }

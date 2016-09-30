@@ -13,6 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+/**
+ * Class work with avatar's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class AvatarDao extends Dao implements EntityDao<Avatar> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AvatarDao.class);

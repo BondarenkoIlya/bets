@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of inactive customer's bet and write it in inactive-bets page attributes
+ *
+ */
+
 public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action.Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomersInactiveBetsPageAction.class);
 

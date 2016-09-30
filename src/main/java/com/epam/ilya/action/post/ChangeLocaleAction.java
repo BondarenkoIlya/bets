@@ -10,6 +10,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Rewrite current locale in cookie
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class ChangeLocaleAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ChangeLocaleAction.class);
 

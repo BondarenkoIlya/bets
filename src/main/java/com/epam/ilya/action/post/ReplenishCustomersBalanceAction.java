@@ -3,6 +3,7 @@ package com.epam.ilya.action.post;
 import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
+import com.epam.ilya.model.CashAccount;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
@@ -15,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
+
+/**
+ * Class add money to current customer's balance if amount is correct
+ *
+ * @author Bondarenko Ilya
+ */
 
 public class ReplenishCustomersBalanceAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ReplenishCustomersBalanceAction.class);
@@ -40,7 +47,7 @@ public class ReplenishCustomersBalanceAction implements Action {
 
         if (money.matches(properties.getProperty("number.regex"))) {
             try {
-                service.replenishPersonsBalance(Money.of(CurrencyUnit.of("KZT"), Double.parseDouble(money)), customer);
+                service.replenishPersonsBalance(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), Double.parseDouble(money)), customer);
             } catch (ServiceException e) {
                 throw new ActionException("Cannot deposit on cash account", e);
             }

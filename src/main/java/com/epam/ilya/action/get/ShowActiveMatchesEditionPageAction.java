@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of active match and set it in attribute for active-matches-edit page
+ *
+ */
+
 public class ShowActiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowActiveMatchesEditionPageAction.class);
 

@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Show current customer's customer-edit page for edition account by bookmaker
+ *
+ */
+
 public class ShowCustomerEditionPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomerEditionPageAction.class);
 

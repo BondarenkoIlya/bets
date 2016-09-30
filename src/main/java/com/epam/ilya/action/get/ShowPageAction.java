@@ -6,6 +6,11 @@ import com.epam.ilya.action.ActionResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class show sent in constructor page
+ *
+ */
+
 public class ShowPageAction implements Action {
     private ActionResult result;
 

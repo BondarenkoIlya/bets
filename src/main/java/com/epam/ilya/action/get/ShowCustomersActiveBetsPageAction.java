@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of active customer's bet and write it in active-bets page attributes
+ *
+ */
+
 public class ShowCustomersActiveBetsPageAction implements com.epam.ilya.action.Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomersActiveBetsPageAction.class);
 

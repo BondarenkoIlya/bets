@@ -2,10 +2,7 @@ package com.epam.ilya.dao.entity;
 
 import com.epam.ilya.dao.Dao;
 import com.epam.ilya.dao.DaoException;
-import com.epam.ilya.model.Bet;
-import com.epam.ilya.model.Condition;
-import com.epam.ilya.model.Customer;
-import com.epam.ilya.model.PaginatedList;
+import com.epam.ilya.model.*;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -15,6 +12,12 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Class work with bet's database parts
+ *
+ * @author Bondarenko Ilya
+ */
 
 public class BetDao extends Dao implements EntityDao<Bet> {
 
@@ -148,8 +151,8 @@ public class BetDao extends Dao implements EntityDao<Bet> {
         Bet bet = new Bet();
         try {
             bet.setId(resultSet.getInt(1));
-            bet.setValue(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble(2)));
-            bet.setPossibleGain(Money.of(CurrencyUnit.of("KZT"), resultSet.getDouble(3)));
+            bet.setValue(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), resultSet.getDouble(2)));
+            bet.setPossibleGain(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), resultSet.getDouble(3)));
             bet.setFinalCoefficient(resultSet.getDouble(4));
             bet.setFinalResult(resultSet.getBoolean(5));
             if (resultSet.wasNull()) {

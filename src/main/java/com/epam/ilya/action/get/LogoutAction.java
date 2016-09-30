@@ -6,6 +6,11 @@ import com.epam.ilya.action.ActionResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class delete logged person(bookmaker or customer) from session and make
+ * redirect on welcome page.
+ */
+
 public class LogoutAction implements Action {
 
     @Override

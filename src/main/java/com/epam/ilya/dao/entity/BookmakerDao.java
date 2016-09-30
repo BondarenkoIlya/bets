@@ -8,6 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class work with bookmaker's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class BookmakerDao extends Dao implements EntityDao<Bookmaker> {
 
     private static final String GET_BOOKMAKER_BY_EMAIL = "SELECT * FROM bookmakers WHERE email = ?";

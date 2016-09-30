@@ -12,6 +12,12 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+/**
+ * Class-listener that check session status and make some work when session destroy
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebListener
 public class SessionListener implements HttpSessionListener {
     private static final Logger LOG = LoggerFactory.getLogger(SessionListener.class);
@@ -21,6 +27,11 @@ public class SessionListener implements HttpSessionListener {
 
     }
 
+    /**
+     * //todo
+     *
+     * @param httpSessionEvent destroy event
+     */
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         Bet bet = (Bet) httpSessionEvent.getSession().getAttribute("bet");

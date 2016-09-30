@@ -18,6 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Class take all information about result of each condition and validate it. If it correct - save result , otherwise
+ * write information about error in attribute
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class SaveConditionsResultAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(SaveConditionsResultAction.class);
 

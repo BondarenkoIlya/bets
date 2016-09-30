@@ -13,8 +13,15 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Class work with all connections to database
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class ConnectionPool {
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionPool.class);
+
     private String url;
     private String username;
     private String password;
@@ -34,9 +41,20 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Method to return always the same entity of connection pool
+     *
+     * @return new instance of pool
+     */
     public static synchronized ConnectionPool getInstance() { // сделать инстенсхолдер
         return InstanceHolder.instance;
     }
+
+    /**
+     * Method to get all information about database and connection pool from properties
+     *
+     * @throws ConnectionPoolException
+     */
 
     private void loadDBProperties() throws ConnectionPoolException {
         Properties properties = new Properties();
@@ -58,6 +76,12 @@ public class ConnectionPool {
         }
     }
 
+
+    /**
+     * Method for register MySQL driver
+     *
+     * @throws ConnectionPoolException
+     */
     private void loadDriver() throws ConnectionPoolException {
         try {
             LOG.info("Create new driver and register it");
@@ -67,6 +91,12 @@ public class ConnectionPool {
             throw new ConnectionPoolException("Cannot get driver manager", e);
         }
     }
+
+    /**
+     * Method initialize fields and fill connection pool
+     *
+     * @throws ConnectionPoolException
+     */
 
     private void init() throws ConnectionPoolException {
         try {
@@ -86,6 +116,14 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Method return connection if in free connection's queue there is at least one free connection.
+     * Otherwise wait until anyone become free.
+     *
+     * @return free connection
+     * @throws ConnectionPoolException
+     */
+
     public synchronized Connection getConnection() throws ConnectionPoolException {
         Connection currentConnection;
         LOG.info("Free connections: " + freeConnections.size() + " Used connections: " + usedConnections.size());
@@ -99,6 +137,12 @@ public class ConnectionPool {
         return currentConnection;
     }
 
+    /**
+     * Replace connection from free connection's queue to used connection's queue
+     *
+     * @param connection that must to be replace
+     * @throws ConnectionPoolException
+     */
     public synchronized void closeConnection(Connection connection) throws ConnectionPoolException {
         try {
             usedConnections.remove(connection);
@@ -137,11 +181,24 @@ public class ConnectionPool {
         this.username = username;
     }
 
+    /**
+     * Method close all connection in connection pool
+     *
+     * @throws ConnectionPoolException
+     */
+
     public void close() throws ConnectionPoolException {
         closeAllConnectionsInQueue(freeConnections);
         closeAllConnectionsInQueue(usedConnections);
 
     }
+
+    /**
+     * Method close all connections in queue
+     *
+     * @param connections that must to be closed
+     * @throws ConnectionPoolException
+     */
 
     private void closeAllConnectionsInQueue(BlockingQueue<Connection> connections) throws ConnectionPoolException {
         for (Connection connection : connections) {
@@ -152,6 +209,11 @@ public class ConnectionPool {
             }
         }
     }
+
+    /**
+     * Class for holding instance of
+     *
+     */
 
     public static class InstanceHolder {
         static ConnectionPool instance;

@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of customers to write it in attribute for bookmaker-home page
+ *
+ */
+
 public class ShowBookmakerHomePageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowBookmakerHomePageAction.class);
 

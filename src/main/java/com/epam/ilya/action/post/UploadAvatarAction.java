@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 
+/**
+ * Class load file and validate it. In case of file content type is image and it's size not more then 16Mb save
+ * this picture as avatar of logged customer, otherwise write message about error in attribute
+ *
+ * @author Bondarenko Ilya
+ */
 
 public class UploadAvatarAction implements Action {
 

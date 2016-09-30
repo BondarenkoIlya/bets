@@ -8,6 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
+/**
+ * Class work with transfers to bookmaker
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class TransferToBookmakerDao extends Dao implements EntityDao<Transfer> {
     private static final Logger LOG = LoggerFactory.getLogger(TransferToBookmakerDao.class);
     private static final String INSERT_TRANSFER = "INSERT INTO transfers_to_bookmaker VALUES (id,?,?,?,?)";

@@ -3,19 +3,22 @@ package com.epam.ilya.action.post;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bet;
-import com.epam.ilya.model.Bookmaker;
 import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.BetService;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class check bet for completeness and in case everything right make transfer from bet creator to bookmaker and
+ * save new bet
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class SaveNewBetAction implements com.epam.ilya.action.Action {
-    private static final Logger LOG = LoggerFactory.getLogger(SaveNewBetAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -29,10 +32,8 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
         }
 
         try {
-            Bookmaker bookmaker = (Bookmaker) personService.performUserLogin("qwe@mail.ru", "1234567");
             betService.completeBetsCreation(bet);
-            LOG.debug("Logged customer's balance is - {}", loggedCustomer.getPersonsPurse().getBalance());
-            personService.replaceBatsValueToBookmaker(loggedCustomer, bet.getValue(), bookmaker);
+            personService.replaceBatsValueToBookmaker(loggedCustomer, bet.getValue());
         } catch (ServiceException e) {
             throw new ActionException("Cannot complete bets creation", e);
         }

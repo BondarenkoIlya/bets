@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of active match and write it in attribute to alert the user of the closest matches
+ */
+
 public class ShowCustomersHomePageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomersHomePageAction.class);
 

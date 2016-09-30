@@ -9,6 +9,12 @@ import com.epam.ilya.model.Condition;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Deletes the added condition in process of creating new bet
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class DeleteConditionFromBetAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

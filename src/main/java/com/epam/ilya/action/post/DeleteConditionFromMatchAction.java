@@ -9,6 +9,12 @@ import com.epam.ilya.model.Match;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Deletes created condition in process of creating new match
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class DeleteConditionFromMatchAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

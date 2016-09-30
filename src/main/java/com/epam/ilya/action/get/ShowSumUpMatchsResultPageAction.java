@@ -9,6 +9,11 @@ import com.epam.ilya.services.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class write current match in attribute for sum-up-result page
+ *
+ */
+
 public class ShowSumUpMatchsResultPageAction implements com.epam.ilya.action.Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

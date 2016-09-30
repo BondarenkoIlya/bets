@@ -9,9 +9,25 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class-filter for work with specific scope attribute that can live through redirect
+ *
+ * @author Bondarenko Ilya
+ */
+
 @WebFilter(filterName = "FlashScope", urlPatterns = "/do/*")
 public class FlashScopeFilter implements Filter {
     private static final String FLASH_SESSION_KEY = "FLASH_SESSION_KEY";
+
+    /**
+     * Method write to session all attributes marked as flash and clean it after redirect
+     *
+     * @param request  request that come from view
+     * @param response response that go to view
+     * @param chain    parameter for work with next filters
+     * @throws IOException
+     * @throws ServletException
+     */
 
     @SuppressWarnings("unchecked")
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

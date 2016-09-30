@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Match;
@@ -12,7 +13,13 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowAddConditionToBetPageAction implements com.epam.ilya.action.Action {
+/**
+ * Class take certain amount of active match with conditions and write it in attribute for customer when
+ * he create new bet.
+ *
+ */
+
+public class ShowAddConditionToBetPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowAddConditionToBetPageAction.class);
 
     @Override

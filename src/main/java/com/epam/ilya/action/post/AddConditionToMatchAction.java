@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Class take all information about new condition and validate it. If all information correct then create and add new
+ * condition to match from session and make redirect on match/new/edit url. If incorrect then write information about error
+ * in attribute for create-condition page
+ */
+
 public class AddConditionToMatchAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(AddConditionToBetAction.class);
 
@@ -33,19 +39,19 @@ public class AddConditionToMatchAction implements Action {
             condition.setConditionsName(conditionsName);
         } else {
             LOG.debug("Cannot matches condition name - {}", conditionsName);
-            req.setAttribute("flash.conditionsNameError", "true");
+            req.setAttribute("conditionsNameError", "true");
             result = false;
         }
         if (coefficient.matches(properties.getProperty("doubleNumber.regex"))) {
             condition.setCoefficient(Double.parseDouble(coefficient));
         } else {
-            req.setAttribute("flash.coefficientError", "true");
+            req.setAttribute("coefficientError", "true");
             result = false;
         }
 
         if (!result) {
             result = true;
-            return new ActionResult("match/create/condition", true);
+            return new ActionResult("create-condition");
         }
 
         match.addCondition(condition);

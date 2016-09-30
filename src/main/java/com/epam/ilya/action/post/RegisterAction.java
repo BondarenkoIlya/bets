@@ -16,6 +16,13 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class take all information about new customer and validate it. If all information is correct create new customer
+ * and add it to session. If something wrong - write information about wrong field in attribute
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class RegisterAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(RegisterAction.class);
     private boolean invalid = false;

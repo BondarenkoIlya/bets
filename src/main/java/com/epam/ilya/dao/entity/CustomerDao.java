@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class work with customer's database parts
+ *
+ * @author Bondarenko Ilya
+ */
+
 public class CustomerDao extends Dao implements EntityDao<Customer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDao.class);

@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class take certain amount of inactive match and set it in attribute for inactive-matches-edit page
+ *
+ */
+
 public class ShowInactiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowInactiveMatchesEditionPageAction.class);
 
