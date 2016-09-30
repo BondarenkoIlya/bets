@@ -28,7 +28,7 @@ public class SessionListener implements HttpSessionListener {
     }
 
     /**
-     * //todo
+     * Method checks session on not fully created objects and clean up it.
      *
      * @param httpSessionEvent destroy event
      */
