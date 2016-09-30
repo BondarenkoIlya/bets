@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Class take all information about result of each condition and validate it. If it correct - save result , otherwise
- * write information about error in attribute
+ * Class takes all information about result of each condition and validates it. If it's correct then class saves the
+ * result , otherwise it writes the information about an error in attribute.
  *
  * @author Bondarenko Ilya
  */

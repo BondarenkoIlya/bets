@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bookmaker;
@@ -12,11 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class update state of person's balance
+ * Class updates state of person's balance.
  *
+ * @author Bondarenko Ilya
  */
 
-public class RefreshPersonBalanceAction implements com.epam.ilya.action.Action {
+public class RefreshPersonBalanceAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer loggedCustomer = (Customer) req.getSession().getAttribute("loggedCustomer");

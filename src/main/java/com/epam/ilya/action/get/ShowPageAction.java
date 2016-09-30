@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class show sent in constructor page
+ * Class shows the page sent in constructor.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowPageAction implements Action {

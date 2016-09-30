@@ -9,8 +9,6 @@ import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,13 +16,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Class add money to current customer's balance if amount is correct
+ * Class adds money to current customer's balance if amount is correct.
  *
  * @author Bondarenko Ilya
  */
 
 public class ReplenishCustomersBalanceAction implements Action {
-    private static final Logger LOG = LoggerFactory.getLogger(ReplenishCustomersBalanceAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

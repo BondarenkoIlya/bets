@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class work with customer's database parts
+ * Class works with customer's database parts.
  *
  * @author Bondarenko Ilya
  */

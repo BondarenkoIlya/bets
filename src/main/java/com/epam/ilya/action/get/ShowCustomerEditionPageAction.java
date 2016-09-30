@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Show current customer's customer-edit page for edition account by bookmaker
+ * Class shows selected customer's customer-edit page for edition of the account by bookmaker.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowCustomerEditionPageAction implements Action {

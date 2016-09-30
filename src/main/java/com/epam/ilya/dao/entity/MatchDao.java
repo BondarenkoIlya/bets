@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
- * Class work with match's database parts
+ * Class works with match's database parts.
  *
  * @author Bondarenko Ilya
  */

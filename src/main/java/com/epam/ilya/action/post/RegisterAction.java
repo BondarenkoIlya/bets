@@ -17,8 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class take all information about new customer and validate it. If all information is correct create new customer
- * and add it to session. If something wrong - write information about wrong field in attribute
+ * Class takes all information about a new customer and validates it. If all information is correct then class creates
+ * a new customer and adds it to session. If something is wrong then class writes an information about wrong field in
+ * attribute.
  *
  * @author Bondarenko Ilya
  */

@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Match;
@@ -13,11 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of active match and set it in attribute for active-matches-edit page
+ * Class takes certain amount of active matches and set it in attribute for active-matches-edit page.
  *
+ * @author Bondarenko Ilya
  */
 
-public class ShowActiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
+public class ShowActiveMatchesEditionPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowActiveMatchesEditionPageAction.class);
 
     @Override

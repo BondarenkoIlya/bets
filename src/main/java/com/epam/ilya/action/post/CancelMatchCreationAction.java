@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Remove not fully created match from database through service
+ * Class removes not fully created match from the database through service.
  *
  * @author Bondarenko Ilya
  */

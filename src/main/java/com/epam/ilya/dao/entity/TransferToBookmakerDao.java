@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 
 /**
- * Class work with transfers to bookmaker
+ * Class works with transfers to bookmaker.
  *
  * @author Bondarenko Ilya
  */

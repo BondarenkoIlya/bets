@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Class add money to bookmaker's balance if amount is correct
+ * Class adds money to bookmaker's balance if amount is correct.
  *
  * @author Bondarenko Ilya
  */

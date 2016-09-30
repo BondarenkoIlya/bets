@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Add current by id condition to bet from session. If bet already had this condition then write message about it
- * in attribute
+ * Class adds condition selected by id to the bet from session. If the bet already had this condition then write a
+ * message about it in attribute.
+ *
+ * @author Bondarenko Ilya
  */
 
 public class AddConditionToBetAction implements com.epam.ilya.action.Action {

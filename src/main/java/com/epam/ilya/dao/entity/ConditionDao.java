@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class work with condition's database parts
+ * Class works with condition's database parts.
  *
  * @author Bondarenko Ilya
  */

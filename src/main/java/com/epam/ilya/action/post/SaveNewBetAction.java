@@ -1,5 +1,6 @@
 package com.epam.ilya.action.post;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bet;
@@ -12,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class check bet for completeness and in case everything right make transfer from bet creator to bookmaker and
- * save new bet
+ * Class checks the bet for completeness. If everything is right then class makes transfer from bet creator to bookmaker and
+ * saves the new bet.
  *
  * @author Bondarenko Ilya
  */
 
-public class SaveNewBetAction implements com.epam.ilya.action.Action {
+public class SaveNewBetAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -27,8 +28,8 @@ public class SaveNewBetAction implements com.epam.ilya.action.Action {
         Bet bet = (Bet) req.getSession(false).getAttribute("bet");
         Customer loggedCustomer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         if (bet.getConditions().isEmpty()) {
-            req.setAttribute("flash.emptyError", "true");
-            return new ActionResult("bet/edit", true);
+            req.setAttribute("emptyError", "true");
+            return new ActionResult("bet-edit");
         }
 
         try {

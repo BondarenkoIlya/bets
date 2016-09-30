@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 
 /**
- * Class work with transfers to customers
+ * Class works with transfers to customers.
  *
  * @author Bondarenko Ilya
  */

@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Create match with out any conditions if all information about this match is correct
+ * Class creates a match without any conditions if all information about this match is correct.
  *
  * @author Bondarenko Ilya
  */

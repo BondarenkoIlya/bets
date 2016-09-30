@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Deletes created condition in process of creating new match
+ * Class deletes created condition in process of creating a new match.
  *
  * @author Bondarenko Ilya
  */

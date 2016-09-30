@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Class take all information about new condition and validate it. If all information correct then create and add new
- * condition to match from session and make redirect on match/new/edit url. If incorrect then write information about error
- * in attribute for create-condition page
+ * Class takes all information about the new condition and validates it. If all information is correct then class
+ * creates and adds a new condition to the match from session and makes a redirect on match/new/edit. If it's
+ * incorrect then class writes the information about error in attribute for create-condition page.
+ *
+ * @author Bondarenko Ilya
  */
 
 public class AddConditionToMatchAction implements Action {

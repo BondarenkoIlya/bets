@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Show current match's match-edit page for edition by bookmaker
+ * Class shows selected match's match-edit page for edition by bookmaker.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowMatchEditionPageAction implements Action {

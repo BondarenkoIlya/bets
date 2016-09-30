@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of active match and write it in attribute to alert the user of the closest matches
+ * Class takes certain amount of active matches and writes it in attribute to inform the customer about
+ * closest matches.
+ *
+ * @author Bondarenko Ilya
  */
 
 public class ShowCustomersHomePageAction implements Action {

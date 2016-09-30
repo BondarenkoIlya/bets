@@ -16,8 +16,8 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 
 /**
- * Class load file and validate it. In case of file content type is image and it's size not more then 16Mb save
- * this picture as avatar of logged customer, otherwise write message about error in attribute
+ * Class loads the file and validates it. If the file content type is image and its size is not more than 16Mb then
+ * class saves this picture as avatar of logged customer, otherwise it writes a message about an error in attribute.
  *
  * @author Bondarenko Ilya
  */

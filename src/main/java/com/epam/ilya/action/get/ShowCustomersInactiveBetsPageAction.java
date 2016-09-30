@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Bet;
@@ -14,11 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of inactive customer's bet and write it in inactive-bets page attributes
+ * Class takes certain amount of inactive customer's bets and writes it in inactive-bets page attributes.
  *
+ * @author Bondarenko Ilya
  */
 
-public class ShowCustomersInactiveBetsPageAction implements com.epam.ilya.action.Action {
+public class ShowCustomersInactiveBetsPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowCustomersInactiveBetsPageAction.class);
 
     @Override

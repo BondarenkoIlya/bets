@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Match;
@@ -10,11 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class write current match in attribute for sum-up-result page
+ * Class writes selected match in attributes for sum-up-result page.
  *
+ * @author Bondarenko Ilya
  */
 
-public class ShowSumUpMatchsResultPageAction implements com.epam.ilya.action.Action {
+public class ShowSumUpMatchsResultPageAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         MatchService service = new MatchService();

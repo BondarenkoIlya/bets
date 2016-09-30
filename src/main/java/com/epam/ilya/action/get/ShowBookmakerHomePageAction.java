@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of customers to write it in attribute for bookmaker-home page
+ * Class takes certain amount of customers to write it in attribute for bookmaker-home page.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowBookmakerHomePageAction implements Action {

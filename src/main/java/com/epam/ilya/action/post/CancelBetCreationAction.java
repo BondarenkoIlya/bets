@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Remove not fully created bet from database through service
+ * Class removes not fully created bet from the database through service.
  *
+ * @author Bondarenko Ilya
  */
 
 public class CancelBetCreationAction implements Action {

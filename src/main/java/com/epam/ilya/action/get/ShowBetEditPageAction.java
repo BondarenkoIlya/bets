@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Take bet from session or create it if there isn't bet and make recount bet's fields and rewrite current
- * bet in session for showing it on bet-edit page
+ * Class takes the bet from session or create it if there is no bet and make recount of bet's fields and rewrite
+ * current bet in session for showing it on bet-edit page.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowBetEditPageAction implements Action {

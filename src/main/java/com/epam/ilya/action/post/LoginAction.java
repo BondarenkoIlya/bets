@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Class collect information about person whom try to authorize and validate it. If it correct entered information
- * when try to find person with entered login and password. In case of finding person with this login and password
- * write him in session for further work.
+ * Class collects the information about the person who tries to authorize, and validates it. If
+ * entered information is correct then class tries to find the person with entered login and password. In case of
+ * finding the person with this login and password class writes him in session for further work.
  *
  * @author Bondarenko Ilya
  */

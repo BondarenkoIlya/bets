@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of active match with conditions and write it in attribute for customer when
- * he create new bet.
+ * Class takes certain amount of active matches with conditions and write it in attribute for customer when
+ * he creates a new bet.
  *
+ * @author Bondarenko Ilya
  */
 
 public class ShowAddConditionToBetPageAction implements Action {

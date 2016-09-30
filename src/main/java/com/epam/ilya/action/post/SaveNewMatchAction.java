@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class check match for completeness and in case everything right save new match and write message for bookmaker
- * about success creation
+ * Class checks the match for completeness. If everything is right then class saves new match and writes a message
+ * for bookmaker about success creation.
  *
  * @author Bondarenko Ilya
  */
@@ -23,8 +23,8 @@ public class SaveNewMatchAction implements Action {
         Match match = (Match) req.getSession(false).getAttribute("match");
         MatchService service = new MatchService();
         if (match.getConditionList().isEmpty()) {
-            req.setAttribute("flash.emptyError", "true");
-            return new ActionResult("match/new/edit", true);
+            req.setAttribute("emptyError", "true");
+            return new ActionResult("new-match-edit");
         }
         try {
             service.completeMatchsCreation(match);

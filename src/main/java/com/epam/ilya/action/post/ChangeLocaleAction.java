@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Rewrite current locale in cookie
+ * Class rewrites current locale in cookie.
  *
  * @author Bondarenko Ilya
  */

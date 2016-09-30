@@ -194,7 +194,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Method close all connections in queue
+     * Method close all connections in queue.
      *
      * @param connections that must to be closed
      * @throws ConnectionPoolException
@@ -211,8 +211,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Class for holding instance of
+     * Class for holding instance of.
      *
+     * @author Bondarenko Ilya
      */
 
     public static class InstanceHolder {

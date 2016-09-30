@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class work with cash account's database parts
+ * Class works with cash account's database parts.
  *
  * @author Bondarenko Ilya
  */

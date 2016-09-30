@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class delete logged person(bookmaker or customer) from session and make
+ * Class deletes logged person(bookmaker or customer) from session and make
  * redirect on welcome page.
+ *
+ * @author Bondarenko Ilya
  */
 
 public class LogoutAction implements Action {

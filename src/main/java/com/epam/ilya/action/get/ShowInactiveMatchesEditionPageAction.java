@@ -1,5 +1,6 @@
 package com.epam.ilya.action.get;
 
+import com.epam.ilya.action.Action;
 import com.epam.ilya.action.ActionException;
 import com.epam.ilya.action.ActionResult;
 import com.epam.ilya.model.Match;
@@ -13,11 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class take certain amount of inactive match and set it in attribute for inactive-matches-edit page
+ * Class takes certain amount of inactive matches and sets it in attribute for inactive-matches-edit page.
  *
+ * @author Bondarenko Ilya
  */
 
-public class ShowInactiveMatchesEditionPageAction implements com.epam.ilya.action.Action {
+public class ShowInactiveMatchesEditionPageAction implements Action {
     private static final Logger LOG = LoggerFactory.getLogger(ShowInactiveMatchesEditionPageAction.class);
 
     @Override

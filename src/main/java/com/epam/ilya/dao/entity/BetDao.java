@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class work with bet's database parts
+ * Class works with bet's database parts.
  *
  * @author Bondarenko Ilya
  */

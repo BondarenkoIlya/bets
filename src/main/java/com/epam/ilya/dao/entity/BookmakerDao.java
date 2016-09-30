@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class work with bookmaker's database parts
+ * Class works with bookmaker's database parts.
  *
  * @author Bondarenko Ilya
  */

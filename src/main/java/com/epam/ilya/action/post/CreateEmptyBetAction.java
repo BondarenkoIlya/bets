@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Create bet with out any conditions on entered value if this value is correct.
+ * Class creates a bet without any conditions on entered amount if this amount is correct.
  *
  * @author Bondarenko Ilya
  */
