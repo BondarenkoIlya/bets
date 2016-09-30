@@ -11,11 +11,13 @@ import org.joda.money.Money;
  */
 
 public class CashAccount extends BaseEntity {
+    public static final String CURRENCY = "KZT";
+
     private Money balance;
     private Person person;
 
     public CashAccount() {
-        setBalance(Money.of(CurrencyUnit.of("KZT"), 0));
+        setBalance(Money.of(CurrencyUnit.of(CashAccount.CURRENCY), 0));
 
     }
 

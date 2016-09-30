@@ -9,6 +9,8 @@ package com.epam.ilya.model;
 
 public class Bookmaker extends Person {
 
+    public static final String EMAIL = "qwe@mail.ru";
+
     public Bookmaker() {}
 
     public Bookmaker(String firstName, String lastName, String password, String email) {

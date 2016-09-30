@@ -22,7 +22,9 @@ import java.util.Map;
  */
 
 public class PersonService {
+
     private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
+
     private DaoFactory daoFactory;
 
     /**
@@ -438,14 +440,14 @@ public class PersonService {
      *
      * @param loggedCustomer customer whom make bet
      * @param value          value of bet
-     * @param bookmaker      recipient of money
      * @throws ServiceException
      */
-    public void replaceBatsValueToBookmaker(Customer loggedCustomer, Money value, Bookmaker bookmaker) throws ServiceException {
+    public void replaceBatsValueToBookmaker(Customer loggedCustomer, Money value) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             this.daoFactory = daoFactory;
             try {
                 daoFactory.startTransaction();
+                Bookmaker bookmaker = getBookmaker();
                 transferMoney(loggedCustomer, value, bookmaker);
                 daoFactory.commitTransaction();
             } catch (DaoException e) {
@@ -466,5 +468,20 @@ public class PersonService {
             throw new ServiceException("Cannot create dao factory", e);
         }
         return byId;
+    }
+
+
+    public Bookmaker getBookmaker() throws ServiceException {
+        Bookmaker bookmaker;
+            try {
+                BookmakerDao bookmakerDao = daoFactory.getDao(BookmakerDao.class);
+                bookmaker = bookmakerDao.getBookmaker(Bookmaker.EMAIL);
+                CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+                CashAccount cashAccount = cashAccountDao.findByPerson(bookmaker);
+                bookmaker.setPersonsPurse(cashAccount);
+            }catch (DaoException e){
+                throw new ServiceException("Cannot create dao for working with bookmaker or cash account",e);
+            }
+        return bookmaker;
     }
 }

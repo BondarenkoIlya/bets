@@ -133,7 +133,7 @@ public class MatchService {
     }
 
     public Match getMatchById(String id) throws ServiceException {
-        Match match = null;
+        Match match;
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
                 MatchDao matchDao = daoFactory.getDao(MatchDao.class);
