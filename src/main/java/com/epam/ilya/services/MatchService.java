@@ -155,34 +155,28 @@ public class MatchService {
     }
 
     /**
-     * Method write result of current condition to data base
+     * Method writes results of entered match's conditions to data base
      *
-     * @param condition not finished condition
-     * @param result    result of condition
+     * @param match with ended conditions
      * @throws ServiceException
      */
-    public void sumUpConditionsResult(Condition condition, Boolean result) throws ServiceException {
-        condition.setResult(result);
+    public void sumUpConditionsResult(Match match) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
-            ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
-            conditionDao.update(condition);
+            try {
+                ConditionDao conditionDao = daoFactory.getDao(ConditionDao.class);
+                MatchDao matchDao = daoFactory.getDao(MatchDao.class);
+                daoFactory.startTransaction();
+                for (Condition condition : match.getConditionList()) {
+                    conditionDao.update(condition);
+                }
+                matchDao.setStatus(match, Dao.INACTIVE);
+                daoFactory.commitTransaction();
+            } catch (DaoException e) {
+                daoFactory.rollbackTransaction();
+                throw new ServiceException("Cannot get dao for sum up conditions result", e);
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot get dao for sum up conditions result", e);
-        }
-    }
-
-    /**
-     * Method make match inactive
-     *
-     * @param match active match
-     * @throws ServiceException
-     */
-    public void deactivateMatch(Match match) throws ServiceException {
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            MatchDao matchDao = daoFactory.getDao(MatchDao.class);
-            matchDao.setStatus(match, Dao.INACTIVE);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot get match dao", e);
+            throw new ServiceException("Cannot create dao factory for sum up conditions result", e);
         }
     }
 

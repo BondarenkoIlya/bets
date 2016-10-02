@@ -22,11 +22,16 @@ public class ShowMatchEditionPageAction implements Action {
         MatchService service = new MatchService();
         String id = req.getParameter("id");
         Match match;
-
+        if (id == null) {
+            return null;
+        }
         try {
             match = service.getMatchById(id);
         } catch (ServiceException e) {
             throw new ActionException("Cannot get match by id", e);
+        }
+        if (match.getId() == 0) {
+            return null;
         }
 
         req.setAttribute("match", match);

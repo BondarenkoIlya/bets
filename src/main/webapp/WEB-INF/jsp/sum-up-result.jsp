@@ -26,7 +26,11 @@
                     <tr>
                         <td>${condition.conditionsName}</td>
                         <td><fmt:formatNumber value="${condition.coefficient}"/></td>
-                        <td><input type="checkbox" name="${condition.id}" value="true"/></td>
+                        <td><select name="${condition.id}">
+                            <option value="true">True</option>
+                            <option selected value="false">False</option>
+                        </select>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

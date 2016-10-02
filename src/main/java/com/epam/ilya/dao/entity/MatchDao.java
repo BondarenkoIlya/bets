@@ -54,7 +54,7 @@ public class MatchDao extends Dao implements EntityDao<Match> {
 
     @Override
     public Match findById(int id) throws DaoException {
-        Match match = null;
+        Match match = new Match();
         try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();

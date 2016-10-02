@@ -35,25 +35,29 @@ public class SaveConditionsResultAction implements Action {
         PersonService personService = new PersonService();
         Bookmaker bookmaker = (Bookmaker) req.getSession(false).getAttribute("bookmaker");
         String matchId = req.getParameter("match_id");
-
+        boolean invalid = false;
         try {
             Match match = matchService.getMatchById(matchId);
             for (Condition condition : match.getConditionList()) {
                 String parameter = req.getParameter(String.valueOf(condition.getId()));
-                Boolean result = Boolean.parseBoolean(parameter);
-                if (!Boolean.parseBoolean(parameter)) {
-                    if (parameter == null) {
-                        result = Boolean.FALSE;
+                Boolean parseResult;
+                if (parameter != null) {
+                    if (parameter.equals("true") || parameter.equals("false")) {
+                        parseResult = Boolean.parseBoolean(parameter);
+                        condition.setResult(parseResult);
                     } else {
-                        req.setAttribute("match", match);
-                        req.setAttribute("inputError", "true");
-                        return new ActionResult("sum-up-result");
+                        invalid = true;
                     }
+                } else {
+                    invalid = true;
                 }
-                LOG.debug("Result for condition '{}' is {} ", condition.getConditionsName(), result);
-                matchService.sumUpConditionsResult(condition, result);
             }
-            matchService.deactivateMatch(match);
+            if (invalid) {
+                req.setAttribute("match", match);
+                req.setAttribute("inputError", "true");
+                return new ActionResult("sum-up-result");
+            }
+            matchService.sumUpConditionsResult(match);
             List<Bet> playedBets = betService.sumUpBetsResultByFinishedMatch(match);
             for (Bet bet : playedBets) {
                 LOG.debug("Bet's customer - {}", bet.getCustomer());

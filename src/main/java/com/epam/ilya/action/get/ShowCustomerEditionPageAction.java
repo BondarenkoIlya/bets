@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Class shows selected customer's customer-edit page for edition of the account by bookmaker.
@@ -27,6 +26,9 @@ public class ShowCustomerEditionPageAction implements Action {
         String id = req.getParameter("id");
         PersonService service = new PersonService();
         Customer customer;
+        if (id == null) {
+            return null;
+        }
         try {
             customer = service.findById(id);
             LOG.info("Get current customer - {} with purse - {}", customer, customer.getPersonsPurse());
@@ -34,11 +36,7 @@ public class ShowCustomerEditionPageAction implements Action {
             throw new ActionException("Cannot find by id", e);
         }
         if (customer.getId() == 0) {
-            try {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            } catch (IOException e) {
-                throw new ActionException("Cannot send error",e);
-            }
+            return null;
         }
         req.setAttribute("customer", customer);
         return new ActionResult("customer-edit");

@@ -31,7 +31,6 @@ public class SaveNewBetAction implements Action {
             req.setAttribute("emptyError", "true");
             return new ActionResult("bet-edit");
         }
-
         try {
             betService.completeBetsCreation(bet);
             personService.replaceBatsValueToBookmaker(loggedCustomer, bet.getValue());

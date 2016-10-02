@@ -50,19 +50,19 @@ public class CreateEmptyMatchAction implements Action {
         checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("stringWithSpaces.regex"), req);
         checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("stringWithSpaces.regex"), req);
         DateTime dateTime;
-            try {
-                DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
-                dateTime = pattern.parseDateTime(eventsDate);
-            } catch (IllegalArgumentException e) {
-                LOG.warn("{} -  Incorrect date value", eventsDate);
-                invalid = true;
-                req.setAttribute("eventsDateError", "true");
-                return new ActionResult("create-match");
-            }
-            if (dateTime.isBeforeNow()) {
-                invalid = true;
-                req.setAttribute("eventsDateError", "beforeNow");
-            }
+        try {
+            DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+            dateTime = pattern.parseDateTime(eventsDate);
+        } catch (IllegalArgumentException e) {
+            LOG.warn("{} -  Incorrect date value", eventsDate);
+            invalid = true;
+            req.setAttribute("eventsDateError", "true");
+            return new ActionResult("create-match");
+        }
+        if (dateTime.isBeforeNow()) {
+            invalid = true;
+            req.setAttribute("eventsDateError", "beforeNow");
+        }
         if (invalid) {
             invalid = false;
             return new ActionResult("create-match");
