@@ -49,14 +49,14 @@ public class AvatarDao extends Dao implements EntityDao<Avatar> {
     @Override
     public Avatar findById(int id) throws DaoException {
         Avatar avatar = null;
-        try(PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
-            statement.setInt(1,id);
+        try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                avatar=pickAvatarFromResultSet(resultSet);
+            while (resultSet.next()) {
+                avatar = pickAvatarFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for finding by id",e);
+            throw new DaoException("Cannot create statement for finding by id", e);
         }
         return avatar;
     }

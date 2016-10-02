@@ -46,11 +46,13 @@
                         <td>
                             <c:if test="${bet.finalResult.equals(true)}">
                                 <p class="alert alert-success"
-                                   style="width: 250px;height: auto">${win_message} <fmt:formatNumber value="${bet.possibleGain.getAmount().doubleValue()}"/></p>
+                                   style="width: 250px;height: auto">${win_message} <fmt:formatNumber
+                                        value="${bet.possibleGain.getAmount().doubleValue()}"/></p>
                             </c:if>
                             <c:if test="${bet.finalResult.equals(false)}">
                                 <p class="alert alert-warning"
-                                   style="width: 250px;height: auto">${lose_message} <fmt:formatNumber value="${bet.value.getAmount().doubleValue()}"/></p>
+                                   style="width: 250px;height: auto">${lose_message} <fmt:formatNumber
+                                        value="${bet.value.getAmount().doubleValue()}"/></p>
                             </c:if>
                         </td>
                     </tr>

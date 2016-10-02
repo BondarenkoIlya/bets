@@ -45,6 +45,10 @@ public class BetsServlet extends HttpServlet {
         ActionResult result;
         try {
             result = action.execute(req, resp);
+            if (result == null) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
+                return;
+            }
             LOG.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
         } catch (ActionException e) {
             throw new ServletException("Cannot execute action", e);

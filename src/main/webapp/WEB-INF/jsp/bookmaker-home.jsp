@@ -52,7 +52,9 @@
                                 <td>${customer.getFirstName()}</td>
                                 <td>${customer.getLastName()}</td>
                                 <td>${customer.getEmail()}</td>
-                                <td><fmt:formatNumber value="${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}"/>Тг</td>
+                                <td><fmt:formatNumber
+                                        value="${customer.getPersonsPurse().getBalance().getAmount().doubleValue()}"/>Тг
+                                </td>
                                 <td><a href="<c:url value="/do/customer/edit?id=${customer.id}"/> ">${edit_button}
                                 </a></td>
                             </tr>

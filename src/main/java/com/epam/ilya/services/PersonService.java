@@ -473,15 +473,15 @@ public class PersonService {
 
     public Bookmaker getBookmaker() throws ServiceException {
         Bookmaker bookmaker;
-            try {
-                BookmakerDao bookmakerDao = daoFactory.getDao(BookmakerDao.class);
-                bookmaker = bookmakerDao.getBookmaker(Bookmaker.EMAIL);
-                CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
-                CashAccount cashAccount = cashAccountDao.findByPerson(bookmaker);
-                bookmaker.setPersonsPurse(cashAccount);
-            }catch (DaoException e){
-                throw new ServiceException("Cannot create dao for working with bookmaker or cash account",e);
-            }
+        try {
+            BookmakerDao bookmakerDao = daoFactory.getDao(BookmakerDao.class);
+            bookmaker = bookmakerDao.getBookmaker(Bookmaker.EMAIL);
+            CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
+            CashAccount cashAccount = cashAccountDao.findByPerson(bookmaker);
+            bookmaker.setPersonsPurse(cashAccount);
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot create dao for working with bookmaker or cash account", e);
+        }
         return bookmaker;
     }
 }

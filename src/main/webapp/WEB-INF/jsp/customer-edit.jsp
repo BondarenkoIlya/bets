@@ -30,7 +30,8 @@
         <c:if test="${empty customer.avatar}">
             <img src="${no_avatar}" class="img-responsive">
         </c:if>
-            ${customer_edition_balance} : <fmt:formatNumber value="${customer.personsPurse.balance.getAmount().doubleValue()}"/><br/>
+            ${customer_edition_balance} : <fmt:formatNumber
+            value="${customer.personsPurse.balance.getAmount().doubleValue()}"/><br/>
 
         <form role="form" action="${add_to_customer_balance_url}" method="post">
             <p>${add_to_customer}</p>

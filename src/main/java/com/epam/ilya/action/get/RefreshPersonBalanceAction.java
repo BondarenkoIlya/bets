@@ -33,7 +33,7 @@ public class RefreshPersonBalanceAction implements Action {
                 throw new ActionException("Cannot refresh bookmaker's balance", e);
             }
             bookmaker.setPersonsPurse(purse);
-            req.getSession().setAttribute("bookmaker",bookmaker);
+            req.getSession().setAttribute("bookmaker", bookmaker);
         }
         if (loggedCustomer != null) {
             purse = loggedCustomer.getPersonsPurse();
@@ -43,7 +43,7 @@ public class RefreshPersonBalanceAction implements Action {
                 throw new ActionException("Cannot refresh customer's balance", e);
             }
             loggedCustomer.setPersonsPurse(purse);
-            req.getSession().setAttribute("loggedCustomer",loggedCustomer);
+            req.getSession().setAttribute("loggedCustomer", loggedCustomer);
         }
         return new ActionResult(req.getHeader("Referer"), true);
     }

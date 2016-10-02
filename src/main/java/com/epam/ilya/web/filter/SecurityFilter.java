@@ -51,9 +51,9 @@ public class SecurityFilter implements Filter {
     /**
      * Method check person's authentication
      *
-     * @param servletRequest   request that come from view
-     * @param servletResponse  response that go to view
-     * @param filterChain      parameter for work with next filters
+     * @param servletRequest  request that come from view
+     * @param servletResponse response that go to view
+     * @param filterChain     parameter for work with next filters
      * @throws IOException
      * @throws ServletException
      */
