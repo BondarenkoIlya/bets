@@ -7,7 +7,6 @@ import com.epam.ilya.model.Match;
 import com.epam.ilya.services.MatchService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.time.DateTime;
-import org.joda.time.IllegalFieldValueException;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
@@ -50,24 +49,20 @@ public class CreateEmptyMatchAction implements Action {
         checkParameterBeRegex(leaguesName, "leaguesName", properties.getProperty("stringWithSpaces.regex"), req);
         checkParameterBeRegex(firstSidesName, "firstSidesName", properties.getProperty("stringWithSpaces.regex"), req);
         checkParameterBeRegex(secondSidesName, "secondSidesName", properties.getProperty("stringWithSpaces.regex"), req);
-        DateTime dateTime = null;
-        if (eventsDate.matches(properties.getProperty("dateTime.regex"))) {
+        DateTime dateTime;
             try {
                 DateTimeFormatter pattern = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
                 dateTime = pattern.parseDateTime(eventsDate);
-            } catch (IllegalFieldValueException e) {
+            } catch (IllegalArgumentException e) {
                 LOG.warn("{} -  Incorrect date value", eventsDate);
                 invalid = true;
                 req.setAttribute("eventsDateError", "true");
+                return new ActionResult("create-match");
             }
             if (dateTime.isBeforeNow()) {
                 invalid = true;
                 req.setAttribute("eventsDateError", "beforeNow");
             }
-        } else {
-            invalid = true;
-            req.setAttribute("eventsDateError", "true");
-        }
         if (invalid) {
             invalid = false;
             return new ActionResult("create-match");
