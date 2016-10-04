@@ -8,6 +8,8 @@ import com.epam.ilya.model.Customer;
 import com.epam.ilya.services.PersonService;
 import com.epam.ilya.services.ServiceException;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,17 +25,24 @@ import java.io.IOException;
  */
 
 public class UploadAvatarAction implements Action {
+    private static final Logger LOG = LoggerFactory.getLogger(UploadAvatarAction.class);
+    private static final long MAX_IMAGE_SIZE = 16_177_215;
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Customer customer = (Customer) req.getSession(false).getAttribute("loggedCustomer");
         PersonService service = new PersonService();
         boolean invalid = false;
+        Part avatar;
         try {
-            Part avatar = req.getPart("avatar");
+            avatar = req.getPart("avatar");
             if (avatar.getSize() <= 0) {
                 invalid = true;
                 req.setAttribute("flash.avatarError", "empty");
+            }else if (avatar.getSize()>MAX_IMAGE_SIZE){
+                req.setAttribute("flash.avatarError", "tooBig");
+                invalid = true;
+                LOG.warn("Try to upload too big file");
             } else {
                 if (avatar.getContentType().equals("image/jpeg")) {
                     Avatar avatarPic = new Avatar();
@@ -49,6 +58,10 @@ public class UploadAvatarAction implements Action {
             throw new ActionException("Cannot get part with avatar", e);
         } catch (ServiceException e) {
             throw new ActionException("Cannot set Avatar to customer", e);
+        }catch(IllegalStateException e){
+            req.setAttribute("flash.avatarError", "tooBig");
+            invalid = true;
+            LOG.warn("Try to upload too big file",e);
         }
         if (req.getHeader("Referer").endsWith("cabinet")) {
             invalid = false;

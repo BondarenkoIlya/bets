@@ -19,5 +19,9 @@
             <p class="alert alert-warning"
                style="width: 250px;height: auto;padding: 5px"><fmt:message key="customer.cabinet.error.not.image"/></p>
         </c:if>
+        <c:if test="${avatarError.equals('tooBig')}">
+            <p class="alert alert-warning"
+               style="width: 250px;height: auto;padding: 5px"><fmt:message key="customer.cabinet.error.big"/></p>
+        </c:if>
     </div>
 </my:page-pattern>

@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 
 @WebServlet(name = "BetsServlet", urlPatterns = "/do/*")
-@MultipartConfig(maxFileSize = 16_177_215)// 16 mb
+@MultipartConfig(maxFileSize = 104_857_600)// 100 mb
 public class BetsServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(BetsServlet.class);

@@ -18,4 +18,16 @@
         <a href="<c:url value="/do/home?successRegister=true"/>" role="button" class="btn btn-default"><fmt:message
                 key="skip"/></a>
     </div>
+    <c:if test="${avatarError.equals('empty')}">
+        <p class="alert alert-warning"
+           style="width: 250px;height: auto;padding: 5px"><fmt:message key="customer.cabinet.error.empty"/></p>
+    </c:if>
+    <c:if test="${avatarError.equals('notImage')}">
+        <p class="alert alert-warning"
+           style="width: 250px;height: auto;padding: 5px"><fmt:message key="customer.cabinet.error.not.image"/></p>
+    </c:if>
+    <c:if test="${avatarError.equals('tooBig')}">
+        <p class="alert alert-warning"
+           style="width: 250px;height: auto;padding: 5px"><fmt:message key="customer.cabinet.error.big"/></p>
+    </c:if>
 </my:page-pattern>
