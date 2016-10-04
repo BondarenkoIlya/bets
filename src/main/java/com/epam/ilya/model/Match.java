@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class Match describe the event, to which can be bet
+ * Class Match describes the event, to which can be bet.
  *
  * @author Bondarenko Ilya
  */

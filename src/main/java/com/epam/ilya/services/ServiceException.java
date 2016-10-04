@@ -8,12 +8,12 @@ public class ServiceException extends Exception {
 
     public ServiceException(Exception e) {
         super(e);
-        LOG.error("Catch service exception",e);
+        LOG.error("Catch service exception", e);
     }
 
     public ServiceException(String message, Exception e) {
         super(message, e);
-        LOG.error(message,e);
+        LOG.error(message, e);
     }
 
 }

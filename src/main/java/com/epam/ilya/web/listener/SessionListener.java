@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 /**
- * Class-listener that check session status and make some work when session destroy
+ * Class-listener that checks session status and makes some work when session destroy.
  *
  * @author Bondarenko Ilya
  */

@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 /**
- * Class-filter for work with view's character encoding
+ * Class-filter for work with view's character encoding.
  *
  * @author Bondarenko Ilya
  */
@@ -18,7 +18,7 @@ public class EncodingFilter implements Filter {
     }
 
     /**
-     * Set character encoding to all request
+     * Method sets character encoding to all request.
      *
      * @param servletRequest  request that come from view
      * @param servletResponse response that go to view

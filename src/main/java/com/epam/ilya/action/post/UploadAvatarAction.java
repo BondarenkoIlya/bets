@@ -39,7 +39,7 @@ public class UploadAvatarAction implements Action {
             if (avatar.getSize() <= 0) {
                 invalid = true;
                 req.setAttribute("flash.avatarError", "empty");
-            }else if (avatar.getSize()>MAX_IMAGE_SIZE){
+            } else if (avatar.getSize() > MAX_IMAGE_SIZE) {
                 req.setAttribute("flash.avatarError", "tooBig");
                 invalid = true;
                 LOG.warn("Try to upload too big file");
@@ -58,10 +58,10 @@ public class UploadAvatarAction implements Action {
             throw new ActionException("Cannot get part with avatar", e);
         } catch (ServiceException e) {
             throw new ActionException("Cannot set Avatar to customer", e);
-        }catch(IllegalStateException e){
+        } catch (IllegalStateException e) {
             req.setAttribute("flash.avatarError", "tooBig");
             invalid = true;
-            LOG.warn("Try to upload too big file",e);
+            LOG.warn("Try to upload too big file", e);
         }
         if (req.getHeader("Referer").endsWith("cabinet")) {
             invalid = false;

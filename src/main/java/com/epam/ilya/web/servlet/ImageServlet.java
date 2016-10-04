@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Class handle and doing the necessary work with all image's requests and responses
+ * Class handles and does the necessary work with all image's requests and responses.
  *
  * @author Bondarenko Ilya
  */
@@ -54,7 +54,7 @@ public class ImageServlet extends HttpServlet {
                     resp.setDateHeader("Last-Modified", lastModified);
                 }
             } catch (ServiceException e) {
-                LOG.error("Cannot get customer's avatar",e);
+                LOG.error("Cannot get customer's avatar", e);
                 throw new ServletException("Cannot get customer's avatar", e);
             }
 
@@ -64,7 +64,7 @@ public class ImageServlet extends HttpServlet {
             try {
                 customer = service.findById(customer_id);
             } catch (ServiceException e) {
-                LOG.error("Cannot find customer by id",e);
+                LOG.error("Cannot find customer by id", e);
                 throw new ServletException("Cannot find customer by id", e);
             }
             LOG.debug("Get customer - {} from dao to show avatar", customer);

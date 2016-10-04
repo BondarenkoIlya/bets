@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * Class-filter for work with page locale
+ * Class-filter for work with page locale.
  *
  * @author Bondarenko Ilya
  */
@@ -29,7 +29,7 @@ public class LocaleFilter implements Filter {
 
 
     /**
-     * Write to session information about locale
+     * Method writes to session information about locale.
      *
      * @param servletRequest  request that come from view
      * @param servletResponse response that go to view

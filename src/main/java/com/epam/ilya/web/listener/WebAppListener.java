@@ -11,7 +11,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * Class-listener doing the necessary work at application startup
+ * Class-listener does the necessary work at application startup.
  *
  * @author Bondarenko Ilya
  */

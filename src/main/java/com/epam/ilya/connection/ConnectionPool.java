@@ -14,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Class work with all connections to database
+ * Class works with all connections to database.
  *
  * @author Bondarenko Ilya
  */

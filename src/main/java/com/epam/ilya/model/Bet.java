@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Bet class describe  an agreement between two parties that a money
+ * Bet class describes an agreement between two parties that a money
  * will be paid by the loser to the winner (the winner being the one who correctly
  * forecast the outcome of an event).
  *

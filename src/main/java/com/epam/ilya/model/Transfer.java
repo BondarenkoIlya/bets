@@ -4,8 +4,8 @@ import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 /**
- * Class transfer wrap information about replace money: how much money(amount) was been
- * sent from sender to recipient
+ * Class transfer wraps information about replace money: how much money(amount) was been
+ * sent from sender to recipient.
  *
  * @author Bondarenko Ilya
  */

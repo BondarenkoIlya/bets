@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class-filter for work with person's authentication
+ * Class-filter for work with person's authentication.
  *
  * @author Bondarenko Ilya
  */
@@ -49,7 +49,7 @@ public class SecurityFilter implements Filter {
     }
 
     /**
-     * Method check person's authentication
+     * Method checks person's authentication.
      *
      * @param servletRequest  request that come from view
      * @param servletResponse response that go to view

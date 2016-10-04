@@ -4,7 +4,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 /**
- * Class CashAccount describe person's purse: balance - how mush money available to person and
+ * Class CashAccount describes person's purse: balance - how mush money available to person and
  * person who own the CashAccount.
  *
  * @author Bondarenko Ilya

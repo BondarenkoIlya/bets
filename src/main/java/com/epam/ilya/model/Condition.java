@@ -4,7 +4,7 @@ package com.epam.ilya.model;
  * Condition is an aspect of the match which made the rate.
  * Contain 3 field: condition name(aspect of the match), result - say condition name become
  * true or false and coefficient that show how much more money you will get in case of
- * ges result
+ * ges result.
  *
  * @author Bondarenko Ilya
  */

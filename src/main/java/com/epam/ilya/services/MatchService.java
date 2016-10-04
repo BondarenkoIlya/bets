@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * This class do all works with matches
+ * This class does all works with matches.
  *
  * @author Bondarenko Ilya
  */
@@ -31,7 +31,7 @@ public class MatchService {
     }
 
     /**
-     * Method return matches in range for pagination, and pick all nested entities
+     * Method returns matches in range for pagination, and picks all nested entities.
      *
      * @param status     status of match activities
      * @param pageNumber count of current page
@@ -78,7 +78,7 @@ public class MatchService {
     }
 
     /**
-     * Method create match without conditions
+     * Method creates match without conditions.
      *
      * @param match match without conditions
      * @return new match
@@ -96,7 +96,7 @@ public class MatchService {
     }
 
     /**
-     * Method add conditions to match and make it active
+     * Method adds conditions to match and make it active.
      *
      * @param match match with conditions
      * @throws ServiceException
@@ -155,7 +155,7 @@ public class MatchService {
     }
 
     /**
-     * Method writes results of entered match's conditions to data base
+     * Method writes results of entered match's conditions to data base.
      *
      * @param match with ended conditions
      * @throws ServiceException
@@ -181,7 +181,7 @@ public class MatchService {
     }
 
     /**
-     * Method make emergency deleting empty match without condition
+     * Method makes emergency deleting empty match without condition.
      *
      * @param match not finished match
      * @throws ServiceException

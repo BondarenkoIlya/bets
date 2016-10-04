@@ -1,7 +1,7 @@
 package com.epam.ilya.model;
 
 /**
- * Class describe registered user
+ * Class describes registered user.
  *
  * @author Bondarenko Ilya
  */

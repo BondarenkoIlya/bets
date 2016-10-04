@@ -1,7 +1,7 @@
 package com.epam.ilya.model;
 
 /**
- * Abstract class for add id to all entities
+ * Abstract class for add id to all entities.
  *
  * @author Bondarenko Ilya
  */

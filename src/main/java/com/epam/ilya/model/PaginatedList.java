@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Bondarenco Ilya
  */
 
-public class PaginatedList<T> extends ArrayList<T> {
+public class PaginatedList<T extends BaseEntity> extends ArrayList<T> {
     private int pageNumber;
     private int pageSize;
     private int pageCount;

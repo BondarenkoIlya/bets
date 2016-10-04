@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class-filter for work with specific scope attribute that can live through redirect
+ * Class-filter for work with specific scope attribute that can live through redirect.
  *
  * @author Bondarenko Ilya
  */
@@ -20,7 +20,7 @@ public class FlashScopeFilter implements Filter {
     private static final String FLASH_SESSION_KEY = "FLASH_SESSION_KEY";
 
     /**
-     * Method write to session all attributes marked as flash and clean it after redirect
+     * Method writes to session all attributes marked as flash and clean it after redirect.
      *
      * @param request  request that come from view
      * @param response response that go to view

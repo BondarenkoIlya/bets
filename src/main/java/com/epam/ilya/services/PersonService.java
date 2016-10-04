@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class do all works with bookmaker and customers
+ * This class does all works with bookmaker and customers.
  *
  * @author Bondarenko Ilya
  */
@@ -28,19 +28,19 @@ public class PersonService {
     private DaoFactory daoFactory;
 
     /**
-     * Method make money transfer to person from outside (not in system)
+     * Method makes money transfer to person from outside (not in system).
      *
      * @param kzt       transfer's value
      * @param recipient person who get money
      * @return transfer result
      * @throws ServiceException
      */
-    public boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
+    private boolean transferMoney(Money kzt, Person recipient) throws ServiceException {
         return transferMoney(null, kzt, recipient);
     }
 
     /**
-     * Method make transfer from one person to another
+     * Method makes transfer from one person to another.
      *
      * @param sender    person who give money
      * @param kzt       transfer's value
@@ -48,7 +48,7 @@ public class PersonService {
      * @return transfer result
      * @throws ServiceException
      */
-    public boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
+    private boolean transferMoney(Person sender, Money kzt, Person recipient) throws ServiceException {
         boolean result;
         try {
             CashAccountDao cashAccountDao = daoFactory.getDao(CashAccountDao.class);
@@ -86,7 +86,7 @@ public class PersonService {
     }
 
     /**
-     * Method register new customer in data base
+     * Method registers new customer in data base.
      *
      * @param customer not created in data base customer
      * @return registered customer
@@ -118,7 +118,7 @@ public class PersonService {
     }
 
     /**
-     * Method find current person, bookmakers or customer, bu login and password
+     * Method finds selected person, bookmakers or customer, by login and password.
      *
      * @param email    customer's email
      * @param password customer's password
@@ -172,7 +172,7 @@ public class PersonService {
     }
 
     /**
-     * Method give customers from data base in range for creation pagination list
+     * Method gives customers from data base in range for creation pagination list.
      *
      * @param pageNumber count of current page
      * @param pageSize   quantity of customers on one page
@@ -218,7 +218,7 @@ public class PersonService {
     }
 
     /**
-     * Method find and set purse to list of customers
+     * Method finds and set purse to list of customers.
      *
      * @param customers list of customers without purse
      * @throws DaoException
@@ -232,7 +232,7 @@ public class PersonService {
     }
 
     /**
-     * Method try to find usage of current email and return true if email free
+     * Method tries to find usage of current email and return true if email free.
      *
      * @param email that must to be check
      * @return result of checking
@@ -270,7 +270,7 @@ public class PersonService {
     }
 
     /**
-     * Method find and return customer by id
+     * Method finds and return customer by id.
      *
      * @param id of some customers
      * @return found customer
@@ -301,7 +301,7 @@ public class PersonService {
     }
 
     /**
-     * Write transfer in data base
+     * Method writes transfer in data base.
      *
      * @param sender    person who give money
      * @param amount    transfer's value
@@ -324,7 +324,7 @@ public class PersonService {
     }
 
     /**
-     * Method do work by making transfer by bets result
+     * Method does work by making transfer by bets result.
      *
      * @param bet       finished bet
      * @param bookmaker transfer participant
@@ -350,7 +350,7 @@ public class PersonService {
     }
 
     /**
-     * Method create new or update customer's avatar
+     * Method creates new or update customer's avatar.
      *
      * @param avatar   image of customer
      * @param customer usage of image
@@ -384,7 +384,7 @@ public class PersonService {
     }
 
     /**
-     * Method return customer's avatar if avatar's date of creation later then modify date
+     * Method returns customer's avatar if avatar's date of creation later then modify date.
      *
      * @param loggedCustomer image user
      * @param modifyDate     last avatar creation date
@@ -413,7 +413,7 @@ public class PersonService {
     }
 
     /**
-     * Method add money to bookmaker's or customer's purse and do transaction work
+     * Method adds money to bookmaker's or customer's purse and do transaction work.
      *
      * @param kzt    amount
      * @param person recipient of money
@@ -436,7 +436,7 @@ public class PersonService {
     }
 
     /**
-     * Method do work by replacing money from customer, whom make bet, to bookmaker
+     * Method does work by replacing money from customer, whom make bet, to bookmaker.
      *
      * @param loggedCustomer customer whom make bet
      * @param value          value of bet
@@ -459,6 +459,13 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method gets and returns fresh information about person's purse.
+     *
+     * @param purse needed refresh
+     * @return purse with fresh information
+     * @throws ServiceException
+     */
     public CashAccount refreshCashAccount(CashAccount purse) throws ServiceException {
         CashAccount byId;
         try (DaoFactory daoFactory = new DaoFactory()) {
@@ -470,6 +477,12 @@ public class PersonService {
         return byId;
     }
 
+    /**
+     * Method takes single bookmaker and his cash account.
+     *
+     * @return single bookmaker
+     * @throws ServiceException
+     */
 
     public Bookmaker getBookmaker() throws ServiceException {
         Bookmaker bookmaker;

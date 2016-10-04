@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class do all works with bets
+ * This class does all works with bets.
  *
  * @author Bondarenko Ilya
  */
@@ -24,7 +24,7 @@ public class BetService {
     private static final Logger LOG = LoggerFactory.getLogger(BetService.class);
 
     /**
-     * Method create bet for current customer and set communication
+     * Method creates bet for current customer and set communication.
      *
      * @param bet      bet without conditions
      * @param customer bet maker
@@ -45,7 +45,7 @@ public class BetService {
     }
 
     /**
-     * Method add conditions to bet
+     * Method adds conditions to bet.
      *
      * @param bet bet with conditions
      * @throws ServiceException
@@ -73,7 +73,7 @@ public class BetService {
     }
 
     /**
-     * Method return list of customers in range
+     * Method returns list of customers in range.
      *
      * @param customer   owner of bets
      * @param status     status of bet(active or inactive)
@@ -120,7 +120,7 @@ public class BetService {
     }
 
     /**
-     * Method check all bets that add current match's conditions and fill up results
+     * Method checks all bets that adds current match's conditions and fill up results.
      *
      * @param match finished match
      * @return list of finished bet with result
@@ -171,7 +171,7 @@ public class BetService {
     }
 
     /**
-     * Method return list of bet that contain current condition
+     * Method returns list of bet that contain current condition.
      *
      * @param condition
      * @return list of bet that contain current condition
@@ -205,7 +205,7 @@ public class BetService {
     }
 
     /**
-     * Method emergency cancel creation of bet without condition
+     * Method emergency cancels creation of bet without condition.
      *
      * @param bet not finished bet
      * @throws ServiceException

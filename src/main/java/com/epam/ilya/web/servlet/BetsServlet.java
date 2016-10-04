@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Class handle and doing the necessary work with all application requests and responses except those connected
- * with images
+ * Class handles and does the necessary work with all application requests and responses except those connected
+ * with images.
  *
  * @author Bondarenko Ilya
  */
@@ -51,7 +51,7 @@ public class BetsServlet extends HttpServlet {
             }
             LOG.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
         } catch (ActionException e) {
-            LOG.error("Cannot execute action",e);
+            LOG.error("Cannot execute action", e);
             throw new ServletException("Cannot execute action", e);
         }
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
