@@ -51,6 +51,7 @@ public class BetsServlet extends HttpServlet {
             }
             LOG.debug("Action result view: {}. Redirect: {}", result.getView(), result.isRedirect());
         } catch (ActionException e) {
+            LOG.error("Cannot execute action",e);
             throw new ServletException("Cannot execute action", e);
         }
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
